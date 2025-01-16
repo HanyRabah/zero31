@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 	description: "Professional services offered by our company",
 };
 
-export default function ServicesPage() {
+export default function ProjectsPage() {
 	return (
 		<main className="flex-grow pt-[72px]">
 			<Quote />

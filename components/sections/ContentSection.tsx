@@ -25,7 +25,7 @@ const ContentSection = ({
 	className,
 }: ContentSectionProps) => {
 	return (
-		<section className={cn("py-120", backgroundColor, className)}>
+		<section className={cn("py-120 mt-[60px]", backgroundColor, className)}>
 			<div className="container mx-auto px-24">
 				<div
 					className={cn(

@@ -17,11 +17,11 @@ export default async function ServicePage({ params }: { params: Params }) {
 		<main className="flex-grow bg-novo-blue pt-[72px]">
 			<ServiceHeader serviceName={serviceData.title} description={serviceData.description} />
 			{/* Service-specific content sections */}
-			<>
+			<div className="container">
 				{serviceData.sections.map((section, index) => (
 					<ContentSection key={index} {...section} className={index === 0 ? "pt-0" : ""} />
 				))}
-			</>
+			</div>
 
 			{/* Other services links - excluding current service */}
 			<Services />

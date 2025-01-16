@@ -12,7 +12,7 @@ export default function ProjectPage() {
 	return (
 		<main className="flex-grow pt-[72px]">
 			<Quote />
-			<div className="container mx-auto">
+			<div className="container mx-auto  mt-20">
 				<ProjectsGrid />
 			</div>
 			<ContactForm />
