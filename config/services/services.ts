@@ -12,7 +12,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -22,7 +22,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo.",
-				image: "/images/projects/North-beach-house.png",
+				image: "/images/projects/north-beach-house.png",
 				imageAlt: "Hotel lighting solutions",
 				backgroundColor: "bg-novo-blue",
 				link: "/services/architecture#lighting",
@@ -33,7 +33,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo.",
-				image: "/images/projects/North-beach-house.png",
+				image: "/images/projects/north-beach-house.png",
 				imageAlt: "Hotel lighting solutions",
 				backgroundColor: "bg-off-white",
 				link: "/services/architecture#lighting",
@@ -68,7 +68,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -86,7 +86,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -103,7 +103,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -120,7 +120,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -137,7 +137,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -154,7 +154,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -171,7 +171,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -188,7 +188,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -205,7 +205,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
@@ -222,7 +222,7 @@ export const services: Record<string, Service> = {
 				subtitle: "Taste making and object curation that completes the experience of each project.",
 				description:
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sit amet felis a tincidunt. Fusce tincidunt dolor ac nulla commodo, eu laoreet tortor rutrum.",
-				image: "/images/projects/New-Giza-Residence.png",
+				image: "/images/projects/new-giza-residence.png",
 				imageAlt: "Full turn-key solutions",
 				link: "/services/architecture#design",
 				backgroundColor: "bg-white",
