@@ -15,7 +15,7 @@ const projects = [
 		title: "NEW GIZA RESIDENCE",
 		type: "Projects",
 		completionYear: "Completed 2018",
-		image: "/images/work/New-Giza-Residence.jpg",
+		image: "/images/work/new-giza-residence.jpg",
 		href: "/work/new-giza",
 	},
 	{
@@ -23,7 +23,7 @@ const projects = [
 		title: "NORTH BEACH HOUSE",
 		type: "Projects",
 		completionYear: "Completed 2018",
-		image: "/images/work/North-beach-house.jpg",
+		image: "/images/work/north-beach-house.jpg",
 		href: "/work/north-beach",
 	},
 	{
