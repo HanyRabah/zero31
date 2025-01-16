@@ -1,7 +1,9 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const AnimatedLogo = () => {
 	return (
@@ -32,12 +34,62 @@ const AnimatedLogo = () => {
 };
 
 const Header = () => {
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 	return (
 		<header className="w-full p-5 fixed top-0 z-20">
 			<div className="container mx-auto px-4">
 				<nav className="flex justify-between items-center">
 					{/* Logo */}
-					<AnimatedLogo />
+					<div className="z-50">
+						<AnimatedLogo />
+					</div>
+
+					{/* Burger Menu Button - Mobile Only */}
+					<button className="md:hidden z-50" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+						{isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+					</button>
+
+					{/* Mobile Menu - Slides down */}
+					<div
+						className={`fixed top-0 left-0 w-full bg-white transform transition-transform duration-300 ease-in-out z-10 ${
+							isMenuOpen ? "translate-y-[0px]" : "-translate-y-full"
+						}`}>
+						<div className="container mx-auto px-4 py-40">
+							<div className="flex flex-col items-center space-y-48 pt-80">
+								<Link
+									href="/office"
+									className="text-black text-[20px] font-bold hover:opacity-80 underline underline-offset-4"
+									onClick={() => setIsMenuOpen(false)}>
+									OFFICE
+								</Link>
+								<Link
+									href="/work"
+									className="text-black text-[20px] font-bold hover:opacity-80 underline underline-offset-4"
+									onClick={() => setIsMenuOpen(false)}>
+									WORK
+								</Link>
+								<Link
+									href="/news"
+									className="text-black text-[20px] font-bold hover:opacity-80 underline underline-offset-4"
+									onClick={() => setIsMenuOpen(false)}>
+									NEWS
+								</Link>
+								<Link
+									href="/contact"
+									className="text-black text-[20px] font-bold hover:opacity-80 underline underline-offset-4"
+									onClick={() => setIsMenuOpen(false)}>
+									CONTACT
+								</Link>
+								<Button
+									className="bg-primary hover:bg-primary-hover text-black mt-48"
+									onClick={() => setIsMenuOpen(false)}>
+									Go to Shop
+									<ChevronRight className="h-[18px] font-thin ml-2" />
+								</Button>
+							</div>
+						</div>
+					</div>
 
 					{/* Main Navigation */}
 					<div className="hidden md:flex space-x-64">
@@ -58,7 +110,7 @@ const Header = () => {
 					</div>
 
 					{/* CTA Button */}
-					<Button className="bg-primary hover:bg-primary-hover text-black">
+					<Button className="hidden md:flex bg-primary hover:bg-primary-hover text-black">
 						Go To Shop
 						<ChevronRight className="h-[18px] font-thin ml-2" />
 					</Button>

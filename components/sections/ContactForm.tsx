@@ -31,11 +31,11 @@ const ContactForm = ({ variant = "dark" }: { variant?: "dark" | "light" }) => {
 	const { background, text } = variantColor[variant];
 
 	return (
-		<section className={`py-80 px-96 ${background}`}>
-			<div className="container mx-auto px-4">
+		<section className={background}>
+			<div className="container mx-auto py-[40px] px-[48px] md:py-80 md:px-96">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-12">
 					{/* Left side - Image */}
-					<div className="relative aspect-square">
+					<div className="relative aspect-square mb-[60px] md:mb-0">
 						<Image src="/images/contact-form-image.jpg" layout="fill" objectFit="contain" alt="Contact us" />
 					</div>
 

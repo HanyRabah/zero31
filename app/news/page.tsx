@@ -1,4 +1,4 @@
-import ComingSoonPage from "@/components/layout/ComingSoone";
+import ComingSoonPage from "@/components/layout/ComingSoon";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

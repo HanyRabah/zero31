@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" className={`${inter.variable} ${neueHaas.variable} ${dmMono.variable}`}>
-			<body className="min-h-screen flex flex-col">
+			<body className="min-h-screen min-h-[100dvh] flex flex-col overflow-x-hidden antialiased">
 				<Header />
 				{children}
 				<Footer />
