@@ -6,10 +6,10 @@
 	"scripts": {
 		"dev": "next dev --turbopack",
 		"build": "next build",
-		"start": "next start",
 		"lint": "next lint",
 		"test:db": "node  scripts/test-db.js",
-		"start:prod": "next start -p 3000"
+		"start:prod": "next start -p 3000",
+		"start": "NODE_ENV=production node server.js"
 	},
 	"dependencies": {
 		"@prisma/client": "^6.2.1",
