@@ -6,7 +6,7 @@ export default function ComingSoonPage() {
 			<div className="absolute inset-0 flex items-center justify-center">
 				<div className="relative w-[800px] h-[400px]">
 					<Image
-						src="/big-logo.svg"
+						src="/logo/big-logo.svg"
 						alt="Z31 Background"
 						fill
 						className="object-contain select-none pointer-events-none"

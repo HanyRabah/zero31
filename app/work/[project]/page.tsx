@@ -1,21 +1,33 @@
-import ContactForm from "@/components/sections/ContactForm";
-import ProjectsGrid from "@/components/sections/ProjectsGrid";
-import Quote from "@/components/sections/Quote";
+import HeroImage from "@/components/sections/HeroImage";
+import ProjectDetails from "@/components/sections/ProjectDetails";
+import { projects } from "@/config/projects/projects";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-	title: "Our Services",
-	description: "Professional services offered by our company",
-};
+type Params = Promise<{ projectName: string }>;
 
-export default function ProjectPage() {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+	const { projectName } = await params;
+	const projectData = projects[projectName];
+
+	return {
+		title: projectData?.title || projectData?.clientName || "Work",
+		description:
+			projectData?.description ||
+			"Explore our diverse portfolio of projects, showcasing our expertise and commitment to excellence in every endeavor.",
+	};
+}
+
+export default async function ProjectPage({ params }: { params: Params }) {
+	const { projectName } = await params;
+	const projectData = projects[projectName];
+	if (!projectData) {
+		return null;
+	}
 	return (
 		<main className="flex-grow pt-[72px]">
-			<Quote />
-			<div className="container mx-auto  mt-20">
-				<ProjectsGrid />
-			</div>
-			<ContactForm />
+			<HeroImage image={projectData.heroImage} alt={projectData.heroImageAlt} />
+			{/* Project-specific content */}
+			<ProjectDetails projectData={projectData} />
 		</main>
 	);
 }

@@ -9,7 +9,7 @@ const Footer = () => {
 					{/* Logo */}
 					<div className="col-span-2 md:col-span-1 mb-24 md:mb-0  md:w-auto">
 						<Link href="/" className="font-title text-2xl">
-							<Image src="/logo.svg" width={150} height={50} alt="Zero31 Logo" />
+							<Image src="/logo/logo.svg" width={150} height={50} alt="Zero31 Logo" />
 						</Link>
 					</div>
 

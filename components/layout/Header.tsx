@@ -11,7 +11,7 @@ const AnimatedLogo = () => {
 			{/* Mini Logo - visible by default, fades out on hover */}
 			<div className="absolute inset-0 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 h-[72px] ">
 				<Image
-					src="/mini-logo.svg"
+					src="/logo/mini-logo.svg"
 					width={115}
 					height={26}
 					alt="Zero31 Mini Logo"
@@ -22,7 +22,7 @@ const AnimatedLogo = () => {
 			{/* Full Logo - hidden by default, fades in on hover */}
 			<div className="absolute inset-0 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 h-[72px] ">
 				<Image
-					src="/logo-full.svg"
+					src="/logo/logo-full.svg"
 					width={115}
 					height={26}
 					alt="Zero31 Full Logo"
