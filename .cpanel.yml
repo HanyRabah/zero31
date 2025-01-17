@@ -1,7 +1,7 @@
 deployment:
   tasks:
     # Deploy your Next.js application
-    - export DEPLOYPATH=/home/zerocom/repositories/zero31/
+    - export DEPLOYPATH=/home/zerocom/new.zero-31.com/
     - /bin/cp -R .next $DEPLOYPATH
     - /bin/cp -R public $DEPLOYPATH
     - /bin/cp -R package.json $DEPLOYPATH
