@@ -82,7 +82,9 @@ const ContactForm = ({ variant = "dark" }: { variant?: "dark" | "light" }) => {
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.6, delay: 0.2 }}>
-						<h2 className="text-3xl font-title mb-[32px]">Let us talk</h2>
+						<h2 className="text-[22px] md:text-[32px] leading-[22px] md:leading-[32px] tracking-tight font-title mb-[32px]">
+							Let us talk
+						</h2>
 						<p className="text-base md:text-sm mb-[32px]">
 							We are always happy to hear of conversation with people. Let us hear from you and we get in touch with you
 							very soon.

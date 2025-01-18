@@ -79,7 +79,7 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
 				<div className="relative">
 					{/* Project Type */}
 					<motion.p
-						className="font-mono text-[12px] mb-8 text-gray-600"
+						className="font-mono text-[12px] mb-8 text-black"
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						transition={{ delay: 0.2 }}>
@@ -88,15 +88,8 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
 
 					{/* Project Title with hover effect */}
 					<div className="relative inline-block">
-						<h3 className="text-[16px] font-title pr-8">{project.title}</h3>
-						<motion.div
-							className="absolute left-0 bottom-0 w-full h-[1px]  origin-left"
-							variants={{
-								hover: { scaleX: 1 },
-								initial: { scaleX: 0 },
-							}}
-							transition={{ duration: 0.3 }}
-						/>
+						<h3 className="text-[16px] font-mono pr-8">{project.title}</h3>
+						<div className="absolute left-0 bottom-0 w-full h-[1px] bg-black scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 					</div>
 
 					{/* Completion Year with fade effect */}
@@ -123,7 +116,7 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
 };
 const ProjectsGrid = () => {
 	return (
-		<section className="py-40 md:py-80">
+		<section className="py-40 md:py-80 bg-white">
 			<div className="container mx-auto px-24">
 				<motion.div
 					className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-24 gap-y-20 md:gap-y-80"

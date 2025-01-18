@@ -37,8 +37,8 @@ const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	return (
-		<header className="w-full p-5 fixed top-0 z-20">
-			<div className="container mx-auto px-4">
+		<header className="w-full fixed top-0 z-20">
+			<div className="container mx-auto pl-20 pr-[38px]">
 				<nav className="flex justify-between items-center">
 					{/* Logo */}
 					<div className="z-50">
@@ -82,7 +82,7 @@ const Header = () => {
 									CONTACT
 								</Link>
 								<Button
-									className="bg-primary hover:bg-primary-hover text-black mt-48"
+									className="font-mono bg-primary hover:bg-primary-hover text-black mt-48"
 									onClick={() => setIsMenuOpen(false)}>
 									Go to Shop
 									<ChevronRight className="h-[18px] font-thin ml-2" />
@@ -110,7 +110,7 @@ const Header = () => {
 					</div>
 
 					{/* CTA Button */}
-					<Button className="hidden md:flex bg-primary hover:bg-primary-hover text-black">
+					<Button className="font-mono hidden md:flex bg-primary hover:bg-primary-hover text-black">
 						Go To Shop
 						<ChevronRight className="h-[18px] font-thin ml-2" />
 					</Button>

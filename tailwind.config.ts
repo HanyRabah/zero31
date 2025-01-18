@@ -23,6 +23,7 @@ export default {
 				ring: "hsl(var(--ring))",
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",
+				yellow: "#FAFF00",
 				primary: {
 					DEFAULT: "#FAFF00",
 					hover: "#010101",

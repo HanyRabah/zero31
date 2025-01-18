@@ -23,7 +23,7 @@ const Services = () => {
 	return (
 		<section className="p-40 md:p-80 bg-novo-blue">
 			<div className="container mx-auto px-4">
-				<h2 className="text-[48px] text-xl font-bold md:font-title text-center mb-32">Our services</h2>
+				<h2 className="text-[28px] md:text-[48px] font-bold md:font-title text-center mb-32">Our services</h2>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-6 max-w-[1000px] mx-auto text-center">
 					{columns.map((column, columnIndex) => (
 						<div key={columnIndex} className="space-y-6">
@@ -31,7 +31,7 @@ const Services = () => {
 								<Link
 									key={service.title}
 									href={service.href}
-									className="block text-[14px] md:text-[20px] font-title hover:underline underline-offset-4 transition-colors">
+									className="block text-[14px] md:text-left md:text-[20px] font-title hover:underline underline-offset-4 transition-colors">
 									{service.title}
 								</Link>
 							))}

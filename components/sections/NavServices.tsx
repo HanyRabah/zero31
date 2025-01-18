@@ -23,12 +23,12 @@ const ServiceLink = ({ href, label }: { href: string; label: string }) => (
 		href={href}
 		className={cn(
 			"h-10 py-8 px-6 inline-flex items-center justify-center",
-			"font-dm-mono rounded-full text-sm font-medium",
+			"font-mono rounded-full text-sm font-medium",
 			"transition-all duration-300",
 			"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
 			"disabled:pointer-events-none disabled:opacity-50",
 			"border border-gray-500 border-dotted",
-			"text-blue-black hover:bg-primary-hover hover:text-white",
+			"text-black hover:bg-yellow ",
 			"w-full md:w-auto"
 		)}>
 		{label}
@@ -37,8 +37,8 @@ const ServiceLink = ({ href, label }: { href: string; label: string }) => (
 
 const NavServices = () => {
 	return (
-		<section className="container mx-auto px-4">
-			<div className="bg-novo-blue p-40 md:p-80">
+		<section className="container mx-auto  py-[22px]">
+			<div className="bg-novo-blue">
 				{/* First Row - Always visible */}
 				<div className="grid grid-cols-2 md:flex md:justify-center gap-4 md:gap-5 mb-4 md:mb-5">
 					{services[0].map((service, index) => (
