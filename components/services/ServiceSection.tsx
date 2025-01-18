@@ -1,9 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ContentSectionProps {
 	title: string;
@@ -15,6 +15,23 @@ interface ContentSectionProps {
 	reverse?: boolean;
 	className?: string;
 }
+
+const ContentLink = ({ href, label }: { href: string; label: string }) => (
+	<Link
+		href={href}
+		className={cn(
+			"h-[36px] py-[12px] px-[20px] inline-flex items-center justify-center",
+			"font-mono rounded-full text-[12px] tracking-tighter",
+			"transition-all duration-300",
+			"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+			"disabled:pointer-events-none disabled:opacity-50",
+			"border border-black border-dotted",
+			"text-black hover:bg-black hover:text-white "
+		)}>
+		{label}
+		<ChevronRight className="h-[18px] font-thin  group-hover:translate-x-1 transition-transform duration-300" />
+	</Link>
+);
 
 const ContentSection = ({
 	title,
@@ -49,7 +66,7 @@ const ContentSection = ({
 	};
 
 	return (
-		<section className={cn("py-60 md:py-120 mt-[60px]", backgroundColor, className)}>
+		<section className={cn("py-60 md:py-120", backgroundColor, className)}>
 			<div className="container mx-auto px-4 md:px-24">
 				<motion.div
 					className={cn(
@@ -61,9 +78,7 @@ const ContentSection = ({
 					viewport={{ once: true }}
 					variants={containerVariants}>
 					{/* Image */}
-					<motion.div
-						className="relative w-full aspect-square rounded-lg overflow-hidden group"
-						variants={itemVariants}>
+					<motion.div className="relative w-full aspect-square  overflow-hidden group" variants={itemVariants}>
 						<motion.div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 						<Image
 							src={image}
@@ -86,12 +101,7 @@ const ContentSection = ({
 							{description}
 						</motion.p>
 						<motion.div variants={itemVariants}>
-							<Button
-								variant="outline"
-								className="group text-[16px] font-medium hover:bg-primary hover:text-black transition-all duration-300">
-								Learn more
-								<ChevronRight className="h-[18px] font-thin ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-							</Button>
+							<ContentLink href="/services" label="Learn more" />
 						</motion.div>
 					</div>
 				</motion.div>

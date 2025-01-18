@@ -37,7 +37,7 @@ const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	return (
-		<header className="w-full fixed top-0 z-20">
+		<header className="w-full fixed top-0 z-20 bg-novo-blue">
 			<div className="container mx-auto pl-20 pr-[38px]">
 				<nav className="flex justify-between items-center">
 					{/* Logo */}

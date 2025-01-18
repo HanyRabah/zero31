@@ -26,7 +26,7 @@ export const services: Record<string, Service> = {
 				imageAlt: "Hotel lighting solutions",
 				backgroundColor: "bg-novo-blue",
 				link: "/services/architecture#lighting",
-				reverse: true,
+				reverse: false,
 			},
 			{
 				title: "Lighting for Hotels",
