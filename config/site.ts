@@ -15,16 +15,12 @@ export const siteConfig = {
 			href: "/services",
 		},
 		{
+			title: "Work",
+			href: "/work",
+		},
+		{
 			title: "Contact",
 			href: "/contact",
-		},
-		{
-			title: "Blog",
-			href: "/blog",
-		},
-		{
-			title: "Careers",
-			href: "/careers",
 		},
 	],
 };

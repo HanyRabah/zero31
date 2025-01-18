@@ -6,6 +6,6 @@ deployment:
     - /bin/cp -R * $DEPLOYPATH
 
     # Install dependencies and build
-    - /bin/npm install
-    - /bin/npm run build
-    - /bin/npm run start
+    # - /bin/npm install
+    # - /bin/npm run build
+    # - /bin/npm run start

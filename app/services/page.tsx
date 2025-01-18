@@ -1,4 +1,4 @@
-import ContactForm from "@/components/sections/ContactForm";
+import ContactForm from "@/components/contact/ContactForm";
 import NavServices from "@/components/sections/NavServices";
 import Services from "@/components/sections/Services";
 import { Loader } from "lucide-react";

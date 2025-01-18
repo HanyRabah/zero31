@@ -1,4 +1,4 @@
-export interface ProjectsSection {
+export interface ProjectSection {
 	description?: string;
 	images?: string[]; // min 1 image with description, max 2 images without description
 	imagesAlt?: string[];
@@ -22,5 +22,5 @@ export interface Project {
 	area?: string;
 	location?: string;
 	year?: string;
-	sections: ProjectsSection[];
+	sections: ProjectSection[];
 }

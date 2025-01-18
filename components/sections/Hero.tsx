@@ -1,44 +1,46 @@
-'use client'
-import { useEffect, useRef } from 'react'
+"use client";
+import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 const Hero = () => {
-  const videoRef = useRef<HTMLVideoElement>(null)
+	const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play()
-    }
-  }, [])
+	useEffect(() => {
+		if (videoRef.current) {
+			videoRef.current.play().catch(error => {
+				console.log("Video autoplay failed:", error);
+			});
+		}
+	}, []);
 
-  return (
-    <div className="relative h-screen w-full">
-      {/* Video Background */}
-      <video
-        ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-      >
-        <source src="/videos/zero31.mp4" type="video/mp4" />
-      </video>
+	return (
+		<div className="relative w-full h-[40vh] md:h-[80vh]">
+			{" "}
+			{/* Fixed height at 80vh */}
+			{/* Video Background */}
+			<video ref={videoRef} className="absolute inset-0 w-full h-full object-cover" autoPlay loop muted playsInline>
+				<source src="/videos/zero31.mp4" type="video/mp4" />
+			</video>
+			{/* Gradient Overlay */}
+			<div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20" />
+			{/* Content */}
+			<motion.div
+				className="absolute inset-0 z-10 flex items-center justify-center p-4"
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.8, ease: "easeOut" }}>
+				<div className="text-center text-white">
+					<motion.h1
+						className="font-title font-normal text-3xl md:text-4xl lg:text-5xl"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}>
+						Made by Architects
+					</motion.h1>
+				</div>
+			</motion.div>
+		</div>
+	);
+};
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-40" />
-
-      {/* Content */}
-      <div className="relative z-10 flex items-center justify-center h-full">
-        <div className="text-center text-white">
-          <h1 className="font-title font-normal text-4xl mb-4">Made by Architects</h1>
-          {/* <p className="text-xl max-w-2xl mx-auto">
-            We think of design is a human instinct to make things better, 
-            and enjoy the good things in life.
-          </p> */}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default Hero
+export default Hero;

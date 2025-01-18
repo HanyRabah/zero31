@@ -16,7 +16,7 @@ const LocationInfo = () => {
 
 	const getLocation = async () => {
 		try {
-			const response = await fetch("http://ip-api.com/json/");
+			const response = await fetch("https://ip-api.com/json/");
 			const data = await response.json();
 			setLocation(formatLocation(data.lat, data.lon));
 		} catch (error) {

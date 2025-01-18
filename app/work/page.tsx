@@ -1,4 +1,4 @@
-import ContactForm from "@/components/sections/ContactForm";
+import ContactForm from "@/components/contact/ContactForm";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import Quote from "@/components/sections/Quote";
 import { Metadata } from "next";

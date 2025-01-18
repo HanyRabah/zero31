@@ -1,55 +1,60 @@
 "use client";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+const services = [
+	// First row
+	[
+		{ href: "/services/hospitality", label: "Hospitality" },
+		{ href: "/services/commercial", label: "Commercial" },
+		{ href: "/services/office-design", label: "Office Design" },
+		{ href: "/services/residential", label: "Residential" },
+	],
+	// Second row
+	[
+		{ href: "/services/architecture", label: "Architecture" },
+		{ href: "/services/interior-design", label: "Interior Design" },
+		{ href: "/services/ffae-service", label: "FF&E Service" },
+	],
+];
+
+const ServiceLink = ({ href, label }: { href: string; label: string }) => (
+	<Link
+		href={href}
+		className={cn(
+			"h-10 py-8 px-6 inline-flex items-center justify-center",
+			"font-dm-mono rounded-full text-sm font-medium",
+			"transition-all duration-300",
+			"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+			"disabled:pointer-events-none disabled:opacity-50",
+			"border border-gray-500 border-dotted",
+			"text-blue-black hover:bg-primary-hover hover:text-white",
+			"w-full md:w-auto"
+		)}>
+		{label}
+	</Link>
+);
 
 const NavServices = () => {
 	return (
 		<section className="container mx-auto px-4">
-			<div className="bg-novo-blue py-80">
-				<div className="hidden md:flex justify-center space-x-5 mb-5">
-					<Link
-						href={"/services/hospitality"}
-						className="h-10 py-8 px-6 inline-flex items-center justify-center font-dm-mono rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-500 border-dotted  text-blue-black hover:bg-primary-hover hover:text-white">
-						Hospitality
-					</Link>
-					<Link
-						href={"/services/commercial"}
-						className="h-10 py-8 px-6 inline-flex items-center justify-center font-dm-mono rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-500 border-dotted  text-blue-black hover:bg-primary-hover hover:text-white">
-						Commercial
-					</Link>
-
-					<Link
-						href={"/services/office-design"}
-						className="h-10 py-8 px-6 inline-flex items-center justify-center font-dm-mono rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-500 border-dotted  text-blue-black hover:bg-primary-hover hover:text-white">
-						Office Design
-					</Link>
-
-					<Link
-						href={"/services/residential"}
-						className="h-10 py-8 px-6 inline-flex items-center justify-center font-dm-mono rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-500 border-dotted  text-blue-black hover:bg-primary-hover hover:text-white">
-						Residential
-					</Link>
+			<div className="bg-novo-blue p-40 md:p-80">
+				{/* First Row - Always visible */}
+				<div className="grid grid-cols-2 md:flex md:justify-center gap-4 md:gap-5 mb-4 md:mb-5">
+					{services[0].map((service, index) => (
+						<ServiceLink key={index} {...service} />
+					))}
 				</div>
 
-				<div className="hidden md:flex justify-center space-x-5">
-					<Link
-						href={"/services/architecture"}
-						className="h-10 py-8 px-6 inline-flex items-center justify-center font-dm-mono rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-500 border-dotted  text-blue-black hover:bg-primary-hover hover:text-white">
-						Architecture
-					</Link>
-					<Link
-						href={"/services/interior-design"}
-						className="h-10 py-8 px-6 inline-flex items-center justify-center font-dm-mono rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-500 border-dotted  text-blue-black hover:bg-primary-hover hover:text-white">
-						Interior Design
-					</Link>
-
-					<Link
-						href={"/services/ffae-service"}
-						className="h-10 py-8 px-6 inline-flex items-center justify-center font-dm-mono rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-500 border-dotted  text-blue-black hover:bg-primary-hover hover:text-white">
-						FF&E Service
-					</Link>
+				{/* Second Row */}
+				<div className="grid grid-cols-2 md:flex md:justify-center gap-4 md:gap-5">
+					{services[1].map((service, index) => (
+						<ServiceLink key={index} {...service} />
+					))}
 				</div>
 			</div>
 		</section>
 	);
 };
+
 export default NavServices;

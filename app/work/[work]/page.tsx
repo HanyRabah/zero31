@@ -1,13 +1,14 @@
-import HeroImage from "@/components/sections/HeroImage";
-import ProjectDetails from "@/components/sections/ProjectDetails";
+import ProjectSection from "@/components/projects";
+import HeroImage from "@/components/projects/HeroImage";
+import ProjectDetails from "@/components/projects/ProjectDetails";
 import { projects } from "@/config/projects/projects";
 import { Metadata } from "next";
 
-type Params = Promise<{ projectName: string }>;
+type Params = Promise<{ work: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-	const { projectName } = await params;
-	const projectData = projects[projectName];
+	const { work } = await params;
+	const projectData = projects[work];
 
 	return {
 		title: projectData?.title || projectData?.clientName || "Work",
@@ -18,8 +19,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function ProjectPage({ params }: { params: Params }) {
-	const { projectName } = await params;
-	const projectData = projects[projectName];
+	const { work } = await params;
+	const projectData = projects[work];
 	if (!projectData) {
 		return null;
 	}
@@ -28,6 +29,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
 			<HeroImage image={projectData.heroImage} alt={projectData.heroImageAlt} />
 			{/* Project-specific content */}
 			<ProjectDetails projectData={projectData} />
+			<ProjectSection sections={projectData.sections} />
 		</main>
 	);
 }

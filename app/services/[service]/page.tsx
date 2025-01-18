@@ -1,7 +1,7 @@
-import ContactForm from "@/components/sections/ContactForm";
-import ContentSection from "@/components/sections/ContentSection";
-import ServiceHeader from "@/components/sections/ServiceHeader";
+import ContactForm from "@/components/contact/ContactForm";
 import Services from "@/components/sections/Services";
+import ServiceHeader from "@/components/services/ServiceHeader";
+import ContentSection from "@/components/services/ServiceSection";
 import { services } from "@/config/services/services";
 
 type Params = Promise<{ service: string }>;
