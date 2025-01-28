@@ -1,5 +1,3 @@
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
 import type { Metadata } from "next";
 import { DM_Mono, Inter } from "next/font/google";
 import localFont from "next/font/local";
@@ -47,11 +45,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" className={`${inter.variable} ${neueHaas.variable} ${dmMono.variable}`}>
-			<body className="min-h-screen min-h-[100dvh] flex flex-col overflow-x-hidden antialiased">
-				<Header />
-				{children}
-				<Footer />
-			</body>
+			<body className="min-h-screen min-h-[100dvh] flex flex-col overflow-x-hidden antialiased">{children}</body>
 		</html>
 	);
 }

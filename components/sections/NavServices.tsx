@@ -23,7 +23,7 @@ const ServiceLink = ({ href, label }: { href: string; label: string }) => (
 		href={href}
 		className={cn(
 			"h-10 py-8 px-6 inline-flex items-center justify-center",
-			"font-mono rounded-full text-sm font-medium",
+			"font-mono rounded-full text-[12px] font-medium",
 			"transition-all duration-300",
 			"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
 			"disabled:pointer-events-none disabled:opacity-50",

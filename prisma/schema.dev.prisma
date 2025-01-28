@@ -1,0 +1,103 @@
+// prisma/schema.dev.prisma
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// User management
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String   // Hashed password
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+model ProjectType {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  projects    Project[]
+}
+
+model ProjectScope {
+  id       String             @id @default(cuid())
+  name     String             @unique
+  projects ProjectsOnScopes[]
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+model Project {
+  id            String             @id @default(cuid())
+  slug          String             @unique  // Add this field
+  title         String?
+  clientName    String
+  heroImage     String
+  heroImageAlt  String
+  thumbnail     String
+  thumbnailAlt  String
+  description   String
+  area          String?
+  location      String?
+  year          String?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  
+  type          ProjectType?       @relation(fields: [typeId], references: [id])
+  typeId        String?
+  scopes        ProjectsOnScopes[]
+  sections      ProjectSection[]
+
+  @@index([typeId])
+}
+
+model ProjectsOnScopes {
+  project       Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId     String
+  scope         ProjectScope @relation(fields: [scopeId], references: [id], onDelete: Cascade)
+  scopeId       String
+  assignedAt    DateTime     @default(now())
+
+  @@id([projectId, scopeId])
+  @@index([scopeId])
+}
+
+model ProjectSection {
+  id              String   @id @default(cuid())
+  description     String?
+  backgroundColor String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId       String
+  images          Image[]
+
+  @@index([projectId])
+}
+
+model Image {
+  id              String         @id @default(cuid())
+  url             String
+  alt             String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  
+  section         ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId       String
+
+  @@index([sectionId])
+}

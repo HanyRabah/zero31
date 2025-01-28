@@ -1,29 +1,31 @@
-import { ProjectSection as ProjectSectionProp } from "@/config/projects/types";
 import { cn } from "@/lib/utils";
+import type { ProjectSection } from "@/types/dashboard";
 import { ImageWithDescription } from "./ImageWithDescription";
 import { MultipleImages } from "./MultipleImages";
 import { ParallaxImage } from "./ParallaxImage";
 
-const ProjectSection = ({ sections }: { sections: ProjectSectionProp[] }) => {
+const ProjectSection = ({ sections }: { sections: ProjectSection[] }) => {
 	return (
 		<>
-			{sections.map((section, index) => (
-				<div key={index} className={cn("flex-grow transition-colors duration-500", section.backgroundColor)}>
-					<section className="container mx-auto">
-						{section.description ? (
-							<ImageWithDescription
-								description={section.description}
-								image={section.images?.[0] || undefined}
-								imageAlt={section.imagesAlt?.[0] || undefined}
-							/>
-						) : section.images?.length === 1 ? (
-							<ParallaxImage image={section.images[0]} imageAlt={section.imagesAlt?.[0]} />
-						) : (
-							<MultipleImages images={section.images} imagesAlt={section.imagesAlt} />
-						)}
-					</section>
-				</div>
-			))}
+			{sections.map((section: ProjectSection, index: number) => {
+				return (
+					<div key={index} className={cn("flex-grow transition-colors duration-500", section.backgroundColor)}>
+						<section className="container mx-auto">
+							{section.description ? (
+								<ImageWithDescription
+									description={section.description}
+									image={section.images?.[0].url || undefined}
+									imageAlt={section.images?.[0].alt || undefined}
+								/>
+							) : section.images?.length === 1 ? (
+								<ParallaxImage images={section.images} />
+							) : (
+								<MultipleImages images={section.images} />
+							)}
+						</section>
+					</div>
+				);
+			})}
 		</>
 	);
 };

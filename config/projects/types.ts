@@ -1,7 +1,6 @@
 export interface ProjectSection {
 	description?: string;
-	images?: string[]; // min 1 image with description, max 2 images without description
-	imagesAlt?: string[];
+	images?: string[];
 	backgroundColor?: string;
 }
 
@@ -10,6 +9,7 @@ type ProjectType = "Hospitality" | "Residential" | "Commercial" | "Workplace";
 
 export interface Project {
 	id: string;
+	slug: string;
 	title?: string;
 	clientName: string;
 	heroImage: string;

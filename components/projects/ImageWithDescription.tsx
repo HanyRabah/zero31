@@ -12,7 +12,6 @@ export const ImageWithDescription = ({
 	imageAlt?: string;
 }) => {
 	if (!image || !imageAlt) return null;
-
 	return (
 		<div className="py-10 md:py-64 px-4 md:px-16">
 			<motion.div

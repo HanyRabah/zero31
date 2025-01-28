@@ -1,8 +1,16 @@
-import { Project } from "@/config/projects/types";
+import { Project } from "@/types/dashboard";
 
-const ProjectDetails = ({ projectData }: { projectData: Project }) => {
-	const { title, clientName, location, year, scope, type, area, description } = projectData;
+const ProjectDetails = ({ project }: { project: Project }) => {
+	const { title, clientName, location, year, scopes, type, area, description } = project;
 
+	const renderScopes = () => {
+		const scopesList = scopes
+			.map(scope => {
+				return scope.scope.name;
+			})
+			.join(", ");
+		return scopesList;
+	};
 	return (
 		<main className="flex-grow bg-novo-blue">
 			<div className="container p-20 md:p-[50px]">
@@ -16,14 +24,13 @@ const ProjectDetails = ({ projectData }: { projectData: Project }) => {
 						)}
 						{type && (
 							<p className="text-xs md:text-sm text-novo-grey">
-								<strong>Type:</strong> {type}
+								<strong>Type:</strong> {type.name}
 							</p>
 						)}
-						{scope && (
-							<p className="text-xs md:text-sm text-novo-grey">
-								<strong>Scope:</strong> {scope.join(", ")}
-							</p>
-						)}
+						<p className="text-xs md:text-sm text-novo-grey">
+							<strong>Scope:</strong> {renderScopes()}
+						</p>
+
 						{area && (
 							<p className="text-xs md:text-sm text-novo-grey">
 								<strong>Area:</strong> {area}

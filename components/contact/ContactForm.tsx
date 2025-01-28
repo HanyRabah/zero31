@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -97,6 +98,12 @@ const ContactForm = ({ variant = "dark" }: { variant?: "dark" | "light" }) => {
 								value={formData.name}
 								onChange={e => setFormData({ ...formData, name: e.target.value })}
 								required
+								className={cn(
+									"flex h-[35px] w-full rounded-[32px] bg-transparent px-24 py-16 bg-blue-black",
+									"border border-white text-white placeholder:text-white/40",
+									"focus:outline-none focus:border-white/40 focus:ring-0",
+									"font-mono text-[12px] transition-colors"
+								)}
 							/>
 							<Input
 								type="email"
@@ -104,6 +111,12 @@ const ContactForm = ({ variant = "dark" }: { variant?: "dark" | "light" }) => {
 								value={formData.email}
 								onChange={e => setFormData({ ...formData, email: e.target.value })}
 								required
+								className={cn(
+									"flex h-[35px] w-full rounded-[32px] bg-transparent px-24 py-16 bg-blue-black",
+									"border border-white text-white placeholder:text-white/40",
+									"focus:outline-none focus:border-white/40 focus:ring-0",
+									"font-mono text-[12px] transition-colors"
+								)}
 							/>
 							<Input
 								type="tel"
@@ -111,6 +124,12 @@ const ContactForm = ({ variant = "dark" }: { variant?: "dark" | "light" }) => {
 								value={formData.phone}
 								onChange={e => setFormData({ ...formData, phone: e.target.value })}
 								required
+								className={cn(
+									"flex h-[35px] w-full rounded-[32px] bg-transparent px-24 py-16 bg-blue-black",
+									"border border-white text-white placeholder:text-white/40",
+									"focus:outline-none focus:border-white/40 focus:ring-0",
+									"font-mono text-[12px] transition-colors"
+								)}
 							/>
 							<Button
 								type="submit"
