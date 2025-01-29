@@ -1,5 +1,6 @@
 // app/api/auth/login/route.ts
 import { createToken } from "@/lib/auth";
+import { appLogger, errorLogger } from "@/lib/logger";
 import { verifyPassword } from "@/lib/password";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
@@ -8,13 +9,15 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
 	try {
 		// Add request logging
-		console.log("Login request received");
+		appLogger.info("Login attempt started");
 
 		// Parse the request body
 		const body = await request.json();
-		console.log("Request body:", { email: body.email, hasPassword: !!body.password });
+		appLogger.info("Login request for:", { email: body.email });
 
 		if (!body.email || !body.password) {
+			appLogger.warn("Missing credentials in login attempt");
+
 			return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
 		}
 
@@ -23,9 +26,9 @@ export async function POST(request: Request) {
 			where: { email: body.email },
 		});
 
-		console.log("User found:", { found: !!user });
-
 		if (!user) {
+			appLogger.warn("User not found:", { email: body.email });
+
 			return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 		}
 
@@ -34,6 +37,8 @@ export async function POST(request: Request) {
 		console.log("Password verification:", { isValid });
 
 		if (!isValid) {
+			appLogger.warn("Invalid password for user:", { email: body.email });
+
 			return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 		}
 
@@ -53,6 +58,7 @@ export async function POST(request: Request) {
 				path: "/",
 				maxAge: 60 * 60 * 24, // 24 hours
 			});
+			appLogger.info("Login successful:", { email: user.email, role: user.role });
 		} else {
 			throw new Error("Failed to create token");
 		}
@@ -67,7 +73,8 @@ export async function POST(request: Request) {
 			},
 		});
 	} catch (error: any) {
-		console.error("Login error:", error);
-		return NextResponse.json({ error: "Authentication failed", details: error.message }, { status: 500 });
+		errorLogger.error("Login error stack:", error.stack);
+		errorLogger.error("Login error:", error);
+		return NextResponse.json({ error: "Authentication failed", details: error }, { status: 500 });
 	}
 }

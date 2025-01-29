@@ -2,13 +2,20 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { verifyToken } from "./lib/auth";
+import { appLogger, errorLogger } from "./lib/logger";
 
 export async function middleware(request: NextRequest) {
+	appLogger.info("Middleware processing:", {
+		path: request.nextUrl.pathname,
+		method: request.method,
+	});
 	// Only check auth for dashboard routes
 	if (request.nextUrl.pathname.startsWith("/dashboard")) {
 		const token = request.cookies.get("token")?.value;
 
 		if (!token) {
+			appLogger.warn("No token found in request");
+
 			return NextResponse.redirect(new URL("/login", request.url));
 		}
 
@@ -23,7 +30,11 @@ export async function middleware(request: NextRequest) {
 
 			// Token is valid, continue
 			return NextResponse.next();
-		} catch (error) {
+		} catch (error: any) {
+			errorLogger.error("Middleware error Stack:", error.stack);
+
+			errorLogger.error("Middleware error:", error);
+
 			console.error("Auth error:", error);
 			return NextResponse.redirect(new URL("/login", request.url));
 		}
