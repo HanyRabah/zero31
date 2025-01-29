@@ -5,8 +5,6 @@ const nextConfig: NextConfig = {
 		// Disable memory-intensive features
 		optimizeCss: false,
 	},
-	swcMinify: false,
-	// Reduce memory usage during build
 	onDemandEntries: {
 		maxInactiveAge: 25 * 1000,
 		pagesBufferLength: 2,
