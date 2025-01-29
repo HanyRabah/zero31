@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
 		path: request.nextUrl.pathname,
 		method: request.method,
 	});
+
 	// Only check auth for dashboard routes
 	if (request.nextUrl.pathname.startsWith("/dashboard")) {
 		const token = request.cookies.get("token")?.value;
