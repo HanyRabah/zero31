@@ -1,21 +1,29 @@
 // app/api/logs/route.ts
-import { appLogger, errorLogger } from "@/lib/logger";
+import { logger } from "@/lib/logger";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
 	try {
 		const body = await request.json();
-		const { level, message, timestamp } = body;
+		const { level, message } = body;
 
-		if (level === "error") {
-			errorLogger.error(message);
-		} else {
-			appLogger.info(message);
+		switch (level) {
+			case "error":
+				logger.error(message);
+				break;
+			case "warn":
+				logger.warn(message);
+				break;
+			case "debug":
+				logger.debug(message);
+				break;
+			default:
+				logger.info(message);
 		}
 
 		return NextResponse.json({ success: true });
 	} catch (error) {
-		console.error("Error saving log:", error);
+		logger.error("Error saving log:", error);
 		return NextResponse.json({ error: "Failed to save log" }, { status: 500 });
 	}
 }

@@ -1,11 +1,11 @@
 // scripts/create-admin.js
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import { hash } from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function hashPassword(password) {
-	return await bcrypt.hash(password, 10);
+	return await hash(password, 10);
 }
 
 async function main() {

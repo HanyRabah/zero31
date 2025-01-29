@@ -1,5 +1,5 @@
 // lib/password.ts
-import { compare, hash } from "bcrypt";
+import { compare, hash } from "bcryptjs";
 
 const SALT_ROUNDS = 10;
 
