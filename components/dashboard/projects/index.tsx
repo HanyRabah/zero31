@@ -22,7 +22,6 @@ import {
 	Typography,
 } from "@mui/material";
 import { format } from "date-fns";
-import Image from "next/image";
 import { useState } from "react";
 import useProjects from "../../../hooks/useProjects";
 import { Project } from "../../../types/dashboard";
@@ -249,7 +248,12 @@ export function ProjectPage() {
 									<TableCell>
 										<Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 											<Avatar variant="rounded" sx={{ width: 56, height: 56, position: "relative" }}>
-												<Image src={project.thumbnail} alt={project.thumbnailAlt} fill style={{ objectFit: "cover" }} />
+												{/* <Image src={project.thumbnail} alt={project.thumbnailAlt} fill style={{ objectFit: "cover" }} /> */}
+												<img
+													src={project.thumbnail}
+													alt={project.thumbnailAlt || "Thumbnail Image"}
+													className="object-cover w-full h-full"
+												/>
 											</Avatar>
 											<Box>
 												<Typography variant="subtitle2">{project.title}</Typography>

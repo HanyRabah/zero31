@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 export const ImageWithDescription = ({
 	description,
@@ -22,12 +21,13 @@ export const ImageWithDescription = ({
 				transition={{ duration: 0.6 }}>
 				{/* Image */}
 				<div className="relative w-full aspect-square overflow-hidden">
-					<Image
+					{/* <Image
 						src={image}
 						alt={imageAlt}
 						fill
 						className="object-cover transition-transform duration-700 hover:scale-105"
-					/>
+					/> */}
+					<img src={image} alt={imageAlt} className="object-cover transition-transform duration-700 hover:scale-105" />
 				</div>
 
 				{/* Content */}

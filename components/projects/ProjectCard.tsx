@@ -1,6 +1,5 @@
 import { Project } from "@/types/dashboard";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
 const ProjectCard = ({ project }: { project: Project }) => {
@@ -14,13 +13,18 @@ const ProjectCard = ({ project }: { project: Project }) => {
 		>
 			<Link href={`/work/${project.slug}`} className="group relative block">
 				{/* Image Container */}
-				<div className="relative aspect-square overflow-hidden mb-16">
-					<Image
+				<div className="relative aspect-square overflow-hidden mb-16 flex items-center justify-center">
+					{/* <Image
 						src={project.thumbnail}
 						alt={project.thumbnailAlt}
 						fill
 						className="object-contain transition-transform duration-700 group-hover:scale-105"
 						sizes="(max-width: 768px) 100vw, 33vw"
+					/> */}
+					<img
+						src={"https://new.zero-31.com/uploads/tri-fitness-box/locker-01jpg-1738187943796"}
+						alt={project.thumbnailAlt || "Thumbnail Image"}
+						className="object-contain transition-transform duration-700 group-hover:scale-105 w-[90%]"
 					/>
 				</div>
 
