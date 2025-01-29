@@ -7,23 +7,31 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
 	try {
+		// Add request logging
+		console.log("Login request received");
+
+		// Parse the request body
 		const body = await request.json();
-		const { email, password } = body;
+		console.log("Request body:", { email: body.email, hasPassword: !!body.password });
 
-		// Log the attempt (without password)
-		console.log("Login attempt for:", email);
+		if (!body.email || !body.password) {
+			return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
+		}
 
-		// Get user from database
+		// Find user
 		const user = await prisma.user.findUnique({
-			where: { email },
+			where: { email: body.email },
 		});
+
+		console.log("User found:", { found: !!user });
 
 		if (!user) {
 			return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 		}
 
 		// Verify password
-		const isValid = await verifyPassword(password, user.password);
+		const isValid = await verifyPassword(body.password, user.password);
+		console.log("Password verification:", { isValid });
 
 		if (!isValid) {
 			return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
@@ -44,8 +52,10 @@ export async function POST(request: Request) {
 			secure: process.env.NODE_ENV === "production",
 			sameSite: "lax",
 			path: "/",
+			maxAge: 60 * 60 * 24, // 24 hours
 		});
 
+		// Return success response
 		return NextResponse.json({
 			success: true,
 			user: {
@@ -56,6 +66,6 @@ export async function POST(request: Request) {
 		});
 	} catch (error) {
 		console.error("Login error:", error);
-		return NextResponse.json({ error: "Authentication failed" }, { status: 500 });
+		return NextResponse.json({ error: "Authentication failed", details: error.message }, { status: 500 });
 	}
 }
