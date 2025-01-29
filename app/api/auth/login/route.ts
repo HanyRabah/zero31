@@ -45,15 +45,17 @@ export async function POST(request: Request) {
 		});
 
 		// Set cookie
-		cookies().set({
-			name: "token",
-			value: token,
-			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
-			sameSite: "lax",
-			path: "/",
-			maxAge: 60 * 60 * 24, // 24 hours
-		});
+		if (token) {
+			(await cookies()).set("token", token, {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === "production",
+				sameSite: "lax",
+				path: "/",
+				maxAge: 60 * 60 * 24, // 24 hours
+			});
+		} else {
+			throw new Error("Failed to create token");
+		}
 
 		// Return success response
 		return NextResponse.json({
@@ -64,7 +66,7 @@ export async function POST(request: Request) {
 				role: user.role,
 			},
 		});
-	} catch (error) {
+	} catch (error: any) {
 		console.error("Login error:", error);
 		return NextResponse.json({ error: "Authentication failed", details: error.message }, { status: 500 });
 	}
