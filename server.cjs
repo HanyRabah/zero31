@@ -1,17 +1,33 @@
+// server.cjs
 const { createServer } = require("http");
-const next = require("next");
 const { parse } = require("url");
+const next = require("next");
 
-const port = parseInt(process.env.PORT || "3000", 10);
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
+const hostname = "localhost";
+const port = process.env.PORT || 3000;
+
+const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-	createServer((req, res) => {
-		const parsedUrl = parse(req.url, true);
-		handle(req, res, parsedUrl);
-	}).listen(port);
+	createServer(async (req, res) => {
+		try {
+			const parsedUrl = parse(req.url, true);
 
-	console.log(`> Server listening at http://localhost:${port} as ${dev ? "development" : process.env.NODE_ENV}`);
+			// Handle API routes
+			if (parsedUrl.pathname?.startsWith("/api/")) {
+				res.setHeader("Content-Type", "application/json");
+			}
+
+			await handle(req, res, parsedUrl);
+		} catch (err) {
+			console.error("Error occurred handling", req.url, err);
+			res.statusCode = 500;
+			res.end("Internal Server Error");
+		}
+	}).listen(port, err => {
+		if (err) throw err;
+		console.log(`> Ready on http://${hostname}:${port}`);
+	});
 });

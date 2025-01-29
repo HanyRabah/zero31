@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "yarn dev:db && next dev",
 		"build": "yarn prod:db && next build",
-		"start": "NODE_ENV=production node server.js",
+		"start": "NODE_ENV=production node server.cjs",
 		"start:next": "next start",
 		"lint": "next lint",
 		"test:db": "node  scripts/test-db.js",
