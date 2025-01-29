@@ -1,22 +1,21 @@
 // lib/logger.ts
 import log4js from "log4js";
-import path from "path";
 
-// Configure log4js
+// Configure log4js with direct path strings
 log4js.configure({
 	appenders: {
 		console: { type: "console" },
 		file: {
 			type: "file",
-			filename: path.join(process.cwd(), "logs", "app.log"),
+			filename: "./logs/app.log", // Using relative path
 			maxLogSize: 10485760, // 10MB
 			backups: 5,
 			compress: true,
 		},
 		error: {
 			type: "file",
-			filename: path.join(process.cwd(), "logs", "error.log"),
-			maxLogSize: 10485760, // 10MB
+			filename: "./logs/error.log", // Using relative path
+			maxLogSize: 10485760,
 			backups: 5,
 			compress: true,
 		},
