@@ -5,7 +5,6 @@ deployment:
     - /bin/rm -rf $DEPLOYPATH/* # Clear previous deployment
     - /bin/cp -R * $DEPLOYPATH
 
-    # Install dependencies and build
-    # - /bin/npm install
-    # - /bin/npm run build
-    # - /bin/npm run start
+    - /bin/cp .env.production $DEPLOYPATH
+    - cd $DEPLOYPATH && npm install
+    - cd $DEPLOYPATH && npm run build
