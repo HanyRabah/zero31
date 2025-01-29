@@ -1,10 +1,10 @@
 // app/api/auth/login/route.ts
-import { createToken } from "@/lib/auth";
-import { logger } from "@/lib/logger";
-import { verifyPassword } from "@/lib/password";
-import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { createToken } from "../../../../lib/auth";
+import { logger } from "../../../../lib/logger";
+import { verifyPassword } from "../../../../lib/password";
+import { prisma } from "../../../../lib/prisma";
 
 export async function POST(request: Request) {
 	try {

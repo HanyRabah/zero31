@@ -1,7 +1,7 @@
 // hooks/useScopes.ts
-import { ProjectScope } from "@/types/dashboard";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { ProjectScope } from "../types/dashboard";
 
 interface UseScopesState {
 	data: ProjectScope[];

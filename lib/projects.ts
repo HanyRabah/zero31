@@ -1,7 +1,7 @@
 // lib/projects.ts
-import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { cache } from "react";
+import { prisma } from "../lib/prisma";
 
 export const getProject = cache(async (slug: string) => {
 	try {

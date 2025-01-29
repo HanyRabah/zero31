@@ -1,7 +1,7 @@
-import ContactForm from "@/components/contact/ContactForm";
-import ProjectsGrid from "@/components/sections/ProjectsGrid";
-import Quote from "@/components/sections/Quote";
 import { Metadata } from "next";
+import ContactForm from "../../../components/contact/ContactForm";
+import ProjectsGrid from "../../../components/sections/ProjectsGrid";
+import Quote from "../../../components/sections/Quote";
 
 export const metadata: Metadata = {
 	title: "Our Services",

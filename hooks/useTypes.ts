@@ -1,7 +1,7 @@
 // hooks/useTypes.ts
-import { ProjectType } from "@/types/dashboard";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { ProjectType } from "../types/dashboard";
 
 interface UseTypesState {
 	data: ProjectType[];

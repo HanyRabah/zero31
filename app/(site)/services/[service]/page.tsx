@@ -1,9 +1,9 @@
-import ContactForm from "@/components/contact/ContactForm";
-import ProjectsGrid from "@/components/sections/ProjectsGrid";
-import Services from "@/components/sections/Services";
-import ServiceHeader from "@/components/services/ServiceHeader";
-import ContentSection from "@/components/services/ServiceSection";
-import { services } from "@/config/services/services";
+import ContactForm from "../../../../components/contact/ContactForm";
+import ProjectsGrid from "../../../../components/sections/ProjectsGrid";
+import Services from "../../../../components/sections/Services";
+import ServiceHeader from "../../../../components/services/ServiceHeader";
+import ContentSection from "../../../../components/services/ServiceSection";
+import { services } from "../../../../config/services/services";
 
 type Params = Promise<{ service: string }>;
 

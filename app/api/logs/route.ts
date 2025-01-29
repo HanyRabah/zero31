@@ -1,6 +1,6 @@
 // app/api/logs/route.ts
-import { logger } from "@/lib/logger";
 import { NextResponse } from "next/server";
+import { logger } from "../../../lib/logger";
 
 export async function POST(request: Request) {
 	try {

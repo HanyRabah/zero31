@@ -1,6 +1,5 @@
 // components/dashboard/UserList.tsx
 "use client";
-import useUsers from "@/hooks/useUsers";
 import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon, Person as PersonIcon } from "@mui/icons-material";
 import {
 	Avatar,
@@ -30,6 +29,7 @@ import {
 import { User } from "@prisma/client";
 import { format } from "date-fns";
 import { useState } from "react";
+import useUsers from "../../../hooks/useUsers";
 
 interface UserModalState {
 	open: boolean;

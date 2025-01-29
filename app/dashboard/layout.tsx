@@ -1,6 +1,6 @@
 // app/dashboard/layout.tsx
-import { DashboardNav } from "@/components/dashboard/DashboardNav";
 import Image from "next/image";
+import { DashboardNav } from "../../components/dashboard/DashboardNav";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 	return (

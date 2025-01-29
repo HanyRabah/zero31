@@ -1,6 +1,6 @@
 // hooks/useProjects.ts
-import { Project } from "@/types/dashboard";
 import useSWR from "swr";
+import { Project } from "../types/dashboard";
 
 const fetcher = async (url: string) => {
 	const response = await fetch(url);

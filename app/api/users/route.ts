@@ -1,7 +1,7 @@
 // app/api/users/route.ts
-import { hashPassword } from "@/lib/password";
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { hashPassword } from "../../../lib/password";
+import { prisma } from "../../../lib/prisma";
 
 export async function GET() {
 	try {

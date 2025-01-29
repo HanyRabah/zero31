@@ -3,6 +3,9 @@
 // import { NextResponse } from "next/server";
 // import { join } from "path";
 // import { v4 as uuidv4 } from "uuid";
+import { mkdir, writeFile } from "fs/promises";
+import { NextResponse } from "next/server";
+import { join } from "path";
 
 function formatProjectName(name: string): string {
 	return name
@@ -54,9 +57,6 @@ function formatProjectName(name: string): string {
 // 	}
 // }
 // app/api/upload/route.ts
-import { mkdir, writeFile } from "fs/promises";
-import { NextResponse } from "next/server";
-import { join } from "path";
 
 export async function POST(request: Request) {
 	try {

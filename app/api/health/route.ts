@@ -1,6 +1,6 @@
 // app/api/health/route.ts
-import { testDatabaseConnection } from "@/lib/db-test";
 import { NextResponse } from "next/server";
+import { testDatabaseConnection } from "../../../lib/db-test";
 
 export async function GET() {
 	try {

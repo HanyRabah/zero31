@@ -1,6 +1,6 @@
 // app/api/projects/[projectId]/route.ts
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { prisma } from "../../../../lib/prisma";
 
 type Params = Promise<{ id: string }>;
 

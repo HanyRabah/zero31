@@ -1,6 +1,4 @@
 // components/ProjectSectionForm.tsx
-import ImageUpload from "@/components/ui/image-upload";
-import { ProjectSection } from "@/types/dashboard";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -20,6 +18,8 @@ import {
 	Typography,
 } from "@mui/material";
 import { useState } from "react";
+import ImageUpload from "../../../components/ui/image-upload";
+import { ProjectSection } from "../../../types/dashboard";
 
 interface ProjectSectionFormProps {
 	sections: ProjectSection[];

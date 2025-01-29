@@ -1,5 +1,5 @@
-import ComingSoonPage from "@/components/layout/ComingSoon";
 import { Metadata } from "next";
+import ComingSoonPage from "../../../components/layout/ComingSoon";
 
 export const metadata: Metadata = {
 	title: "News",

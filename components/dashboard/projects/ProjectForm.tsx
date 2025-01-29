@@ -1,8 +1,4 @@
 "use client";
-import ImageUpload from "@/components/ui/image-upload";
-import useScopes from "@/hooks/useScopes";
-import useTypes from "@/hooks/useTypes";
-import { Project } from "@/types/dashboard";
 import {
 	Box,
 	Chip,
@@ -17,6 +13,10 @@ import {
 } from "@mui/material";
 import { Image } from "@prisma/client";
 import { Dispatch, SetStateAction } from "react";
+import ImageUpload from "../../../components/ui/image-upload";
+import useScopes from "../../../hooks/useScopes";
+import useTypes from "../../../hooks/useTypes";
+import { Project } from "../../../types/dashboard";
 import { ProjectSectionForm } from "./ProjectSectionForm";
 
 interface ProjectFormProps {

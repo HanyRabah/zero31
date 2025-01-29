@@ -1,7 +1,5 @@
 // components/dashboard/ScopeManagement.tsx
 "use client";
-import useScopes from "@/hooks/useScopes";
-import { ProjectScope } from "@/types/dashboard";
 import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import {
 	Box,
@@ -24,6 +22,8 @@ import {
 	Typography,
 } from "@mui/material";
 import { useState } from "react";
+import useScopes from "../../../hooks/useScopes";
+import { ProjectScope } from "../../../types/dashboard";
 
 interface ScopeModalState {
 	open: boolean;

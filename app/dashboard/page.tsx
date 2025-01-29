@@ -1,8 +1,8 @@
 // app/dashboard/page.tsx
-import { prisma } from "@/lib/prisma";
 import { AddCircleOutline, Assessment, Folder, Label, People } from "@mui/icons-material";
 import { Box, Grid2 as Grid, List, ListItem, ListItemText, Paper, Stack, Typography } from "@mui/material";
 import Link from "next/link";
+import { prisma } from "../../lib/prisma";
 
 const statsIcons = {
 	Projects: Assessment,

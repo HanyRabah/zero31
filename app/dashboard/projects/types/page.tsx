@@ -1,5 +1,5 @@
-import { TypeList } from "@/components/dashboard/projectsTypes";
 import { Box } from "@mui/material";
+import { TypeList } from "../../../../components/dashboard/projectsTypes";
 
 export default function TypesPage() {
 	return (

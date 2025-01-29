@@ -1,13 +1,13 @@
-import ContactForm from "@/components/contact/ContactForm";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
-import Hero from "@/components/sections/Hero";
-import LocationInfo from "@/components/sections/Location";
-import HeroServices from "@/components/sections/NavServices";
-import ProjectsGrid from "@/components/sections/ProjectsGrid";
-import Quote from "@/components/sections/Quote";
-import Services from "@/components/sections/Services";
 import { Loader } from "lucide-react";
 import { Suspense } from "react";
+import ContactForm from "../../components/contact/ContactForm";
+import { ErrorBoundary } from "../../components/ErrorBoundary";
+import Hero from "../../components/sections/Hero";
+import LocationInfo from "../../components/sections/Location";
+import HeroServices from "../../components/sections/NavServices";
+import ProjectsGrid from "../../components/sections/ProjectsGrid";
+import Quote from "../../components/sections/Quote";
+import Services from "../../components/sections/Services";
 
 // Loading component
 const Loading = () => (

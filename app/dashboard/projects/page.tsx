@@ -1,7 +1,7 @@
 // app/dashboard/projects/page.tsx
 "use client";
-import { ProjectPage } from "@/components/dashboard/projects";
 import { Box } from "@mui/material";
+import { ProjectPage } from "../../../components/dashboard/projects";
 
 export default function ProjectsPage() {
 	return (

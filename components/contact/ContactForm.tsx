@@ -1,11 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Button } from "../../components/ui/button";
+import { cn } from "../../lib/utils";
 import { Input } from "../ui/input";
 
 const variantColor = {

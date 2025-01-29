@@ -1,7 +1,5 @@
 // components/dashboard/index.tsx
 "use client";
-import useProjects from "@/hooks/useProjects";
-import { Project } from "@/types/dashboard";
 import { Add as AddIcon, Delete, Edit } from "@mui/icons-material";
 import {
 	Avatar,
@@ -26,6 +24,8 @@ import {
 import { format } from "date-fns";
 import Image from "next/image";
 import { useState } from "react";
+import useProjects from "../../../hooks/useProjects";
+import { Project } from "../../../types/dashboard";
 import { ProjectForm } from "./ProjectForm";
 
 interface ProjectModalState {

@@ -1,11 +1,11 @@
 // app/work/[work]/page.tsx
-import ProjectSection from "@/components/projects";
-import HeroImage from "@/components/projects/HeroImage";
-import ProjectDetails from "@/components/projects/ProjectDetails";
-import { getAllProjects, getProject } from "@/lib/projects";
-import type { ProjectSection as ProjectSectionProps } from "@/types/dashboard";
-import { Project } from "@/types/dashboard";
 import { Metadata } from "next";
+import ProjectSection from "../../../../components/projects";
+import HeroImage from "../../../../components/projects/HeroImage";
+import ProjectDetails from "../../../../components/projects/ProjectDetails";
+import { getAllProjects, getProject } from "../../../../lib/projects";
+import type { ProjectSection as ProjectSectionProps } from "../../../../types/dashboard";
+import { Project } from "../../../../types/dashboard";
 
 type Params = Promise<{ slug: string }>;
 

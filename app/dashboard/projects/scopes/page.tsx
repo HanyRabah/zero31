@@ -1,6 +1,6 @@
 // app/dashboard/projects/page.tsx
-import ScopesList from "@/components/dashboard/projectsScopes";
 import { Box } from "@mui/material";
+import ScopesList from "../../../../components/dashboard/projectsScopes";
 
 export default function ProjectsPage() {
 	return (

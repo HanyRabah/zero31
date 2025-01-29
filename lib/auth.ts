@@ -1,7 +1,7 @@
 // lib/auth.ts
 import { jwtVerify, SignJWT } from "jose";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function verifyToken(token: string) {
 	if (!token) return null;

@@ -1,9 +1,9 @@
-import ContactForm from "@/components/contact/ContactForm";
-import NavServices from "@/components/sections/NavServices";
-import Services from "@/components/sections/Services";
 import { Loader } from "lucide-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import ContactForm from "../../../components/contact/ContactForm";
+import NavServices from "../../../components/sections/NavServices";
+import Services from "../../../components/sections/Services";
 
 const Loading = () => (
 	<div className="flex items-center justify-center min-h-screen">

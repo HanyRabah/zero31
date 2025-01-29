@@ -1,7 +1,7 @@
 // app/api/users/[id]/route.ts
-import { hashPassword } from "@/lib/password";
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { hashPassword } from "../../../../lib/password";
+import { prisma } from "../../../../lib/prisma";
 
 type Params = Promise<{ id: string }>;
 

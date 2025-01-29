@@ -1,6 +1,5 @@
 // components/dashboard/TypeList.tsx
 "use client";
-import useTypes from "@/hooks/useTypes";
 import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import {
 	Box,
@@ -22,6 +21,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { useState } from "react";
+import useTypes from "../../../hooks/useTypes";
 
 interface ProjectType {
 	id: string;
