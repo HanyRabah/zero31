@@ -22,7 +22,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
 						sizes="(max-width: 768px) 100vw, 33vw"
 					/> */}
 					<img
-						src={"https://new.zero-31.com/uploads/tri-fitness-box/locker-01jpg-1738187943796"}
+						src={project.thumbnail}
 						alt={project.thumbnailAlt || "Thumbnail Image"}
 						className="object-contain transition-transform duration-700 group-hover:scale-105 w-[90%]"
 					/>
