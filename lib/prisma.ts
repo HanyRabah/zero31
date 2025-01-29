@@ -1,8 +1,19 @@
 // lib/prisma.ts
 import { PrismaClient } from "@prisma/client";
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+declare global {
+	var prisma: PrismaClient | undefined;
+}
 
-export const prisma = globalForPrisma.prisma || new PrismaClient();
+export const prisma = global.prisma || new PrismaClient();
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") {
+	global.prisma = prisma;
+}
+
+// Add error handling
+prisma.$on("error", e => {
+	console.error("Prisma error:", e);
+});
+
+export default prisma;

@@ -1,4 +1,5 @@
 import ContactForm from "@/components/contact/ContactForm";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Hero from "@/components/sections/Hero";
 import LocationInfo from "@/components/sections/Location";
 import HeroServices from "@/components/sections/NavServices";
@@ -17,7 +18,7 @@ const Loading = () => (
 
 export default function Home() {
 	return (
-		<>
+		<ErrorBoundary>
 			<main className="flex-grow bg-novo-blue pt-[56px] md:pt-[72px]">
 				<Suspense fallback={<Loading />}>
 					<HeroServices />
@@ -49,6 +50,6 @@ export default function Home() {
 					<ContactForm />
 				</Suspense>
 			</main>
-		</>
+		</ErrorBoundary>
 	);
 }

@@ -18,6 +18,9 @@ export async function GET() {
 				},
 			},
 		});
+
+		// Add proper error handling and logging
+		console.log(`Found ${projects.length} projects`);
 		return NextResponse.json(projects);
 	} catch (error) {
 		return NextResponse.json({ error: `Error fetching projects ${error}` }, { status: 500 });

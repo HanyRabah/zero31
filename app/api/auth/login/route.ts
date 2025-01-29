@@ -10,6 +10,9 @@ export async function POST(request: Request) {
 		const body = await request.json();
 		const { email, password } = body;
 
+		// Log the attempt (without password)
+		console.log("Login attempt for:", email);
+
 		// Get user from database
 		const user = await prisma.user.findUnique({
 			where: { email },
@@ -21,6 +24,7 @@ export async function POST(request: Request) {
 
 		// Verify password
 		const isValid = await verifyPassword(password, user.password);
+
 		if (!isValid) {
 			return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 		}
@@ -33,15 +37,23 @@ export async function POST(request: Request) {
 		});
 
 		// Set cookie
-		(await cookies()).set("token", token!, {
+		cookies().set({
+			name: "token",
+			value: token,
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
 			sameSite: "lax",
 			path: "/",
-			maxAge: 60 * 60 * 24, // 24 hours
 		});
 
-		return NextResponse.json({ success: true });
+		return NextResponse.json({
+			success: true,
+			user: {
+				id: user.id,
+				email: user.email,
+				role: user.role,
+			},
+		});
 	} catch (error) {
 		console.error("Login error:", error);
 		return NextResponse.json({ error: "Authentication failed" }, { status: 500 });
