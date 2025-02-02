@@ -7,9 +7,9 @@ import { Button } from "../../components/ui/button";
 
 const AnimatedLogo = () => {
 	return (
-		<Link href="/" className="relative block w-[115px] h-[72px] group">
+		<Link href="/" className="relative block w-[158px] h-[72px] group">
 			{/* Mini Logo - visible by default, fades out on hover */}
-			<div className="absolute inset-0 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 h-[72px] ">
+			<div className="absolute inset-0 transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0 h-[72px] w-[115px]">
 				<Image
 					src="/logo/mini-logo.svg"
 					width={115}
@@ -20,7 +20,7 @@ const AnimatedLogo = () => {
 			</div>
 
 			{/* Full Logo - hidden by default, fades in on hover */}
-			<div className="absolute inset-0 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 h-[72px] ">
+			<div className="absolute inset-0 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 h-[72px]  w-[115px]">
 				<Image
 					src="/logo/logo-full.svg"
 					width={115}

@@ -200,6 +200,8 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					preview={project.thumbnail}
 					maxSize={5}
 				/>
+				{formErrors.thumbnail && <FormHelperText error>{formErrors.thumbnail}</FormHelperText>}
+				{formErrors.thumbnailAlt && <FormHelperText error>{formErrors.thumbnailAlt}</FormHelperText>}
 			</Grid>
 
 			<Grid size={{ xs: 12, sm: 6 }}>
@@ -213,6 +215,8 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					preview={project.heroImage}
 					maxSize={5}
 				/>
+				{formErrors.heroImage && <FormHelperText error>{formErrors.heroImage}</FormHelperText>}
+				{formErrors.heroImageAlt && <FormHelperText error>{formErrors.heroImageAlt}</FormHelperText>}
 			</Grid>
 
 			{/* Additional Information */}
@@ -243,6 +247,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 
 			<Grid size={{ xs: 12 }}>
 				<ProjectSectionForm
+					formErrors={formErrors}
 					sections={project.sections || []}
 					setSections={newSections =>
 						setFormData((prev: Project) => ({

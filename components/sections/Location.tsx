@@ -1,7 +1,7 @@
 const LocationInfo = () => {
 	return (
 		<div className="container mx-auto px-4">
-			<div className="flex justify-between align-center min-h-[72px] p-[20px]">
+			<div className="flex justify-between align-center min-h-[72px]">
 				<div className="text-lg font-bold text-black mb-2 font-neue">
 					Interior + <br /> Architecture Office
 				</div>

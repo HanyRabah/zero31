@@ -14,13 +14,6 @@ const ProjectCard = ({ project }: { project: Project }) => {
 			<Link href={`/work/${project.slug}`} className="group relative block">
 				{/* Image Container */}
 				<div className="relative aspect-square overflow-hidden mb-16 flex items-center justify-center">
-					{/* <Image
-						src={project.thumbnail}
-						alt={project.thumbnailAlt}
-						fill
-						className="object-contain transition-transform duration-700 group-hover:scale-105"
-						sizes="(max-width: 768px) 100vw, 33vw"
-					/> */}
 					<img
 						src={project.thumbnail}
 						alt={project.thumbnailAlt || "Thumbnail Image"}

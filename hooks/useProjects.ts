@@ -10,12 +10,15 @@ const fetcher = async (url: string) => {
 	return response.json();
 };
 
-export default function useProjects() {
-	const { data, error, mutate } = useSWR<Project[]>("/api/projects", fetcher, {
-		revalidateOnFocus: false,
-		// Initialize with empty array to avoid undefined
-		fallbackData: [],
-	});
+export default function useProjects(type?: string) {
+	const { data, error, mutate, isLoading } = useSWR<Project[]>(
+		type ? `/api/projects?type=${type}` : "/api/projects",
+		fetcher,
+		{
+			revalidateOnFocus: false,
+			fallbackData: [],
+		}
+	);
 
 	const updateProject = async (projectId: string, data: Project) => {
 		try {
@@ -94,7 +97,7 @@ export default function useProjects() {
 
 	return {
 		data: data || [],
-		loading: !error && !data,
+		loading: isLoading,
 		error,
 		addProject,
 		updateProject,

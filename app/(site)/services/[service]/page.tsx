@@ -17,7 +17,7 @@ export default async function ServicePage({ params }: { params: Params }) {
 	return (
 		<main className="flex-grow bg-novo-blue pt-[72px]">
 			<ServiceHeader serviceName={serviceData.title} description={serviceData.description} />
-			<ProjectsGrid />
+			<ProjectsGrid type={service} />
 
 			{/* Service-specific content sections */}
 			{serviceData.sections.map((section, index) => (

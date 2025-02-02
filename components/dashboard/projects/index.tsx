@@ -126,9 +126,21 @@ export function ProjectPage() {
 		if (!formData.clientName) errors.clientName = "Client name is required";
 		if (!formData.description) errors.description = "Description is required";
 		if (!formData.heroImage) errors.heroImage = "Hero image is required";
+		if (!formData.heroImageAlt) errors.heroImageAlt = "Hero image alt is required";
 		if (!formData.thumbnail) errors.thumbnail = "Thumbnail is required";
+		if (!formData.thumbnailAlt) errors.thumbnailAlt = "Thumbnail alt is required";
 		if (!formData.typeId) errors.typeId = "Project type is required";
 		if (formData.scopes.length === 0) errors.scopes = "At least one scope is required";
+		// validate if there is a section with no description
+		// validate section image and alt
+		formData.sections.forEach((section, index) => {
+			if (!section.description) errors[`sections[${index}].description`] = "Description is required";
+			if (section.images.length === 0) errors[`sections[${index}].images`] = "At least one image is required";
+			section.images.forEach((img, imgIndex) => {
+				if (!img?.url) errors[`sections[${index}].images[${imgIndex}].url`] = "Image is required";
+				if (!img?.alt) errors[`sections[${index}].images[${imgIndex}].alt`] = "Image alt is required";
+			});
+		});
 
 		setFormErrors(errors);
 		return Object.keys(errors).length === 0;
@@ -136,7 +148,7 @@ export function ProjectPage() {
 
 	const handleSubmit = async () => {
 		if (!validateForm()) return;
-
+		console.log("🚀 ~ handleSubmit ~ formData", formData);
 		setProjectModal(prev => ({ ...prev, loading: true }));
 		try {
 			const submitData: Project = {
