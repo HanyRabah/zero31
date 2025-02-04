@@ -52,6 +52,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 
 		const formData = new FormData();
 		formData.append("file", data.file);
+		formData.append("fieldName", fieldName || "");
 		formData.append("projectName", project.title || "");
 
 		try {
@@ -71,6 +72,29 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 			}));
 		} catch (error) {
 			console.error("Upload error:", error);
+		}
+	};
+
+	const handleDeleteImage = async (url: string, fieldName: "thumbnail" | "heroImage") => {
+		const formData = new FormData();
+		formData.append("url", url);
+
+		try {
+			const response = await fetch("/api/upload", {
+				method: "DELETE",
+				body: formData,
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to delete image");
+			}
+
+			setFormData((prev: Project) => ({
+				...prev,
+				[fieldName]: "",
+			}));
+		} catch (error) {
+			console.error("Delete error:", error);
 		}
 	};
 	const handleSectionChange = (sections: any[]) => {
@@ -173,6 +197,30 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					{formErrors.scopes && <FormHelperText>{formErrors.scopes}</FormHelperText>}
 				</FormControl>
 			</Grid>
+			<Grid size={{ xs: 12, sm: 6 }}>
+				<TextField
+					fullWidth
+					label="Area"
+					value={project.area}
+					onChange={e => setFormData((prev: Project) => ({ ...prev, area: e.target.value }))}
+				/>
+			</Grid>
+			<Grid size={{ xs: 12, sm: 6 }}>
+				<TextField
+					fullWidth
+					label="Location"
+					value={project.location}
+					onChange={e => setFormData((prev: Project) => ({ ...prev, location: e.target.value }))}
+				/>
+			</Grid>
+			<Grid size={{ xs: 12, sm: 6 }}>
+				<TextField
+					fullWidth
+					label="Year"
+					value={project.year}
+					onChange={e => setFormData((prev: Project) => ({ ...prev, year: e.target.value }))}
+				/>
+			</Grid>
 
 			{/* Description */}
 			<Grid size={{ xs: 12 }}>
@@ -189,10 +237,11 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 				/>
 			</Grid>
 
-			<Grid size={{ xs: 12, sm: 6 }}>
+			<Grid size={{ xs: 12, sm: 6 }} className={`${project.title ? "" : "hidden"}`}>
 				<ImageUpload
 					label="Thumbnail Image"
 					onChange={(data, type) => handleImageUpload(data, type, "thumbnail")}
+					deleteImage={() => handleDeleteImage(project.thumbnail, "thumbnail")}
 					value={{
 						file: project.thumbnail,
 						alt: project.thumbnailAlt || "",
@@ -204,10 +253,11 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 				{formErrors.thumbnailAlt && <FormHelperText error>{formErrors.thumbnailAlt}</FormHelperText>}
 			</Grid>
 
-			<Grid size={{ xs: 12, sm: 6 }}>
+			<Grid size={{ xs: 12, sm: 6 }} className={`${project.title ? "" : "hidden"}`}>
 				<ImageUpload
 					label="Hero Image"
 					onChange={(data, type) => handleImageUpload(data, type, "heroImage")}
+					deleteImage={() => handleDeleteImage(project.heroImage, "heroImage")}
 					value={{
 						file: project.heroImage,
 						alt: project.heroImageAlt || "",
@@ -219,34 +269,9 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 				{formErrors.heroImageAlt && <FormHelperText error>{formErrors.heroImageAlt}</FormHelperText>}
 			</Grid>
 
-			{/* Additional Information */}
-			<Grid size={{ xs: 12, sm: 4 }}>
-				<TextField
-					fullWidth
-					label="Area"
-					value={project.area}
-					onChange={e => setFormData((prev: Project) => ({ ...prev, area: e.target.value }))}
-				/>
-			</Grid>
-			<Grid size={{ xs: 12, sm: 4 }}>
-				<TextField
-					fullWidth
-					label="Location"
-					value={project.location}
-					onChange={e => setFormData((prev: Project) => ({ ...prev, location: e.target.value }))}
-				/>
-			</Grid>
-			<Grid size={{ xs: 12, sm: 4 }}>
-				<TextField
-					fullWidth
-					label="Year"
-					value={project.year}
-					onChange={e => setFormData((prev: Project) => ({ ...prev, year: e.target.value }))}
-				/>
-			</Grid>
-
-			<Grid size={{ xs: 12 }}>
+			<Grid size={{ xs: 12 }} className={`${project.title ? "" : "hidden"}`}>
 				<ProjectSectionForm
+					projectName={project.title || ""}
 					formErrors={formErrors}
 					sections={project.sections || []}
 					setSections={newSections =>

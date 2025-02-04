@@ -95,3 +95,37 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 		);
 	}
 }
+
+export async function DELETE(request: Request, { params }: { params: Params }) {
+	try {
+		const { id } = await params;
+		if (!id) {
+			return NextResponse.json({ error: "Project ID is required" }, { status: 400 });
+		}
+
+		// Verify project exists
+		const existingProject = await prisma.project.findUnique({
+			where: { id },
+		});
+
+		if (!existingProject) {
+			return NextResponse.json({ error: "Project not found" }, { status: 404 });
+		}
+
+		// Delete project
+		await prisma.project.delete({
+			where: { id },
+		});
+
+		return NextResponse.json({ message: "Project deleted" });
+	} catch (error: any) {
+		console.error("Delete project error:", error.stack);
+		return NextResponse.json(
+			{
+				error: `Error deleting project: ${error.message}`,
+				details: error.stack,
+			},
+			{ status: 500 }
+		);
+	}
+}

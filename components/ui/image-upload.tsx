@@ -5,6 +5,7 @@ import React, { useRef, useState } from "react";
 interface ImageUploadProps {
 	label: string;
 	onChange: (data: { file: File | null; alt: string }, type: "file" | "alt") => void;
+	deleteImage?: () => void;
 	accept?: string;
 	maxSize?: number;
 	value: {
@@ -17,6 +18,7 @@ interface ImageUploadProps {
 const ImageUpload = ({
 	label,
 	onChange,
+	deleteImage,
 	accept = "image/jpeg,image/png,image/jpg",
 	maxSize = 5,
 	value,
@@ -74,6 +76,7 @@ const ImageUpload = ({
 
 	const handleRemove = (e: React.MouseEvent) => {
 		e.stopPropagation();
+		deleteImage?.();
 		handleFile(null);
 	};
 
@@ -83,18 +86,36 @@ const ImageUpload = ({
 				{label}
 			</Typography>
 
+			{/* Alt Text Input */}
+			<Box className="space-y-1">
+				<TextField
+					id={`${label}-alt-text`}
+					label="Image alt text"
+					value={value.alt}
+					onChange={handleAltChange}
+					placeholder="Enter a description for the image"
+					variant="outlined"
+					fullWidth
+					error={!!error}
+					helperText={!error ? "Provide a brief description of the image for accessibility" : error}
+					required
+				/>
+			</Box>
+
 			<Box
 				onClick={handleClick}
 				onDrop={handleDrop}
 				onDragOver={handleDragOver}
 				onDragLeave={handleDragLeave}
 				className={`
-          relative border-2 border-dashed rounded-lg p-6
-          flex flex-col items-center justify-center
-          cursor-pointer transition-all duration-200 min-h-[200px]
-          ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"}
-          ${error ? "border-red-500 bg-red-50" : ""}
-        `}>
+					relative border-2 border-dashed rounded-lg p-6
+					flex flex-col items-center justify-center
+					cursor-pointer transition-all duration-200 h-[250px]
+					${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"}
+					${error ? "border-red-500 bg-red-50" : ""}
+					${value.alt ? "pointer-events-auto" : "pointer-events-none"}
+					${value.alt ? "opacity-100" : "opacity-50"}
+				`}>
 				<input
 					ref={fileInputRef}
 					type="file"
@@ -134,26 +155,6 @@ const ImageUpload = ({
 						</Box>
 					</Box>
 				)}
-			</Box>
-
-			{/* Alt Text Input */}
-			<Box className="space-y-1">
-				<Typography variant="caption" component="label" htmlFor={`${label}-alt-text`} className="text-gray-700">
-					Alt Text
-				</Typography>
-				<TextField
-					id={`${label}-alt-text`}
-					value={value.alt}
-					onChange={handleAltChange}
-					placeholder="Enter a description for the image"
-					variant="outlined"
-					fullWidth
-					error={!!error}
-					helperText={error}
-				/>
-				<Typography variant="caption" className="text-gray-500">
-					Provide a brief description of the image for accessibility
-				</Typography>
 			</Box>
 
 			{error && (
