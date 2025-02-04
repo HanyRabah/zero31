@@ -3,6 +3,11 @@ import { Image as ImageType } from "@/types/dashboard";
 import { motion } from "framer-motion";
 
 export const MultipleImages = ({ images }: { images: ImageType[] }) => {
+	const isDev = process.env.NODE_ENV === "development";
+	isDev &&
+		images.forEach(image => {
+			if (isDev) image.url = `https://new.zero-31.com/${image.url}`;
+		});
 	return (
 		<div className="py-10 md:py-64 px-4 md:px-16">
 			<motion.div

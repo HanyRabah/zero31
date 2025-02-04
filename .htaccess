@@ -1,0 +1,11 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/zerocom/new.zero-31.com"
+PassengerBaseURI "/"
+PassengerNodejs "/home/zerocom/nodevenv/new.zero-31.com/18/bin/node"
+PassengerAppType node
+PassengerStartupFile server.cjs
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

@@ -2,7 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
 	images: {
-		domains: ["zero-31.com"],
+		remotePatterns: [
+			{ protocol: "https", hostname: "zero-31.com", pathname: "/**" },
+			{ protocol: "https", hostname: "new.zero-31.com", pathname: "/**" },
+		],
 	},
 	// Add static file serving configuration
 	async rewrites() {

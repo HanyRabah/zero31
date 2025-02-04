@@ -11,6 +11,10 @@ import {
 	AccordionSummary,
 	Box,
 	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
 	FormControl,
 	Grid2 as Grid,
 	IconButton,
@@ -21,6 +25,7 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import Image from "next/image";
 import { useState } from "react";
 import { ProjectSection } from "../../../types/dashboard";
 
@@ -30,10 +35,13 @@ interface ProjectSectionFormProps {
 	setSections: (sections: ProjectSection[]) => void;
 	formErrors: Record<string, string>;
 }
+type SectionType = "Description" | "Two Images" | "One Image" | undefined;
 
 export function ProjectSectionForm({ projectName, sections, setSections, formErrors }: ProjectSectionFormProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [expandedSection, setExpandedSection] = useState<number | false>(0);
+	const [sectionType, setSectionType] = useState<SectionType>();
+	const [selectSectionOpened, setSelectSectionOpened] = useState(false);
 
 	const handleAccordionChange = (sectionIndex: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
 		setExpandedSection(isExpanded ? sectionIndex : false);
@@ -141,8 +149,40 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 	};
 
 	const addSection = () => {
-		// @ts-expect-error - id is not optional
-		setSections([...sections, { images: [], backgroundColor: "bg-white", description: "" }]);
+		setSelectSectionOpened(true);
+	};
+
+	const handleSetSectionType = (type: SectionType) => {
+		setSectionType(type);
+		switch (type) {
+			case "Description":
+				setSections([
+					...sections,
+					{ images: [{ url: "", alt: "image" }], backgroundColor: "bg-white", description: "", type },
+				]);
+				break;
+			case "Two Images":
+				setSections([
+					...sections,
+					{
+						images: [
+							{ url: "", alt: "image 1" },
+							{ url: "", alt: "image 2" },
+						],
+						backgroundColor: "bg-white",
+						description: "",
+						type,
+					},
+				]);
+				break;
+			case "One Image":
+				setSections([
+					...sections,
+					{ images: [{ url: "", alt: "image" }], backgroundColor: "bg-white", description: "", type },
+				]);
+				break;
+		}
+		setSelectSectionOpened(false);
 	};
 
 	const removeSection = (index: number) => {
@@ -190,144 +230,12 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 				</Typography>
 			)}
 
-			{/* {sections.map((section, sectionIndex) => {
-				return (
-					<Card key={sectionIndex} sx={{ p: 3, mb: 3, position: "relative" }}>
-						<IconButton
-							size="small"
-							onClick={() => removeSection(sectionIndex)}
-							color="error"
-							sx={{
-								position: "absolute",
-								right: -8,
-								top: -8,
-								zIndex: 1,
-								bgcolor: "background.paper",
-								boxShadow: 1,
-								"&:hover": { bgcolor: "error.light", color: "white" },
-							}}>
-							<DeleteIcon fontSize="small" />
-						</IconButton>
-
-						<Box sx={{ position: "absolute", right: 16, top: 16, display: "flex", gap: 1 }}>
-							<IconButton size="small" onClick={() => moveSection(sectionIndex, "up")} disabled={sectionIndex === 0}>
-								<KeyboardArrowUpIcon />
-							</IconButton>
-							<IconButton
-								size="small"
-								onClick={() => moveSection(sectionIndex, "down")}
-								disabled={sectionIndex === sections.length - 1}>
-								<KeyboardArrowDownIcon />
-							</IconButton>
-						</Box>
-
-						<Grid container spacing={3}>
-							<Grid size={{ xs: 12 }}>
-								<TextField
-									fullWidth
-									multiline
-									rows={4}
-									label="Description"
-									value={section.description || ""}
-									onChange={e => updateSection(sectionIndex, { description: e.target.value })}
-									error={!!formErrors[`sections[${sectionIndex}].description`]}
-									helperText={formErrors[`sections[${sectionIndex}].description`] || ""}
-								/>
-							</Grid>
-
-							<Grid size={{ xs: 12 }}>
-								<FormControl fullWidth>
-									<InputLabel>Background Color</InputLabel>
-									<Select
-										value={section.backgroundColor || "bg-white"}
-										label="Background Color"
-										onChange={e => updateSection(sectionIndex, { backgroundColor: e.target.value })}>
-										<MenuItem value="bg-white">White</MenuItem>
-										<MenuItem value="bg-novo-blue">Novo Blue</MenuItem>
-										<MenuItem value="bg-gray-50">Light Gray</MenuItem>
-										<MenuItem value="bg-gray-100">Gray</MenuItem>
-										<MenuItem value="bg-off-white">Off White</MenuItem>
-									</Select>
-								</FormControl>
-							</Grid>
-
-							<Grid size={{ xs: 12 }}>
-								<Typography variant="subtitle1" gutterBottom>
-									Images (Max 2 per section)
-								</Typography>
-								<Grid container spacing={2}>
-									{section.images.map((image, imageIndex) => (
-										<Grid size={{ xs: 12, sm: 6 }} key={imageIndex}>
-											<Box sx={{ position: "relative", mb: 2 }}>
-												<IconButton
-													size="small"
-													onClick={() => removeImage(sectionIndex, imageIndex)}
-													color="error"
-													sx={{
-														position: "absolute",
-														right: -8,
-														top: -8,
-														zIndex: 1,
-														bgcolor: "background.paper",
-														boxShadow: 1,
-														"&:hover": { bgcolor: "error.light", color: "white" },
-													}}>
-													<DeleteIcon fontSize="small" />
-												</IconButton>
-
-												<ImageUpload
-													label={`Section ${sectionIndex + 1} Image ${imageIndex + 1}`}
-													onChange={(data, type) => handleImageUpload(data, type, sectionIndex, imageIndex)}
-													deleteImage={() => handleImageDelete(sectionIndex, imageIndex)}
-													value={{
-														file: image.url,
-														alt: image.alt,
-													}}
-													preview={image.url}
-													maxSize={5}
-												/>
-												{formErrors[`sections[${sectionIndex}].images[${imageIndex}].url`] && (
-													<Typography color="error" sx={{ mb: 2 }}>
-														{formErrors[`sections[${sectionIndex}].images[${imageIndex}].url`]}
-													</Typography>
-												)}
-												{formErrors[`sections[${sectionIndex}].images[${imageIndex}].alt`] && (
-													<Typography color="error" sx={{ mb: 2 }}>
-														{formErrors[`sections[${sectionIndex}].images[${imageIndex}].alt`]}
-													</Typography>
-												)}
-												{formErrors[`sections[${sectionIndex}].images`] && (
-													<Typography color="error" sx={{ mb: 2 }}>
-														"Please upload an image"
-													</Typography>
-												)}
-											</Box>
-										</Grid>
-									))}
-									{section.images.length < 2 && (
-										<Grid size={{ xs: 12, sm: 6 }}>
-											<Button
-												fullWidth
-												variant="outlined"
-												startIcon={<AddIcon />}
-												onClick={() => addImage(sectionIndex)}
-												sx={{ height: "100%", minHeight: 200 }}>
-												Add Image
-											</Button>
-										</Grid>
-									)}
-								</Grid>
-							</Grid>
-						</Grid>
-					</Card>
-				);
-			})} */}
 			{sections.map((section, sectionIndex) => (
 				<Accordion
 					key={sectionIndex}
 					expanded={expandedSection === sectionIndex}
 					onChange={handleAccordionChange(sectionIndex)}
-					sx={{ mb: 2, position: "relative" }}>
+					className="rounded-md shadow-md">
 					<AccordionSummary
 						expandIcon={<KeyboardArrowDownIcon />}
 						sx={{
@@ -336,23 +244,25 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 								justifyContent: "space-between",
 							},
 						}}>
-						<Typography>Section {sectionIndex + 1}</Typography>
+						<Typography>
+							Section {sectionIndex + 1} {section.type}
+						</Typography>
 					</AccordionSummary>
 
 					<AccordionDetails>
 						<Grid container spacing={3}>
-							<Grid size={{ xs: 12 }}>
-								<TextField
-									fullWidth
-									multiline
-									rows={4}
-									label="Description"
-									value={section.description || ""}
-									onChange={e => updateSection(sectionIndex, { description: e.target.value })}
-									error={!!formErrors[`sections[${sectionIndex}].description`]}
-									helperText={formErrors[`sections[${sectionIndex}].description`] || ""}
-								/>
-							</Grid>
+							{sectionType === "Description" && (
+								<Grid size={{ xs: 12 }}>
+									<TextField
+										fullWidth
+										multiline
+										rows={4}
+										label="Description"
+										value={section.description || ""}
+										onChange={e => updateSection(sectionIndex, { description: e.target.value })}
+									/>
+								</Grid>
+							)}
 
 							<Grid size={{ xs: 12 }}>
 								<FormControl fullWidth>
@@ -371,9 +281,6 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 							</Grid>
 
 							<Grid size={{ xs: 12 }}>
-								<Typography variant="subtitle1" gutterBottom>
-									Images (Max 2 per section)
-								</Typography>
 								<Grid container spacing={2}>
 									{section.images.map((image, imageIndex) => (
 										<Grid size={{ xs: 12, sm: 6 }} key={imageIndex}>
@@ -424,7 +331,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 										</Grid>
 									))}
 
-									{section.images.length < 2 && (
+									{sectionType === "Two Images" && section.images.length < 2 && (
 										<Grid size={{ xs: 12, sm: 6 }}>
 											<Button
 												fullWidth
@@ -482,6 +389,44 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 					</AccordionActions>
 				</Accordion>
 			))}
+
+			<Dialog open={selectSectionOpened} onClose={() => setSelectSectionOpened(false)} fullWidth>
+				<DialogTitle>Select Section Type</DialogTitle>
+				<DialogContent>
+					<Box sx={{ display: "flex", gap: 4 }}>
+						<Box
+							className="hover:bg-orange-100 rounded-md p-8 cursor-pointer w-1/3"
+							onClick={() => {
+								handleSetSectionType("Description");
+								setSelectSectionOpened(false);
+							}}>
+							<Image alt="Description" src="/icons/imageWithDescription.png" width="100" height="100" />
+							<Typography variant="caption">Description With Image</Typography>
+						</Box>
+						<Box
+							className="hover:bg-orange-100 rounded-md p-8 cursor-pointer w-1/3"
+							onClick={() => {
+								handleSetSectionType("Two Images");
+								setSelectSectionOpened(false);
+							}}>
+							<Image alt="Two Images" src="/icons/TwoImages.png" width="100" height="100" />
+							<Typography variant="caption">Two Images</Typography>
+						</Box>
+						<Box
+							className="hover:bg-orange-100 rounded-md p-8 cursor-pointer w-1/3"
+							onClick={() => {
+								handleSetSectionType("One Image");
+								setSelectSectionOpened(false);
+							}}>
+							<Image alt="One Image" src="/icons/OneImage.png" width="100" height="100" />
+							<Typography variant="caption">One Image</Typography>
+						</Box>
+					</Box>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => setSelectSectionOpened(false)}>Cancel</Button>
+				</DialogActions>
+			</Dialog>
 		</Box>
 	);
 }

@@ -13,7 +13,11 @@ export const ParallaxImage = ({ images }: { images: ImageType[] }) => {
 	});
 
 	const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-
+	const isDev = process.env.NODE_ENV === "development";
+	isDev &&
+		images.forEach(image => {
+			if (isDev) image.url = `https://new.zero-31.com/${image.url}`;
+		});
 	return (
 		<>
 			{images.map(image => (

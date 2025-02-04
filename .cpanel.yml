@@ -2,9 +2,7 @@ deployment:
   tasks:
     # Deploy your Next.js application
     - export DEPLOYPATH=/home/zerocom/new.zero-31.com/
-    - /bin/rm -rf $DEPLOYPATH/* # Clear previous deployment
+    #- /bin/rm -rf $DEPLOYPATH/* # Clear previous deployment
     - /bin/cp -R * $DEPLOYPATH
-
-    - /bin/cp .env.production $DEPLOYPATH
-    - cd $DEPLOYPATH && npm install
-    - cd $DEPLOYPATH && npm run build
+    # copy env production to .env
+    #- /bin/cp .env.production $DEPLOYPATH.env

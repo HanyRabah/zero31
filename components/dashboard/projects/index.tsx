@@ -134,7 +134,7 @@ export function ProjectPage() {
 		// validate if there is a section with no description
 		// validate section image and alt
 		formData.sections.forEach((section, index) => {
-			if (!section.description) errors[`sections[${index}].description`] = "Description is required";
+			//if (!section.description) errors[`sections[${index}].description`] = "Description is required";
 			if (section.images.length === 0) errors[`sections[${index}].images`] = "At least one image is required";
 			section.images.forEach((img, imgIndex) => {
 				if (!img?.url) errors[`sections[${index}].images[${imgIndex}].url`] = "Image is required";
