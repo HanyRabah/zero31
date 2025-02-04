@@ -44,6 +44,7 @@ export interface Image extends BaseModel {
 // Project Section interface
 export interface ProjectSection extends BaseModel {
 	description?: string;
+	type: string;
 	backgroundColor?: string;
 	projectId: string;
 	project: Project;

@@ -95,7 +95,6 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 			}
 
 			const responseData = await response.json();
-			console.log("🚀 ~ ProjectSectionForm ~ responseData:", responseData);
 			const newSections = [...sections];
 			newSections[sectionIndex].images[imageIndex] = {
 				url: responseData.url,
@@ -157,16 +156,21 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 		switch (type) {
 			case "Description":
 				setSections([
+					// @ts-expect-error - id is not optional§
 					...sections,
+					// @ts-expect-error - id is not optional§
 					{ images: [{ url: "", alt: "image" }], backgroundColor: "bg-white", description: "", type },
 				]);
 				break;
 			case "Two Images":
 				setSections([
+					// @ts-expect-error - id is not optional§
 					...sections,
 					{
 						images: [
+							// @ts-expect-error - id is not optional
 							{ url: "", alt: "image 1" },
+							// @ts-expect-error - id is not optional
 							{ url: "", alt: "image 2" },
 						],
 						backgroundColor: "bg-white",
@@ -177,7 +181,9 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 				break;
 			case "One Image":
 				setSections([
+					// @ts-expect-error - id is not optional§
 					...sections,
+					// @ts-expect-error - id is not optional
 					{ images: [{ url: "", alt: "image" }], backgroundColor: "bg-white", description: "", type },
 				]);
 				break;
@@ -245,7 +251,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 							},
 						}}>
 						<Typography>
-							Section {sectionIndex + 1} {section.type}
+							Section {sectionIndex + 1} - {section.type}
 						</Typography>
 					</AccordionSummary>
 

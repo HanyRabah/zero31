@@ -83,6 +83,7 @@ model ProjectsOnScopes {
 model ProjectSection {
   id              String   @id @default(cuid())
   description     String?  @db.Text
+  type            String   @default("Description") 
   backgroundColor String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
