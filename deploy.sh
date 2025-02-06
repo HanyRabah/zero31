@@ -25,5 +25,13 @@ find $DEPLOY_PATH -type f -exec chmod 644 {} \;
 npm install --prefix $DEPLOY_PATH >> $LOG_FILE 2>&1
 npm run build --prefix $DEPLOY_PATH >> $LOG_FILE 2>&1
 
+# Restart the node server on cpanel
+pkill -f node
+nohup node $DEPLOY_PATH/server.js &
+echo "Node server restarted" >> $LOG_FILE
+
+
+
+
 # Log completion
 echo "Deployment completed at $(date)" >> $LOG_FILE
