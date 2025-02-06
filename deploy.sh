@@ -30,8 +30,5 @@ pkill -f node
 nohup node $DEPLOY_PATH/server.js &
 echo "Node server restarted" >> $LOG_FILE
 
-
-
-
 # Log completion
 echo "Deployment completed at $(date)" >> $LOG_FILE
