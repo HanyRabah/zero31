@@ -22,12 +22,14 @@ chown -R zerocom:zerocom $DEPLOY_PATH
 find $DEPLOY_PATH -type d -exec chmod 755 {} \;
 find $DEPLOY_PATH -type f -exec chmod 644 {} \;
 
+source /home/zerocom/nodevenv/new.zero-31.com/18/bin/activate && cd /home/zerocom/new.zero-31.com
+
 npm install --prefix $DEPLOY_PATH >> $LOG_FILE 2>&1
 npm run build --prefix $DEPLOY_PATH >> $LOG_FILE 2>&1
 
 # Restart the node server on cpanel
 pkill -f node
-nohup node $DEPLOY_PATH/server.js &
+nohup node $DEPLOY_PATH/server.cjs &
 echo "Node server restarted" >> $LOG_FILE
 
 # Log completion
