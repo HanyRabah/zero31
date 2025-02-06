@@ -1,14 +1,14 @@
 // components/ProjectSectionForm.tsx
 import ImageUpload from "@/components/ui/image-upload";
 import AddIcon from "@mui/icons-material/Add";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import DeleteIcon from "@mui/icons-material/Delete";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
-	Accordion,
 	AccordionActions,
-	AccordionDetails,
-	AccordionSummary,
+	AccordionProps,
+	AccordionSummaryProps,
 	Box,
 	Button,
 	Dialog,
@@ -17,17 +17,54 @@ import {
 	DialogTitle,
 	FormControl,
 	Grid2 as Grid,
-	IconButton,
 	InputLabel,
 	MenuItem,
 	Select,
 	Stack,
+	styled,
 	TextField,
 	Typography,
 } from "@mui/material";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import MuiAccordionSummary, { accordionSummaryClasses } from "@mui/material/AccordionSummary";
 import Image from "next/image";
+import * as React from "react";
 import { useState } from "react";
 import { ProjectSection } from "../../../types/dashboard";
+
+const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(
+	({ theme }) => ({
+		border: `1px solid ${theme.palette.divider}`,
+		"&:not(:last-child)": {
+			borderBottom: 0,
+		},
+		"&::before": {
+			display: "none",
+		},
+	})
+);
+
+const AccordionSummary = styled((props: AccordionSummaryProps) => (
+	<MuiAccordionSummary expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />} {...props} />
+))(({ theme }) => ({
+	backgroundColor: "rgba(0, 0, 0, .03)",
+	flexDirection: "row-reverse",
+	[`& .${accordionSummaryClasses.expandIconWrapper}.${accordionSummaryClasses.expanded}`]: {
+		transform: "rotate(90deg)",
+	},
+	[`& .${accordionSummaryClasses.content}`]: {
+		marginLeft: theme.spacing(1),
+	},
+	...theme.applyStyles("dark", {
+		backgroundColor: "rgba(255, 255, 255, .05)",
+	}),
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+	padding: theme.spacing(2),
+	borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
 
 interface ProjectSectionFormProps {
 	projectName: string;
@@ -114,14 +151,13 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 
 	const handleImageDelete = async (sectionIndex: number, imageIndex: number) => {
 		const image = sections[sectionIndex].images[imageIndex];
+		debugger;
 		if (!image.url) {
 			const newSections = [...sections];
 			newSections[sectionIndex].images.splice(imageIndex, 1);
 			setSections(newSections);
 			return;
 		}
-
-		debugger;
 
 		try {
 			setError(null);
@@ -139,7 +175,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 			}
 
 			const newSections = [...sections];
-			newSections[sectionIndex].images.splice(imageIndex, 1);
+			//newSections[sectionIndex].images.splice(imageIndex, 1);
 			setSections(newSections);
 		} catch (error: any) {
 			setError(error.message || "Failed to delete image");
@@ -291,7 +327,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 									{section.images.map((image, imageIndex) => (
 										<Grid size={{ xs: 12, sm: 6 }} key={imageIndex}>
 											<Box sx={{ position: "relative", mb: 2 }}>
-												<IconButton
+												{/* <IconButton
 													size="small"
 													onClick={() => removeImage(sectionIndex, imageIndex)}
 													color="error"
@@ -305,17 +341,17 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 														"&:hover": { bgcolor: "error.light", color: "white" },
 													}}>
 													<DeleteIcon fontSize="small" />
-												</IconButton>
+												</IconButton> */}
 
 												<ImageUpload
 													label={``}
 													onChange={(data, type) => handleImageUpload(data, type, sectionIndex, imageIndex)}
 													deleteImage={() => handleImageDelete(sectionIndex, imageIndex)}
 													value={{
-														file: image.url,
+														file: image.url ? `https://new.zero-31.com/${image.url}` : "",
 														alt: image.alt,
 													}}
-													preview={image.url}
+													preview={image.url ? `https://new.zero-31.com/${image.url}` : ""}
 													maxSize={5}
 												/>
 												{formErrors[`sections[${sectionIndex}].images[${imageIndex}].url`] && (

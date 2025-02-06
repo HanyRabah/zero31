@@ -243,10 +243,10 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					onChange={(data, type) => handleImageUpload(data, type, "thumbnail")}
 					deleteImage={() => handleDeleteImage(project.thumbnail, "thumbnail")}
 					value={{
-						file: project.thumbnail,
+						file: project.thumbnail ? "https://new.zero-31.com" + project.thumbnail : "",
 						alt: project.thumbnailAlt || "",
 					}}
-					preview={project.thumbnail}
+					preview={project.thumbnail ? "https://new.zero-31.com" + project.thumbnail : ""}
 					maxSize={5}
 				/>
 				{formErrors.thumbnail && <FormHelperText error>{formErrors.thumbnail}</FormHelperText>}
@@ -259,10 +259,10 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					onChange={(data, type) => handleImageUpload(data, type, "heroImage")}
 					deleteImage={() => handleDeleteImage(project.heroImage, "heroImage")}
 					value={{
-						file: project.heroImage,
+						file: project.heroImage ? "https://new.zero-31.com" + project.heroImage : "",
 						alt: project.heroImageAlt || "",
 					}}
-					preview={project.heroImage}
+					preview={project.heroImage ? "https://new.zero-31.com" + project.heroImage : ""}
 					maxSize={5}
 				/>
 				{formErrors.heroImage && <FormHelperText error>{formErrors.heroImage}</FormHelperText>}

@@ -1,13 +1,9 @@
 "use client";
 import { Image as ImageType } from "@/types/dashboard";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export const MultipleImages = ({ images }: { images: ImageType[] }) => {
-	const isDev = process.env.NODE_ENV === "development";
-	isDev &&
-		images.forEach(image => {
-			if (isDev) image.url = `https://new.zero-31.com/${image.url}`;
-		});
 	return (
 		<div className="py-10 md:py-64 px-4 md:px-16">
 			<motion.div
@@ -24,16 +20,10 @@ export const MultipleImages = ({ images }: { images: ImageType[] }) => {
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.6, delay: index * 0.2 }}>
-						{/* <Image
-							src={image.url}
+						<Image
+							src={`https://new.zero-31.com${image.url}`}
 							alt={image.alt || ""}
 							fill
-							className="object-cover transition-transform duration-700 hover:scale-105"
-							sizes="(max-width: 768px) 100vw, 50vw"
-						/> */}
-						<img
-							src={image.url}
-							alt={image.alt || ""}
 							className="object-cover transition-transform duration-700 hover:scale-105"
 							sizes="(max-width: 768px) 100vw, 50vw"
 						/>

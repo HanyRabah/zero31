@@ -10,8 +10,6 @@ export const ImageWithDescription = ({
 	image?: string;
 	imageAlt?: string;
 }) => {
-	const isDev = process.env.NODE_ENV === "development";
-	if (isDev) image = `https://new.zero-31.com/${image}`;
 	if (!image || !imageAlt) return null;
 	return (
 		<div className="py-10 md:py-64 px-4 md:px-16">
@@ -24,7 +22,7 @@ export const ImageWithDescription = ({
 				{/* Image */}
 				<div className="relative w-full  overflow-hidden">
 					<img
-						src={image}
+						src={`https://new.zero-31.com/${image}`}
 						alt={imageAlt}
 						className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
 					/>

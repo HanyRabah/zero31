@@ -12,22 +12,18 @@ export const ParallaxImage = ({ images }: { images: ImageType[] }) => {
 		offset: ["start end", "end start"],
 	});
 
-	const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-	const isDev = process.env.NODE_ENV === "development";
-	isDev &&
-		images.forEach(image => {
-			if (isDev) image.url = `https://new.zero-31.com/${image.url}`;
-		});
+	const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+
 	return (
 		<>
 			{images.map(image => (
 				<div key={image.id} className="py-40 md:py-120">
 					<div ref={containerRef} className="w-full h-[50vh] md:h-[90vh] overflow-hidden relative">
-						<motion.div className="absolute inset-0 w-full h-[90%]" style={{ y }}>
+						<motion.div className="absolute inset-0 w-full h-[80%]" style={{ y }}>
 							<div
 								className="w-full h-full bg-cover bg-center"
 								style={{
-									backgroundImage: `url(${image.url})`,
+									backgroundImage: `url(https://new.zero-31.com${image.url})`,
 									backgroundAttachment: "scroll",
 									transform: "scale(1.1)",
 								}}

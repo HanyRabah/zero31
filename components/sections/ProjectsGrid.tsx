@@ -56,8 +56,8 @@ const ProjectsGrid = ({ type }: { type?: string }) => {
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.6 }}>
-					{projects.map(project => (
-						<ProjectCard key={project.id} project={project} />
+					{projects.map((project, index) => (
+						<ProjectCard key={project.id} project={project} isHorizontal={index % 2 === 0} />
 					))}
 				</motion.div>
 			</div>

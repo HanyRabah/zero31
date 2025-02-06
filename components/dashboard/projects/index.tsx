@@ -148,7 +148,6 @@ export function ProjectPage() {
 
 	const handleSubmit = async () => {
 		if (!validateForm()) return;
-		console.log("🚀 ~ handleSubmit ~ formData", formData);
 		setProjectModal(prev => ({ ...prev, loading: true }));
 		try {
 			const submitData: Project = {
@@ -262,7 +261,7 @@ export function ProjectPage() {
 											<Avatar variant="rounded" sx={{ width: 56, height: 56, position: "relative" }}>
 												{/* <Image src={project.thumbnail} alt={project.thumbnailAlt} fill style={{ objectFit: "cover" }} /> */}
 												<img
-													src={project.thumbnail}
+													src={`https://new.zero-31.com${project.thumbnail}`}
 													alt={project.thumbnailAlt || "Thumbnail Image"}
 													className="object-cover w-full h-full"
 												/>
@@ -297,11 +296,6 @@ export function ProjectPage() {
 									<TableCell>{format(new Date(project.updatedAt), "MMM d, yyyy")}</TableCell>
 									<TableCell align="right">
 										<Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
-											{/* <Tooltip title="View">
-												<IconButton size="small" component={Link} href={`/projects/${project.id}`}>
-													<Visibility fontSize="small" />
-												</IconButton>
-											</Tooltip> */}
 											<Tooltip title="Edit">
 												<IconButton size="small" color="primary" onClick={() => handleOpenModal(project)}>
 													<Edit fontSize="small" />

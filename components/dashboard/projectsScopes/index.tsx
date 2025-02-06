@@ -4,7 +4,6 @@ import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from "@mui/ico
 import {
 	Box,
 	Button,
-	Chip,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -113,7 +112,6 @@ function ScopeList() {
 					<TableHead>
 						<TableRow>
 							<TableCell>Scope Name</TableCell>
-							<TableCell align="center">Projects Using</TableCell>
 							<TableCell align="right">Actions</TableCell>
 						</TableRow>
 					</TableHead>
@@ -128,9 +126,6 @@ function ScopeList() {
 								}}>
 								<TableCell>
 									<Typography variant="body1">{scope.name}</Typography>
-								</TableCell>
-								<TableCell align="center">
-									<Chip label={scope.projects?.length || 0} color="primary" variant="outlined" size="small" />
 								</TableCell>
 								<TableCell align="right">
 									<Tooltip title="Edit Scope">

@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ContentSectionProps {
@@ -79,9 +80,10 @@ const ContentSection = ({
 					{/* Image */}
 					<motion.div className="relative aspect-square overflow-hidden group" variants={itemVariants}>
 						<motion.div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-						<img
+						<Image
 							src={image}
 							alt={imageAlt}
+							fill
 							className="object-cover h-full transition-transform duration-700 group-hover:scale-105"
 							sizes="(max-width: 768px) 100vw, 50vw"
 						/>
