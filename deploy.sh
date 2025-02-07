@@ -22,7 +22,10 @@ chown -R zerocom:zerocom $DEPLOY_PATH
 find $DEPLOY_PATH -type d -exec chmod 755 {} \;
 find $DEPLOY_PATH -type f -exec chmod 644 {} \;
 
-source /home/zerocom/nodevenv/new.zero-31.com/18/bin/activate && cd /home/zerocom/new.zero-31.com
+source /home/zerocom/nodevenv/new.zero-31.com/18/bin/activate && cd $DEPLOY_PATH 
+
+cd $DEPLOY_PATH || { echo "Deploy path not found!" >> $LOG_FILE; exit 1; }
+
 
 npm install --prefix $DEPLOY_PATH >> $LOG_FILE 2>&1
 npm run build --prefix $DEPLOY_PATH >> $LOG_FILE 2>&1
