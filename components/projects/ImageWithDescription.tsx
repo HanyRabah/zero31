@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export const ImageWithDescription = ({
 	description,
@@ -19,15 +20,20 @@ export const ImageWithDescription = ({
 				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ once: true }}
 				transition={{ duration: 0.6 }}>
-				{/* Image */}
-				<div className="relative w-full  overflow-hidden">
-					<img
+				<motion.div
+					className="relative aspect-[4/3] overflow-hidden"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.6, delay: 1 }}>
+					<Image
 						src={image}
-						alt={imageAlt}
-						className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+						alt={imageAlt || ""}
+						fill
+						className="object-cover transition-transform duration-700 hover:scale-105"
+						sizes="(max-width: 768px) 100vw, 50vw"
 					/>
-				</div>
-
+				</motion.div>
 				{/* Content */}
 				<div className="max-w-xl">
 					<p className="text-base md:text-lg leading-relaxed text-gray-600">{description}</p>

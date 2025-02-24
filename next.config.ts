@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{ protocol: "https", hostname: "zero-31.com", pathname: "/**" },
 			{ protocol: "https", hostname: "new.zero-31.com", pathname: "/**" },
+			{ protocol: "https", hostname: "l6npf9rjvqqf6owa.public.blob.vercel-storage.com", pathname: "/**" },
 		],
 	},
 	// Add static file serving configuration
