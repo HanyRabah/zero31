@@ -22,7 +22,7 @@ export const ImageWithDescription = ({
 				{/* Image */}
 				<div className="relative w-full  overflow-hidden">
 					<img
-						src={`https://new.zero-31.com/${image}`}
+						src={image}
 						alt={imageAlt}
 						className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
 					/>

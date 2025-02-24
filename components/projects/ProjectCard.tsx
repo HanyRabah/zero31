@@ -18,7 +18,7 @@ const ProjectCard = ({ project, isHorizontal }: { project: Project; isHorizontal
 				<div className="relative aspect-square overflow-hidden mb-16 flex items-center justify-center">
 					<div className={`relative ${isHorizontal ? "w-full aspect-video" : "w-3/4 aspect-square h-full"}`}>
 						<Image
-							src={`https://new.zero-31.com/${project.thumbnail}`}
+							src={project.thumbnail}
 							alt={project.thumbnailAlt || "Thumbnail Image"}
 							fill
 							className="object-cover transition-transform duration-700 group-hover:scale-105"

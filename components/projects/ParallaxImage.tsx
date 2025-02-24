@@ -23,7 +23,7 @@ export const ParallaxImage = ({ images }: { images: ImageType[] }) => {
 							<div
 								className="w-full h-full bg-cover bg-center"
 								style={{
-									backgroundImage: `url(https://new.zero-31.com${image.url})`,
+									backgroundImage: `url(${image.url})`,
 									backgroundAttachment: "scroll",
 									transform: "scale(1.1)",
 								}}

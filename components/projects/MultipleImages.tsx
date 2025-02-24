@@ -21,7 +21,7 @@ export const MultipleImages = ({ images }: { images: ImageType[] }) => {
 						viewport={{ once: true }}
 						transition={{ duration: 0.6, delay: index * 0.2 }}>
 						<Image
-							src={`https://new.zero-31.com${image.url}`}
+							src={image.url}
 							alt={image.alt || ""}
 							fill
 							className="object-cover transition-transform duration-700 hover:scale-105"

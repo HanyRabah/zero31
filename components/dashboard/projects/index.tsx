@@ -263,7 +263,7 @@ export function ProjectPage() {
 											<Avatar variant="rounded" sx={{ width: 56, height: 56, position: "relative" }}>
 												{/* <Image src={project.thumbnail} alt={project.thumbnailAlt} fill style={{ objectFit: "cover" }} /> */}
 												<img
-													src={`https://new.zero-31.com${project.thumbnail}`}
+													src={project.thumbnail}
 													alt={project.thumbnailAlt || "Thumbnail Image"}
 													className="object-cover w-full h-full"
 												/>

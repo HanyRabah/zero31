@@ -331,10 +331,10 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 													onChange={(data, type) => handleImageUpload(data, type, sectionIndex, imageIndex)}
 													deleteImage={() => handleImageDelete(sectionIndex, imageIndex)}
 													value={{
-														file: image.url ? `https://new.zero-31.com/${image.url}` : "",
+														file: image.url,
 														alt: image.alt,
 													}}
-													preview={image.url ? `https://new.zero-31.com/${image.url}` : ""}
+													preview={image.url}
 													maxSize={5}
 												/>
 												{formErrors[`sections[${sectionIndex}].images[${imageIndex}].url`] && (
