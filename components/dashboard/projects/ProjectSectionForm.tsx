@@ -151,7 +151,6 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 
 	const handleImageDelete = async (sectionIndex: number, imageIndex: number) => {
 		const image = sections[sectionIndex].images[imageIndex];
-		debugger;
 		if (!image.url) {
 			const newSections = [...sections];
 			newSections[sectionIndex].images.splice(imageIndex, 1);
@@ -293,7 +292,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 
 					<AccordionDetails>
 						<Grid container spacing={3}>
-							{sectionType === "Description" && (
+							{section.type === "Description" && (
 								<Grid size={{ xs: 12 }}>
 									<TextField
 										fullWidth
@@ -327,22 +326,6 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 									{section.images.map((image, imageIndex) => (
 										<Grid size={{ xs: 12, sm: 6 }} key={imageIndex}>
 											<Box sx={{ position: "relative", mb: 2 }}>
-												{/* <IconButton
-													size="small"
-													onClick={() => removeImage(sectionIndex, imageIndex)}
-													color="error"
-													sx={{
-														position: "absolute",
-														right: -8,
-														top: -8,
-														zIndex: 1,
-														bgcolor: "background.paper",
-														boxShadow: 1,
-														"&:hover": { bgcolor: "error.light", color: "white" },
-													}}>
-													<DeleteIcon fontSize="small" />
-												</IconButton> */}
-
 												<ImageUpload
 													label={``}
 													onChange={(data, type) => handleImageUpload(data, type, sectionIndex, imageIndex)}
@@ -373,7 +356,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 										</Grid>
 									))}
 
-									{sectionType === "Two Images" && section.images.length < 2 && (
+									{section.type === "Two Images" && section.images.length < 2 && (
 										<Grid size={{ xs: 12, sm: 6 }}>
 											<Button
 												fullWidth
@@ -414,7 +397,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 							<Button
 								size="small"
 								color="error"
-								onClick={e => {
+								onClick={async e => {
 									e.stopPropagation();
 									removeSection(sectionIndex);
 								}}

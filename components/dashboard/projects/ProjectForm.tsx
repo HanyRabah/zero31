@@ -117,15 +117,21 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 			<Grid size={{ xs: 12, sm: 6 }}>
 				<TextField
 					fullWidth
-					label="Title"
+					label="Project Title"
 					value={project.title}
-					onChange={e => setFormData((prev: Project) => ({ ...prev, title: e.target.value }))}
+					onChange={e => {
+						setFormData((prev: Project) => ({ ...prev, title: e.target.value }));
+						// set slug automaticly
+						if (!project.slug) {
+							setFormData((prev: Project) => ({ ...prev, slug: e.target.value.toLowerCase().replace(/ /g, "-") }));
+						}
+					}}
 					required
 					error={!!formErrors.title}
 					helperText={formErrors.title}
 				/>
 			</Grid>
-			<Grid size={{ xs: 12, sm: 6 }}>
+			{/* <Grid size={{ xs: 12, sm: 6 }}>
 				<TextField
 					fullWidth
 					label="Slug"
@@ -135,7 +141,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					error={!!formErrors.slug}
 					helperText={formErrors.slug}
 				/>
-			</Grid>
+			</Grid> */}
 			<Grid size={{ xs: 12, sm: 6 }}>
 				<TextField
 					fullWidth

@@ -21,12 +21,12 @@ const ProjectCard = ({ project, isHorizontal }: { project: Project; isHorizontal
 						alt={project.thumbnailAlt || "Thumbnail Image"}
 						className="object-contain transition-transform duration-700 group-hover:scale-105 w-[90%]"
 					/> */}
-					<div className={`relative h-full ${isHorizontal ? "h-2/3 w-full" : "w-3/4"}`}>
+					<div className={`relative h-full ${isHorizontal ? "h-2/4 w-full" : "w-3/4"}`}>
 						<Image
 							src={`https://new.zero-31.com/${project.thumbnail}`}
 							alt={project.thumbnailAlt || "Thumbnail Image"}
 							fill
-							className="transition-transform duration-700 group-hover:scale-105 w-[90%]"
+							className="object-fill transition-transform duration-700 group-hover:scale-105 w-[90%]"
 						/>
 					</div>
 				</div>

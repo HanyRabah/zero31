@@ -58,6 +58,7 @@ export function ProjectPage() {
 		sections: [] as {
 			description?: string;
 			backgroundColor?: string;
+			type: string;
 			images: { url: string; alt?: string }[];
 		}[],
 	});
@@ -83,6 +84,7 @@ export function ProjectPage() {
 				sections: project.sections.map(section => ({
 					description: section.description || "",
 					backgroundColor: section.backgroundColor || "",
+					type: section.type || "",
 					images: section.images.map(img => ({
 						url: img.url,
 						alt: img.alt || "",
