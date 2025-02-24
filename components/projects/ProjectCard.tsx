@@ -16,19 +16,28 @@ const ProjectCard = ({ project, isHorizontal }: { project: Project; isHorizontal
 				{/* Image Container */}
 				{/* <div className="relative aspect-square overflow-hidden mb-16 flex items-center justify-center"> */}
 				<div className="relative aspect-square overflow-hidden mb-16 flex items-center justify-center">
+					<div className={`relative ${isHorizontal ? "w-full aspect-video" : "w-3/4 aspect-square h-full"}`}>
+						<Image
+							src={`https://new.zero-31.com/${project.thumbnail}`}
+							alt={project.thumbnailAlt || "Thumbnail Image"}
+							fill
+							className="object-cover transition-transform duration-700 group-hover:scale-105"
+						/>
+					</div>
+
 					{/* <img
 						src={`https://new.zero-31.com/${project.thumbnail}`}
 						alt={project.thumbnailAlt || "Thumbnail Image"}
 						className="object-contain transition-transform duration-700 group-hover:scale-105 w-[90%]"
 					/> */}
-					<div className={`relative h-full ${isHorizontal ? "h-2/4 w-full" : "w-3/4"}`}>
+					{/* <div className={`relative h-full ${isHorizontal ? "h-2/4 w-full" : "w-3/4"}`}>
 						<Image
 							src={`https://new.zero-31.com/${project.thumbnail}`}
 							alt={project.thumbnailAlt || "Thumbnail Image"}
 							fill
 							className="object-fill transition-transform duration-700 group-hover:scale-105 w-[90%]"
 						/>
-					</div>
+					</div> */}
 				</div>
 
 				{/* Project Info */}
