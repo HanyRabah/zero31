@@ -18,6 +18,7 @@ export function ScopeForm({ scope }: { scope?: { id: string; name: string } }) {
 				method: scope ? "PUT" : "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ name, id: scope?.id }),
+				cache: "no-store",
 			});
 
 			if (!response.ok) throw new Error("Failed to save scope");

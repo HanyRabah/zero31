@@ -24,7 +24,9 @@ const useTypes = () => {
 	const fetchTypes = useCallback(async () => {
 		setState(prev => ({ ...prev, loading: true, error: null }));
 		try {
-			const response = await fetch("/api/types");
+			const response = await fetch("/api/types", {
+				cache: "no-store",
+			});
 			if (!response.ok) {
 				throw new Error(`Failed to fetch types: ${response.statusText}`);
 			}
@@ -48,6 +50,7 @@ const useTypes = () => {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(type),
+					cache: "no-store",
 				});
 
 				if (!response.ok) {
@@ -83,6 +86,7 @@ const useTypes = () => {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(updates),
+				cache: "no-store",
 			});
 
 			if (!response.ok) {
@@ -114,6 +118,7 @@ const useTypes = () => {
 		try {
 			const response = await fetch(`/api/types/${id}`, {
 				method: "DELETE",
+				cache: "no-store",
 			});
 
 			if (!response.ok) {

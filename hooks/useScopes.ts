@@ -24,7 +24,9 @@ const useScopes = () => {
 	const fetchScopes = useCallback(async () => {
 		setState(prev => ({ ...prev, loading: true, error: null }));
 		try {
-			const response = await fetch("/api/scopes");
+			const response = await fetch("/api/scopes", {
+				cache: "no-store",
+			});
 			if (!response.ok) {
 				throw new Error(`Failed to fetch scopes: ${response.statusText}`);
 			}
@@ -48,6 +50,7 @@ const useScopes = () => {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(type),
+					cache: "no-store",
 				});
 
 				if (!response.ok) {
@@ -83,6 +86,7 @@ const useScopes = () => {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(updates),
+				cache: "no-store",
 			});
 
 			if (!response.ok) {
@@ -114,6 +118,7 @@ const useScopes = () => {
 		try {
 			const response = await fetch(`/api/scopes/${id}`, {
 				method: "DELETE",
+				cache: "no-store",
 			});
 
 			if (!response.ok) {

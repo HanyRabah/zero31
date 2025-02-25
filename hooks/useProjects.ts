@@ -3,7 +3,9 @@ import useSWR from "swr";
 import { Project } from "../types/dashboard";
 
 const fetcher = async (url: string) => {
-	const response = await fetch(url);
+	const response = await fetch(url, {
+		cache: "no-store",
+	});
 	if (!response.ok) {
 		throw new Error("An error occurred while fetching the data.");
 	}
@@ -38,6 +40,7 @@ export default function useProjects(type?: string) {
 						images: section.images || [],
 					})),
 				}),
+				cache: "no-store",
 			});
 
 			if (!response.ok) {
@@ -60,6 +63,7 @@ export default function useProjects(type?: string) {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(projectData),
+				cache: "no-store",
 			});
 
 			if (!response.ok) {
@@ -80,6 +84,7 @@ export default function useProjects(type?: string) {
 		try {
 			const response = await fetch(`/api/projects/${projectId}`, {
 				method: "DELETE",
+				cache: "no-store",
 			});
 
 			if (!response.ok) {

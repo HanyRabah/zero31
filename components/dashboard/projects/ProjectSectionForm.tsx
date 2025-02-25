@@ -125,6 +125,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 			const response = await fetch("/api/upload", {
 				method: "POST",
 				body: formData,
+				cache: "no-store",
 			});
 
 			if (!response.ok) {
@@ -167,6 +168,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 			const response = await fetch("/api/upload", {
 				method: "DELETE",
 				body: formData,
+				cache: "no-store",
 			});
 
 			if (!response.ok) {

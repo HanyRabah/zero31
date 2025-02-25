@@ -5,6 +5,7 @@ import { MultipleImages } from "./MultipleImages";
 import { ParallaxImage } from "./ParallaxImage";
 
 const ProjectSection = ({ sections }: { sections: ProjectSection[] }) => {
+	console.log("🚀 ~ ProjectSection ~ sections:", sections);
 	return (
 		<>
 			{sections.map((section: ProjectSection, index: number) => {
