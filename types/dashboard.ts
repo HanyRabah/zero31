@@ -73,7 +73,7 @@ export interface Project extends BaseModel {
 	area?: string;
 	location?: string;
 	year?: string;
-
+	isCompleted?: boolean;
 	// Relations
 	type?: ProjectType;
 	typeId?: string;

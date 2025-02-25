@@ -21,7 +21,8 @@ const ProjectCard = ({ project, isHorizontal }: { project: Project; isHorizontal
 							src={project.thumbnail}
 							alt={project.thumbnailAlt || "Thumbnail Image"}
 							fill
-							className="object-cover transition-transform duration-700 group-hover:scale-105"
+							className="object-cover"
+							//transition-transform duration-700 group-hover:scale-105
 						/>
 					</div>
 
@@ -58,11 +59,20 @@ const ProjectCard = ({ project, isHorizontal }: { project: Project; isHorizontal
 					</div>
 
 					{/* Completion Year with fade effect */}
-					{project.year && (
+					{project.isCompleted ? (
+						<p className="font-mono text-[12px] mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+							Completed
+						</p>
+					) : (
+						<p className="font-mono text-[12px] mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+							In Progress
+						</p>
+					)}
+					{/* {project.year && (
 						<p className="font-mono text-[12px] mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 							{project.year}
 						</p>
-					)}
+					)} */}
 
 					{/* Plus Icon with rotation */}
 					<motion.span

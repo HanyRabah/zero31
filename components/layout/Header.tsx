@@ -69,12 +69,12 @@ const Header = () => {
 									onClick={() => setIsMenuOpen(false)}>
 									WORK
 								</Link>
-								<Link
+								{/* <Link
 									href="/news"
 									className="text-black text-[20px] font-bold hover:opacity-80 underline underline-offset-4"
 									onClick={() => setIsMenuOpen(false)}>
 									NEWS
-								</Link>
+								</Link> */}
 								<Link
 									href="/contact"
 									className="text-black text-[20px] font-bold hover:opacity-80 underline underline-offset-4"
@@ -99,9 +99,9 @@ const Header = () => {
 						<Link href="/work" className="text-black font-bold text-lg underline underline-offset-4 hover:opacity-80">
 							WORK
 						</Link>
-						<Link href="/news" className="text-black font-bold text-lg underline underline-offset-4 hover:opacity-80">
+						{/* <Link href="/news" className="text-black font-bold text-lg underline underline-offset-4 hover:opacity-80">
 							NEWS
-						</Link>
+						</Link> */}
 						<Link
 							href="/contact"
 							className="text-black font-bold text-lg underline underline-offset-4 hover:opacity-80">

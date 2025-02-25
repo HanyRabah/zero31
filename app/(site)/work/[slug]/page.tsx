@@ -1,4 +1,5 @@
 // app/work/[work]/page.tsx
+import ContactForm from "@/components/contact/ContactForm";
 import { Metadata } from "next";
 import ProjectSection from "../../../../components/projects";
 import HeroImage from "../../../../components/projects/HeroImage";
@@ -37,6 +38,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
 			<HeroImage image={project.heroImage} alt={project.heroImageAlt} />
 			<ProjectDetails project={project as Project} />
 			<ProjectSection sections={project.sections as ProjectSectionProps[]} />
+			<ContactForm />
 		</main>
 	);
 }

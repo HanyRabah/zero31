@@ -17,33 +17,33 @@ const ProjectDetails = ({ project }: { project: Project }) => {
 				<div className="flex flex-col justify-between md:flex-row md:gap-16">
 					<div className="flex flex-col gap-8  mb-20 md:mb-0">
 						<h1 className="text-lg font-bold text-black mb-[26px]">{title}</h1>
-						{clientName && (
+						{/* {clientName && (
 							<p className="text-xs md:text-sm text-novo-grey">
-								<strong>Client Name:</strong> {clientName}
+								<strong className="font-mono">Client Name:</strong> {clientName}
 							</p>
-						)}
+						)} */}
 						{type && (
 							<p className="text-xs md:text-sm text-novo-grey">
-								<strong>Type:</strong> {type.name}
+								<strong className="font-mono">Type:</strong> {type.name}
 							</p>
 						)}
 						<p className="text-xs md:text-sm text-novo-grey">
-							<strong>Scope:</strong> {renderScopes()}
+							<strong className="font-mono">Scope:</strong> {renderScopes()}
 						</p>
 
 						{area && (
 							<p className="text-xs md:text-sm text-novo-grey">
-								<strong>Area:</strong> {area}
+								<strong className="font-mono">Area:</strong> {area}
 							</p>
 						)}
 						{location && (
 							<p className="text-xs md:text-sm text-novo-grey">
-								<strong>Location:</strong> {location}
+								<strong className="font-mono">Location:</strong> {location}
 							</p>
 						)}
 						{year && (
 							<p className="text-xs md:text-sm text-novo-grey">
-								<strong>Year:</strong> {year}
+								<strong className="font-mono">Year:</strong> {year}
 							</p>
 						)}
 					</div>
