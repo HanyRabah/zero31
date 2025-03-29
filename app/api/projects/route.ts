@@ -65,6 +65,7 @@ export async function POST(request: Request) {
 								create: sections.map((section: any) => ({
 									description: section.description || "",
 									backgroundColor: section.backgroundColor || "",
+									type: section.type || "",
 									images:
 										section.images?.length > 0
 											? {
@@ -95,7 +96,7 @@ export async function POST(request: Request) {
 
 		return NextResponse.json(project);
 	} catch (error: any) {
-		console.error("Project creation error:", error);
+		console.error("Project creation error:", error.stack);
 		return NextResponse.json(
 			{
 				error: `Error creating project: ${error.message}`,

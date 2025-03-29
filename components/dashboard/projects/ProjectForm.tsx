@@ -11,6 +11,9 @@ import {
 	Select,
 	TextField,
 } from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Switch from "@mui/material/Switch";
 import { Image } from "@prisma/client";
 import { Dispatch, SetStateAction } from "react";
 import ImageUpload from "../../../components/ui/image-upload";
@@ -160,7 +163,13 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					<InputLabel>Project Type</InputLabel>
 					<Select
 						value={project.typeId}
-						onChange={e => setFormData((prev: Project) => ({ ...prev, typeId: e.target.value }))}
+						onChange={e =>
+							setFormData((prev: Project) => ({
+								...prev,
+								typeId: e.target.value,
+								type: types.find(t => t.id === e.target.value),
+							}))
+						}
 						input={<OutlinedInput label="Project Type" />}
 						required
 						renderValue={selected => {
@@ -226,6 +235,18 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					value={project.year}
 					onChange={e => setFormData((prev: Project) => ({ ...prev, year: e.target.value }))}
 				/>
+			</Grid>
+			<Grid size={{ xs: 12, sm: 6 }}>
+				<FormControl component="fieldset">
+					<FormGroup aria-label="position" row>
+						<FormControlLabel
+							value={project.isCompleted}
+							control={<Switch color="primary" checked={project.isCompleted} />}
+							label={project.isCompleted ? "Completed" : "In Progress"}
+							onChange={() => setFormData((prev: Project) => ({ ...prev, isCompleted: !project.isCompleted }))}
+						/>
+					</FormGroup>
+				</FormControl>
 			</Grid>
 
 			{/* Description */}

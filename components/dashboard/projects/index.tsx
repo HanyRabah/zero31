@@ -22,6 +22,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { format } from "date-fns";
+import Image from "next/image";
 import { useState } from "react";
 import useProjects from "../../../hooks/useProjects";
 import { Project } from "../../../types/dashboard";
@@ -55,6 +56,7 @@ export function ProjectPage() {
 		location: "",
 		typeId: "",
 		scopes: [] as string[],
+		isCompleted: false,
 		sections: [] as {
 			description?: string;
 			backgroundColor?: string;
@@ -78,6 +80,7 @@ export function ProjectPage() {
 				thumbnailAlt: project.thumbnailAlt,
 				typeId: project.typeId || "",
 				scopes: project.scopes.map(s => s.scope.id),
+				isCompleted: project.isCompleted || false,
 				year: project.year || "",
 				area: project.area || "",
 				location: project.location || "",
@@ -113,6 +116,7 @@ export function ProjectPage() {
 			thumbnailAlt: "",
 			typeId: "",
 			scopes: [],
+			isCompleted: false,
 			year: "",
 			area: "",
 			location: "",
@@ -175,10 +179,12 @@ export function ProjectPage() {
 							url: img.url,
 							alt: img.alt || "",
 						})),
+					type: section.type || "",
 				})),
 				// Ensure scopes is always an array
 				// @ts-expect-error - Ensure scopes is always an array
 				scopes: formData.scopes || [],
+				isCompleted: formData.isCompleted,
 			};
 
 			if (projectModal.project?.id) {
@@ -250,6 +256,7 @@ export function ProjectPage() {
 							<TableCell>Type</TableCell>
 							<TableCell>Scopes</TableCell>
 							<TableCell>Year</TableCell>
+							<TableCell>Status</TableCell>
 							<TableCell>Last Updated</TableCell>
 							<TableCell align="right">Actions</TableCell>
 						</TableRow>
@@ -261,12 +268,7 @@ export function ProjectPage() {
 									<TableCell>
 										<Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 											<Avatar variant="rounded" sx={{ width: 56, height: 56, position: "relative" }}>
-												{/* <Image src={project.thumbnail} alt={project.thumbnailAlt} fill style={{ objectFit: "cover" }} /> */}
-												<img
-													src={project.thumbnail}
-													alt={project.thumbnailAlt || "Thumbnail Image"}
-													className="object-cover w-full h-full"
-												/>
+												<Image src={project.thumbnail} alt={project.thumbnailAlt} fill style={{ objectFit: "cover" }} />
 											</Avatar>
 											<Box>
 												<Typography variant="subtitle2">{project.title}</Typography>
@@ -295,6 +297,13 @@ export function ProjectPage() {
 										</Box>
 									</TableCell>
 									<TableCell>{project.year}</TableCell>
+									<TableCell>
+										<Chip
+											label={project.isCompleted ? "Completed" : "In Progress"}
+											color={project.isCompleted ? "primary" : "success"}
+											className="text-xs"
+										/>
+									</TableCell>
 									<TableCell>{format(new Date(project.updatedAt), "MMM d, yyyy")}</TableCell>
 									<TableCell align="right">
 										<Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
