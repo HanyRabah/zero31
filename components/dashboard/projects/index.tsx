@@ -23,7 +23,8 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import Image from "next/image";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import useProjects from "../../../hooks/useProjects";
 import { Project } from "../../../types/dashboard";
 import { ProjectForm } from "./ProjectForm";
@@ -36,6 +37,8 @@ interface ProjectModalState {
 
 export function ProjectPage() {
 	const { data: projects, loading, deleteProject, addProject, updateProject } = useProjects();
+	const searchParams = useSearchParams();
+	const search = searchParams.get("action");
 	const [projectModal, setProjectModal] = useState<ProjectModalState>({
 		open: false,
 		project: null,
@@ -238,6 +241,12 @@ export function ProjectPage() {
 		setProjectToDelete(null);
 		setDeleteDialogOpen(false);
 	};
+
+	useEffect(() => {
+		if (search === "new") {
+			handleOpenModal();
+		}
+	}, [search]);
 
 	return (
 		<>

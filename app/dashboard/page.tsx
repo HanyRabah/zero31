@@ -15,19 +15,19 @@ const quickActions = [
 	{
 		title: "Create New Project",
 		description: "Add a new project to the portfolio",
-		href: "/dashboard/projects/new",
+		href: "/dashboard/projects?action=new",
 		icon: AddCircleOutline,
 	},
 	{
 		title: "Add New User",
 		description: "Create a new user account",
-		href: "/dashboard/users/new",
+		href: "/dashboard/users?action=new",
 		icon: People,
 	},
 	{
 		title: "Add Project Type",
 		description: "Create a new project type",
-		href: "/dashboard/projects/types/new",
+		href: "/dashboard/projects/types?action=new",
 		icon: Folder,
 	},
 ];

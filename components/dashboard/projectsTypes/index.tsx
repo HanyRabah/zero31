@@ -20,7 +20,8 @@ import {
 	Tooltip,
 	Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import useTypes from "../../../hooks/useTypes";
 
 interface ProjectType {
@@ -45,7 +46,8 @@ interface ProjectType {
 
 export function TypeList() {
 	const { data: types, loading, error, deleteType, addType, updateType } = useTypes();
-
+	const searchParams = useSearchParams();
+	const search = searchParams.get("action");
 	// State for delete dialog
 	const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; type: ProjectType | null }>({
 		open: false,
@@ -112,6 +114,12 @@ export function TypeList() {
 			setDeleteDialog({ open: false, type: null });
 		}
 	};
+
+	useEffect(() => {
+		if (search === "add") {
+			handleOpenModal();
+		}
+	}, [search, types]);
 
 	return (
 		<>

@@ -28,7 +28,8 @@ import {
 } from "@mui/material";
 import { User } from "@prisma/client";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import useUsers from "../../../hooks/useUsers";
 
 interface UserModalState {
@@ -46,6 +47,8 @@ type Errors = {
 
 function UserList() {
 	const { data: users, loading, error, deleteUser, addUser, updateUser } = useUsers();
+	const searchParams = useSearchParams();
+	const search = searchParams.get("action");
 
 	// State for delete dialog
 	const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; user: User | null }>({
@@ -144,6 +147,11 @@ function UserList() {
 		}
 	};
 
+	useEffect(() => {
+		if (search === "new") {
+			handleOpenModal();
+		}
+	}, [search]);
 	return (
 		<>
 			<Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
