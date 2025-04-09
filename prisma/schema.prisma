@@ -1,4 +1,4 @@
-// prisma/schema.dev.prisma
+// prisma/schema.prisma
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -24,6 +24,7 @@ enum Role {
   EDITOR
 }
 
+// Project type and scope as separate tables for flexibility
 model ProjectType {
   id          String    @id @default(cuid())
   name        String    @unique
@@ -40,23 +41,25 @@ model ProjectScope {
   updatedAt DateTime          @updatedAt
 }
 
+// Main project table
 model Project {
   id            String             @id @default(cuid())
   slug          String             @unique  // Add this field
   title         String?
   clientName    String
-  heroImage     String
+  heroImage     String             @db.Text
   heroImageAlt  String
-  thumbnail     String
+  thumbnail     String             @db.Text
   thumbnailAlt  String
-  description   String
+  description   String             @db.Text
   area          String?
   location      String?
   year          String?
-  isCompleted   Boolean            @default(false) // 👈 ADD THIS LINE
+  isCompleted   Boolean            @default(false) 
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
   
+  // Relations
   type          ProjectType?       @relation(fields: [typeId], references: [id])
   typeId        String?
   scopes        ProjectsOnScopes[]
@@ -65,6 +68,7 @@ model Project {
   @@index([typeId])
 }
 
+// Junction table for many-to-many relationship between Project and ProjectScope
 model ProjectsOnScopes {
   project       Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId     String
@@ -76,14 +80,16 @@ model ProjectsOnScopes {
   @@index([scopeId])
 }
 
+// Project sections
 model ProjectSection {
   id              String   @id @default(cuid())
-  description     String?
+  description     String?  @db.Text
   type            String   @default("Description") 
   backgroundColor String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   
+  // Relations
   project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId       String
   images          Image[]
@@ -91,13 +97,15 @@ model ProjectSection {
   @@index([projectId])
 }
 
+// Images for project sections
 model Image {
   id              String         @id @default(cuid())
-  url             String
+  url             String        @db.Text
   alt             String?
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   
+  // Relations
   section         ProjectSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   sectionId       String
 
