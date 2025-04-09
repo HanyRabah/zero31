@@ -42,11 +42,13 @@ export async function POST(request: Request) {
 		if (!projectData.title || !projectData.clientName || !projectData.description) {
 			return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
 		}
+		const { typeId, ...rest } = projectData;
 
 		// Create the project
 		const project = await prisma.project.create({
 			data: {
-				...projectData,
+				...rest,
+				type: typeId ? { connect: { id: typeId } } : undefined,
 				// Connect scopes if they exist
 				scopes:
 					scopes?.length > 0
@@ -124,12 +126,14 @@ export async function PUT(request: Request) {
 		await prisma.projectSection.deleteMany({
 			where: { projectId: id },
 		});
+		const { typeId, ...rest } = projectData;
 
 		// Then update the project with new data
 		const project = await prisma.project.update({
 			where: { id },
 			data: {
-				...projectData,
+				...rest,
+				type: typeId ? { connect: { id: typeId } } : undefined,
 				scopes:
 					scopes?.length > 0
 						? {
