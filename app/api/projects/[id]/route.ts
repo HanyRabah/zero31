@@ -40,11 +40,14 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 			}),
 		]);
 
+		const { typeId, ...restProjectData } = projectData;
+
 		// Then update the project with new data
 		const updatedProject = await prisma.project.update({
 			where: { id },
 			data: {
-				...projectData,
+				...restProjectData,
+				type: typeId ? { connect: { id: typeId } } : undefined,
 				scopes: {
 					create:
 						scopes?.map((scopeId: string) => ({
@@ -85,7 +88,7 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 
 		return NextResponse.json(updatedProject);
 	} catch (error: any) {
-		console.error("Project update error:", error);
+		console.error("Project update error:", error.stack);
 		return NextResponse.json(
 			{
 				error: `Error updating project: ${error.message}`,
