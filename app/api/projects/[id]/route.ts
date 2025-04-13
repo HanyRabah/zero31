@@ -1,4 +1,5 @@
 // app/api/projects/[projectId]/route.ts
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 
@@ -86,7 +87,14 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 			},
 		});
 
-		return NextResponse.json(updatedProject);
+		revalidateTag("projects-list");
+		revalidateTag(`project-${id}`);
+
+		return NextResponse.json(updatedProject, {
+			headers: {
+				"Cache-Control": "no-store, must-revalidate, max-age=0",
+			},
+		});
 	} catch (error: any) {
 		console.error("Project update error:", error.stack);
 		return NextResponse.json(
@@ -120,7 +128,17 @@ export async function DELETE(request: Request, { params }: { params: Params }) {
 			where: { id },
 		});
 
-		return NextResponse.json({ message: "Project deleted" });
+		revalidateTag("projects-list");
+		revalidateTag(`project-${id}`);
+
+		return NextResponse.json(
+			{ message: "Project deleted" },
+			{
+				headers: {
+					"Cache-Control": "no-store, must-revalidate, max-age=0",
+				},
+			}
+		);
 	} catch (error: any) {
 		console.error("Delete project error:", error.stack);
 		return NextResponse.json(

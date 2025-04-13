@@ -25,7 +25,11 @@ export async function GET(request: Request) {
 
 		// Add proper error handling and logging
 		console.log(`Found ${projects.length} projects`);
-		return NextResponse.json(projects);
+		return NextResponse.json(projects, {
+			headers: {
+				"Cache-Control": "no-store, must-revalidate, max-age=0",
+			},
+		});
 	} catch (error) {
 		return NextResponse.json({ error: `Error fetching projects ${error}` }, { status: 500 });
 	}
@@ -96,7 +100,11 @@ export async function POST(request: Request) {
 			},
 		});
 
-		return NextResponse.json(project);
+		return NextResponse.json(project, {
+			headers: {
+				"Cache-Control": "no-store, must-revalidate, max-age=0",
+			},
+		});
 	} catch (error: any) {
 		console.error("Project creation error:", error.stack);
 		return NextResponse.json(
@@ -178,7 +186,11 @@ export async function PUT(request: Request) {
 			},
 		});
 
-		return NextResponse.json(project);
+		return NextResponse.json(project, {
+			headers: {
+				"Cache-Control": "no-store, must-revalidate, max-age=0",
+			},
+		});
 	} catch (error: any) {
 		console.error("Project update error:", error);
 		return NextResponse.json(

@@ -39,7 +39,7 @@ const neueHaas = localFont({
 
 export const metadata: Metadata = {
 	title: "ZERO31° - Architecture & Design Studio",
-	description: "We think of design is a human instinct to make things better, and enjoy the good things in life.",
+	description: "We think of design as a human instinct to make things better, and enjoy the good things in life.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

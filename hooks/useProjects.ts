@@ -5,6 +5,10 @@ import { Project } from "../types/dashboard";
 const fetcher = async (url: string) => {
 	const response = await fetch(url, {
 		cache: "no-store",
+		// Add next config with tags for revalidation
+		next: {
+			tags: ["projects-list"],
+		},
 	});
 	if (!response.ok) {
 		throw new Error("An error occurred while fetching the data.");
@@ -31,9 +35,7 @@ export default function useProjects(type?: string) {
 				},
 				body: JSON.stringify({
 					...data,
-					// Don't send undefined id
 					id: undefined,
-					// Ensure required arrays are present
 					scopes: data.scopes || [],
 					sections: (data.sections || []).map(section => ({
 						...section,
@@ -49,7 +51,13 @@ export default function useProjects(type?: string) {
 			}
 
 			const updatedProject = await response.json();
-			await mutate(); // Refetch all data
+
+			// Explicitly revalidate the specific project's data
+			await fetch(`/api/revalidate?path=/projects/${projectId}`);
+
+			// Refresh all projects in SWR cache
+			await mutate();
+
 			return updatedProject;
 		} catch (error: any) {
 			console.error("Update project error:", error);
@@ -72,7 +80,13 @@ export default function useProjects(type?: string) {
 			}
 
 			const newProject = await response.json();
-			await mutate(); // Refetch the data
+
+			// Revalidate the projects list
+			await fetch(`/api/revalidate?path=/projects`);
+
+			// Refresh data in SWR cache
+			await mutate();
+
 			return newProject;
 		} catch (error) {
 			console.error("Add project error:", error);
@@ -92,7 +106,12 @@ export default function useProjects(type?: string) {
 				throw new Error(error.message || "Failed to delete project");
 			}
 
-			await mutate(); // Refetch the data
+			// Revalidate projects list
+			await fetch(`/api/revalidate?path=/projects`);
+
+			// Refresh data in SWR cache
+			await mutate();
+
 			return true;
 		} catch (error) {
 			console.error("Delete project error:", error);
