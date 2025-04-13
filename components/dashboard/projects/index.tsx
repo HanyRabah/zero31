@@ -131,7 +131,6 @@ export function ProjectPage() {
 	const validateForm = () => {
 		const errors: Record<string, string> = {};
 		if (!formData.title) errors.title = "Title is required";
-		if (!formData.slug) errors.title = "Slug is required";
 		if (!formData.clientName) errors.clientName = "Client name is required";
 		if (!formData.description) errors.description = "Description is required";
 		if (!formData.heroImage) errors.heroImage = "Hero image is required";
@@ -155,6 +154,13 @@ export function ProjectPage() {
 		return Object.keys(errors).length === 0;
 	};
 
+	const createSlugfromTitle = (title: string) => {
+		return title
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, "-")
+			.replace(/^-|-$/g, "")
+			.slice(0, 50);
+	};
 	const handleSubmit = async () => {
 		if (!validateForm()) return;
 		setProjectModal(prev => ({ ...prev, loading: true }));
@@ -163,7 +169,7 @@ export function ProjectPage() {
 				...formData,
 				// Ensure all required fields are present
 				title: formData.title.trim(),
-				slug: formData.slug.trim(),
+				slug: createSlugfromTitle(formData.title.trim()),
 				clientName: formData.clientName.trim(),
 				description: formData.description.trim(),
 				heroImage: formData.heroImage,
