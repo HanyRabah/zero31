@@ -1,6 +1,7 @@
 // app/work/[work]/page.tsx
 import ContactForm from "@/components/contact/ContactForm";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import ProjectSection from "../../../../components/projects";
 import HeroImage from "../../../../components/projects/HeroImage";
 import ProjectDetails from "../../../../components/projects/ProjectDetails";
@@ -21,6 +22,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 	const { slug } = await params;
 	const project = await getProject(slug);
 
+	if (!project) {
+		notFound();
+	}
 	return {
 		title: project.title || project.clientName || "Work",
 		description:
@@ -32,7 +36,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function ProjectPage({ params }: { params: Params }) {
 	const { slug } = await params;
 	const project = await getProject(slug);
-
+	if (!project) {
+		notFound();
+	}
 	return (
 		<main className="flex-grow pt-[72px]">
 			<HeroImage image={project.heroImage} alt={project.heroImageAlt} />

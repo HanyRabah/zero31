@@ -4,7 +4,7 @@ import { Image as ImageType } from "@/types/dashboard";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
-export const ParallaxImage = ({ images }: { images: ImageType[] }) => {
+const ParallaxImage = ({ images }: { images: ImageType[] }) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	const { scrollYProgress } = useScroll({
@@ -37,3 +37,4 @@ export const ParallaxImage = ({ images }: { images: ImageType[] }) => {
 		</>
 	);
 };
+export default ParallaxImage;

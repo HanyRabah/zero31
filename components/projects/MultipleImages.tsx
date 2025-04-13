@@ -3,7 +3,7 @@ import { Image as ImageType } from "@/types/dashboard";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-export const MultipleImages = ({ images }: { images: ImageType[] }) => {
+const MultipleImages = ({ images }: { images: ImageType[] }) => {
 	return (
 		<div className="py-10 md:py-64 px-4 md:px-16">
 			<motion.div
@@ -11,7 +11,7 @@ export const MultipleImages = ({ images }: { images: ImageType[] }) => {
 				initial={{ opacity: 0, y: 20 }}
 				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ once: true }}
-				transition={{ duration: 0.6 }}>
+				transition={{ duration: 0.2 }}>
 				{images.map((image, index) => (
 					<motion.div
 						key={index}
@@ -33,3 +33,4 @@ export const MultipleImages = ({ images }: { images: ImageType[] }) => {
 		</div>
 	);
 };
+export default MultipleImages;

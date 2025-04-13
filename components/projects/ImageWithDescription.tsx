@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-export const ImageWithDescription = ({
+const ImageWithDescription = ({
 	description,
 	image,
 	imageAlt,
@@ -19,7 +19,7 @@ export const ImageWithDescription = ({
 				initial={{ opacity: 0, y: 20 }}
 				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ once: true }}
-				transition={{ duration: 0.6 }}>
+				transition={{ duration: 0.2 }}>
 				<motion.div
 					className="relative aspect-[4/3] overflow-hidden"
 					initial={{ opacity: 0, y: 20 }}
@@ -42,3 +42,4 @@ export const ImageWithDescription = ({
 		</div>
 	);
 };
+export default ImageWithDescription;
