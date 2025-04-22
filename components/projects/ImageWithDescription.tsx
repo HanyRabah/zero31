@@ -36,7 +36,7 @@ const ImageWithDescription = ({
 				</motion.div>
 				{/* Content */}
 				<div className="max-w-xl">
-					<p className="text-base md:text-lg leading-relaxed text-gray-600">{description}</p>
+					<p className="text-sm md:text-sm text-novo-grey leading-relaxed text-gray-600">{description}</p>
 				</div>
 			</motion.div>
 		</div>

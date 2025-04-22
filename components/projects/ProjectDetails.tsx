@@ -48,7 +48,7 @@ const ProjectDetails = ({ project }: { project: Project }) => {
 						)}
 					</div>
 					<div className="width-full md:w-1/3 mt-[36px]">
-						<p className="text-sm md:text-sm text-novo-grey ">{description}</p>
+						<p className="text-sm md:text-sm text-novo-grey">{description}</p>
 					</div>
 				</div>
 			</div>

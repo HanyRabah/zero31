@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { ChevronRight, ExternalLink, Mail, MapPin } from "lucide-react";
+import { ChevronRight, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -26,46 +26,59 @@ const variantColor = {
 const ContactInfo = ({
 	title,
 	content,
+	secondaryContent,
 	link,
-	icon,
+	secondaryLink,
 	className,
+	type = "two-line",
 }: {
 	title: string;
 	content: string;
+	secondaryContent?: string;
 	link?: string;
-	icon: React.ElementType;
+	secondaryLink?: string;
 	className?: string;
+	type?: "one-line" | "two-line";
 }) => {
-	const IconComponent = icon;
-
 	if (link) {
 		return (
-			<a
-				href={link}
-				target="_blank"
-				rel="noopener noreferrer"
-				className={cn("flex items-start gap-3 group", className)}>
-				<div className="mt-1">
-					<IconComponent className="h-18 w-18" />
-				</div>
-				<div className="flex-1 flex flex-row">
-					<p className="font-medium text-sm w-[30%]">{title}</p>
-					<p className="text-xs transition-colors group-hover:text-primary">{content}</p>
-				</div>
+			<div
+				className={cn(
+					"flex",
+					type === "two-line" ? "items-start flex-col gap-4" : "flex-row align-baseline items-center gap-4",
+					className
+				)}>
+				<p className="font-bold text-xs">{title}</p>
+				<a
+					href={link}
+					target="_blank"
+					rel="noopener noreferrer"
+					className="text-xs transition-colors rounded-sm p-2  group hover:bg-primary">
+					{content}
+				</a>
+				{secondaryContent && (
+					<a
+						href={secondaryLink}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="text-xs transition-colors rounded-sm p-2  group hover:bg-primary">
+						{secondaryContent}
+					</a>
+				)}
 				{title === "Location" && <ExternalLink className="h-3 w-3 mt-1 opacity-70 group-hover:opacity-100" />}
-			</a>
+			</div>
 		);
 	}
 
 	return (
-		<div className={cn("flex items-center align-middle gap-3", className)}>
-			<div className="mt-1">
-				<IconComponent className="h-4 w-4" />
-			</div>
-			<div>
-				<p className="font-medium text-sm">{title}</p>
-				<p className="text-xs">{content}</p>
-			</div>
+		<div
+			className={cn(
+				"flex",
+				type === "two-line" ? "items-start flex-col gap-3 group" : "flex-row align-baseline items-center gap-4",
+				className
+			)}>
+			<p className="font-bold text-xs">{title}</p>
+			<p className="text-xs ">{content}</p>
 		</div>
 	);
 };
@@ -108,30 +121,30 @@ const ContactForm = ({ variant = "dark" }: { variant?: "dark" | "light" }) => {
 		<section className={background}>
 			<div className="container mx-auto py-[60px] px-[20px] md:py-80 md:px-96">
 				<motion.div
-					className="grid grid-cols-1 lg:grid-cols-2 gap-32"
+					className="grid grid-cols-1 lg:grid-cols-12 gap-32" // Changed from lg:grid-cols-2 to lg:grid-cols-12
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ duration: 0.6 }}>
-					{/* Left side - Image & Contact Info */}
+					{/* Left side - Image & Contact Info (spans 5 columns) */}
 					<motion.div
-						className="flex flex-col gap-6"
+						className="flex flex-col gap-6 align-middle justify-center items-center lg:items-center lg:justify-center lg:col-span-5" // Added lg:col-span-5
 						initial={{ opacity: 0, x: -20 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.6 }}>
 						{/* Image */}
 						<motion.div
-							className="relative aspect-square mb-[20px] overflow-hidden rounded-lg"
+							className="relative mb-[20px]  overflow-hidden rounded-lg w-full h-full"
 							whileHover={{ scale: 1.02 }}
 							transition={{ duration: 0.6, ease: "easeOut" }}>
 							<Image src="/images/contact-form-image.jpg" layout="fill" objectFit="cover" alt="Contact us" />
 						</motion.div>
 					</motion.div>
 
-					{/* Right side - Form */}
+					{/* Right side - Form (spans 7 columns) */}
 					<motion.div
-						className={`${text} w-full`}
+						className={`${text} w-full lg:col-span-7`} // Added lg:col-span-7
 						initial={{ opacity: 0, x: 20 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
@@ -145,6 +158,7 @@ const ContactForm = ({ variant = "dark" }: { variant?: "dark" | "light" }) => {
 						</p>
 
 						<form onSubmit={handleSubmit} className="space-y-24 mb-10">
+							{/* Form inputs remain unchanged */}
 							<Input
 								type="text"
 								placeholder="Name"
@@ -192,6 +206,7 @@ const ContactForm = ({ variant = "dark" }: { variant?: "dark" | "light" }) => {
 								<ChevronRight className="h-[18px] font-thin ml-2 group-hover:translate-x-1" />
 							</Button>
 						</form>
+						<ContactCard />
 					</motion.div>
 				</motion.div>
 			</div>
@@ -217,45 +232,36 @@ const ContactCard = ({
 }) => {
 	return (
 		<motion.div
-			className={cn("p-6 rounded-lg backdrop-blur-sm", contactCardBg, borderColor, "border", text)}
+			className={cn("p-6  backdrop-blur-sm", text)}
 			initial={{ opacity: 0, y: 20 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true }}
 			transition={{ duration: 0.6, delay: 0.3 }}>
-			<h2 className="text-[22px] md:text-[32px] leading-[22px] md:leading-[32px] tracking-tight font-title mb-[18px]">
-				Contact Us
-			</h2>
-
 			<div className="space-y-5">
 				{/* Email Contacts */}
-				<div className="space-y-3">
-					<ContactInfo title="Projects" content="reach@zero-31.com" icon={Mail} link="mailto:reach@zero-31.com" />
+				<div className="space-y-3 flex flex-row justify-between items-center">
+					<ContactInfo title="Projects:" content="reach@zero-31.com" link="mailto:reach@zero-31.com" />
+
+					<ContactInfo title="Brand & Marketing:" content="brand@zero-31.com" link="mailto:brand@zero-31.com" />
 
 					<ContactInfo
-						title="Management"
-						content="ss@zero-31.com, kz@zero-31.com"
-						icon={Mail}
-						link="mailto:ss@zero-31.com,kz@zero-31.com"
-					/>
-
-					<ContactInfo
-						title="Brand & Marketing"
-						content="brand@zero-31.com"
-						icon={Mail}
-						link="mailto:brand@zero-31.com"
+						title="Management:"
+						content="ss@zero-31.com"
+						secondaryContent="kz@zero-31.com"
+						link="mailto:ss@zero-31.com"
+						secondaryLink="mailto:kz@zero-31.com"
 					/>
 				</div>
 
 				{/* Address */}
-				<div className="pt-2 border-t border-current/20">
-					<ContactInfo title="Address" content="34 El-Safa Street, Sheikh Zayed, Giza, Egypt" icon={MapPin} />
+				<div className="pt-6 border-current/20">
+					<ContactInfo title="Office:" content="34 El-Safa Street, Sheikh Zayed, Giza, Egypt" type="one-line" />
 
 					<ContactInfo
-						title="Location"
+						title="Location:"
 						content="View on Google Maps"
-						icon={MapPin}
 						link="https://maps.app.goo.gl/Kvf1GRWu9NuGowYf9"
-						className="mt-3"
+						type="one-line"
 					/>
 				</div>
 			</div>
