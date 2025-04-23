@@ -14,7 +14,6 @@ import {
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
 import Switch from "@mui/material/Switch";
-import { Image } from "@prisma/client";
 import { Dispatch, SetStateAction } from "react";
 import ImageUpload from "../../../components/ui/image-upload";
 import useScopes from "../../../hooks/useScopes";
@@ -100,19 +99,19 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 			console.error("Delete error:", error);
 		}
 	};
-	const handleSectionChange = (sections: any[]) => {
-		setFormData((prev: Project) => ({
-			...prev,
-			sections: sections.map(section => ({
-				description: section.description || "",
-				backgroundColor: section.backgroundColor || "",
-				images: section.images.map((img: Image) => ({
-					url: img.url,
-					alt: img.alt || "",
-				})),
-			})),
-		}));
-	};
+	// const handleSectionChange = (sections: any[]) => {
+	// 	setFormData((prev: Project) => ({
+	// 		...prev,
+	// 		sections: sections.map(section => ({
+	// 			description: section.description || "",
+	// 			backgroundColor: section.backgroundColor || "",
+	// 			images: section.images.map((img: Image) => ({
+	// 				url: img.url,
+	// 				alt: img.alt || "",
+	// 			})),
+	// 		})),
+	// 	}));
+	// };
 
 	return (
 		<Grid container spacing={3} pt={3}>
@@ -275,6 +274,8 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					}}
 					preview={project.thumbnail}
 					maxSize={5}
+					size="600 x 400 px landscape or 400 x 600 portrait"
+					ratio="3:2 landscape or 2:3 portrait"
 				/>
 				{formErrors.thumbnail && <FormHelperText error>{formErrors.thumbnail}</FormHelperText>}
 				{formErrors.thumbnailAlt && <FormHelperText error>{formErrors.thumbnailAlt}</FormHelperText>}
@@ -291,6 +292,8 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					}}
 					preview={project.heroImage}
 					maxSize={5}
+					size="1500 x 500"
+					ratio="3:1"
 				/>
 				{formErrors.heroImage && <FormHelperText error>{formErrors.heroImage}</FormHelperText>}
 				{formErrors.heroImageAlt && <FormHelperText error>{formErrors.heroImageAlt}</FormHelperText>}

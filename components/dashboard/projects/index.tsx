@@ -1,7 +1,9 @@
 // components/dashboard/index.tsx
 "use client";
-import { Add as AddIcon, Delete, Edit } from "@mui/icons-material";
+import { Add as AddIcon, Delete, DragIndicator, Edit } from "@mui/icons-material";
 import {
+	AlertColor,
+	AlertProps,
 	Avatar,
 	Box,
 	Button,
@@ -11,7 +13,9 @@ import {
 	DialogContent,
 	DialogTitle,
 	IconButton,
+	Alert as MuiAlert,
 	Paper,
+	Snackbar,
 	Table,
 	TableBody,
 	TableCell,
@@ -22,12 +26,18 @@ import {
 	Typography,
 } from "@mui/material";
 import { format } from "date-fns";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import useProjects from "../../../hooks/useProjects";
-import { Project } from "../../../types/dashboard";
+import { Project, ProjectSection, ProjectsOnScopes } from "../../../types/dashboard";
+import { DragDropContextClient } from "./DragDropContextClient";
 import { ProjectForm } from "./ProjectForm";
+
+const Droppable = dynamic(() => import("react-beautiful-dnd").then(mod => mod.Droppable), { ssr: false });
+
+const Draggable = dynamic(() => import("react-beautiful-dnd").then(mod => mod.Draggable), { ssr: false });
 
 interface ProjectModalState {
 	open: boolean;
@@ -35,14 +45,27 @@ interface ProjectModalState {
 	loading: boolean;
 }
 
+const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export function ProjectPage() {
-	const { data: projects, loading, deleteProject, addProject, updateProject } = useProjects();
+	const { data: projects, loading, deleteProject, addProject, updateProject, reorderProjects } = useProjects();
 	const searchParams = useSearchParams();
 	const search = searchParams.get("action");
 	const [projectModal, setProjectModal] = useState<ProjectModalState>({
 		open: false,
 		project: null,
 		loading: false,
+	});
+	const [orderedProjects, setOrderedProjects] = useState<Project[]>([]);
+	const [dragEnabled, setDragEnabled] = useState(true);
+	const [errorMessage, setErrorMessage] = useState("");
+	const [showErrorSnackbar, setShowErrorSnackbar] = useState(false);
+	const [snackbar, setSnackbar] = useState({
+		open: false,
+		message: "",
+		severity: "success" as AlertColor,
 	});
 
 	const [formData, setFormData] = useState({
@@ -58,14 +81,9 @@ export function ProjectPage() {
 		area: "",
 		location: "",
 		typeId: "",
-		scopes: [] as string[],
+		scopes: [] as ProjectsOnScopes[],
 		isCompleted: false,
-		sections: [] as {
-			description?: string;
-			backgroundColor?: string;
-			type: string;
-			images: { url: string; alt?: string }[];
-		}[],
+		sections: [] as ProjectSection[],
 	});
 
 	const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -82,6 +100,7 @@ export function ProjectPage() {
 				thumbnail: project.thumbnail,
 				thumbnailAlt: project.thumbnailAlt,
 				typeId: project.typeId || "",
+				// @ts-expect-error I don't know
 				scopes: project.scopes.map(s => s.scope.id),
 				isCompleted: project.isCompleted || false,
 				year: project.year || "",
@@ -139,10 +158,8 @@ export function ProjectPage() {
 		if (!formData.thumbnailAlt) errors.thumbnailAlt = "Thumbnail alt is required";
 		if (!formData.typeId) errors.typeId = "Project type is required";
 		if (formData.scopes.length === 0) errors.scopes = "At least one scope is required";
-		// validate if there is a section with no description
-		// validate section image and alt
+
 		formData.sections.forEach((section, index) => {
-			//if (!section.description) errors[`sections[${index}].description`] = "Description is required";
 			if (section.images.length === 0) errors[`sections[${index}].images`] = "At least one image is required";
 			section.images.forEach((img, imgIndex) => {
 				if (!img?.url) errors[`sections[${index}].images[${imgIndex}].url`] = "Image is required";
@@ -161,13 +178,13 @@ export function ProjectPage() {
 			.replace(/^-|-$/g, "")
 			.slice(0, 50);
 	};
+
 	const handleSubmit = async () => {
 		if (!validateForm()) return;
 		setProjectModal(prev => ({ ...prev, loading: true }));
 		try {
 			const submitData: Project = {
 				...formData,
-				// Ensure all required fields are present
 				title: formData.title.trim(),
 				slug: createSlugfromTitle(formData.title.trim()),
 				clientName: formData.clientName.trim(),
@@ -177,8 +194,6 @@ export function ProjectPage() {
 				thumbnail: formData.thumbnail,
 				thumbnailAlt: formData.thumbnailAlt || "",
 				typeId: formData.typeId,
-				// Format sections properly
-				// @ts-expect-error - Ensure description is always a string
 				sections: formData.sections.map(section => ({
 					description: section.description?.trim() || "",
 					backgroundColor: section.backgroundColor || "",
@@ -190,26 +205,25 @@ export function ProjectPage() {
 						})),
 					type: section.type || "",
 				})),
-				// Ensure scopes is always an array
-				// @ts-expect-error - Ensure scopes is always an array
 				scopes: formData.scopes || [],
 				isCompleted: formData.isCompleted,
 			};
 
 			if (projectModal.project?.id) {
-				// For updates, include the ID in the submission data
 				await updateProject(projectModal.project.id, {
 					...submitData,
 					id: projectModal.project.id,
 				});
+				handleSuccessfulOperation("updated");
 			} else {
 				await addProject(submitData);
+				handleSuccessfulOperation("added");
 			}
 
 			handleCloseModal();
 		} catch (error: any) {
 			console.error("Submission error:", error);
-			// Set form-level error
+			showNotification(`Failed to submit project: ${error.message || "Unknown error"}`, "error");
 			setFormErrors(prev => ({
 				...prev,
 				submit: error.message || "Failed to submit project",
@@ -218,8 +232,7 @@ export function ProjectPage() {
 			setProjectModal(prev => ({ ...prev, loading: false }));
 		}
 	};
-
-	// For the delete dialog, fix the setDeleteDialog reference:
+	// For the delete dialog
 	const handleDeleteDialogClose = () => {
 		setProjectToDelete(null);
 		setDeleteDialogOpen(false);
@@ -238,14 +251,67 @@ export function ProjectPage() {
 		setDeleteDialogOpen(false);
 		try {
 			await deleteProject(projectToDelete.id);
-		} catch (error) {
+			handleSuccessfulOperation("deleted");
+		} catch (error: any) {
 			console.error(error);
+			showNotification(`Failed to delete project: ${error.message || "Unknown error"}`, "error");
 		}
 	};
 
-	const handleDeleteCancel = () => {
-		setProjectToDelete(null);
-		setDeleteDialogOpen(false);
+	const onDragEnd = async (result: any) => {
+		if (!dragEnabled) return;
+
+		// Dropped outside the list
+		if (!result.destination) {
+			return;
+		}
+
+		const reorderedItems = reorderList(orderedProjects, result.source.index, result.destination.index);
+
+		setOrderedProjects(reorderedItems);
+
+		// Save the new order to the backend
+		try {
+			if (reorderProjects) {
+				await reorderProjects(reorderedItems);
+				// Show success notification
+				showNotification("Projects reordered successfully");
+			}
+		} catch (error: any) {
+			console.error("Failed to save new order:", error);
+			const errorMsg = error.message || "Unknown error";
+			// Show error notification
+			showNotification(`Failed to save new order: ${errorMsg}`, "error");
+
+			// Reset to the original order if the API call fails
+			setOrderedProjects([...projects]);
+		}
+	};
+
+	// Helper function to reorder list items
+	const reorderList = (list: Project[], startIndex: number, endIndex: number) => {
+		const result = Array.from(list);
+		const [removed] = result.splice(startIndex, 1);
+		result.splice(endIndex, 0, removed);
+		return result;
+	};
+
+	const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+		if (reason === "clickaway") {
+			return;
+		}
+		setSnackbar(prev => ({ ...prev, open: false }));
+	};
+	const showNotification = (message: string, severity: AlertColor = "success") => {
+		setSnackbar({
+			open: true,
+			message,
+			severity,
+		});
+	};
+
+	const handleSuccessfulOperation = (operation: string) => {
+		showNotification(`Project ${operation} successfully`);
 	};
 
 	useEffect(() => {
@@ -253,6 +319,29 @@ export function ProjectPage() {
 			handleOpenModal();
 		}
 	}, [search]);
+
+	useEffect(() => {
+		if (projects) {
+			const projectIds = projects.map(p => p.id).join(",");
+			const orderedIds = orderedProjects.map(p => p.id).join(",");
+
+			if (projectIds !== orderedIds || projects.length !== orderedProjects.length) {
+				setOrderedProjects([...projects]);
+			}
+
+			// Check if sortOrder exists on projects
+			const hasSortOrder = projects.length > 0 && "sortOrder" in projects[0];
+			if (!hasSortOrder && projects.length > 0) {
+				setDragEnabled(false);
+				showNotification(
+					"Drag and drop ordering is not available. The 'sortOrder' column needs to be added to the database.",
+					"warning"
+				);
+			} else {
+				setDragEnabled(true);
+			}
+		}
+	}, [projects, orderedProjects]);
 
 	return (
 		<>
@@ -263,90 +352,132 @@ export function ProjectPage() {
 				</Button>
 			</Box>
 
+			{!dragEnabled && (
+				<Alert severity="warning" sx={{ mb: 2 }}>
+					Drag and drop ordering is not available. The database needs to be updated with the 'sortOrder' column.
+				</Alert>
+			)}
+
 			<TableContainer component={Paper} elevation={2}>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableCell>Project</TableCell>
-							<TableCell>Type</TableCell>
-							<TableCell>Scopes</TableCell>
-							<TableCell>Year</TableCell>
-							<TableCell>Status</TableCell>
-							<TableCell>Last Updated</TableCell>
-							<TableCell align="right">Actions</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{projects.map(project => {
-							return (
-								<TableRow key={project.id} sx={{ "&:hover": { backgroundColor: "action.hover" } }}>
-									<TableCell>
-										<Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-											<Avatar variant="rounded" sx={{ width: 56, height: 56, position: "relative" }}>
-												<Image src={project.thumbnail} alt={project.thumbnailAlt} fill style={{ objectFit: "cover" }} />
-											</Avatar>
-											<Box>
-												<Typography variant="subtitle2">{project.title}</Typography>
-												<Typography variant="caption" color="text.secondary">
-													{project.clientName}
-												</Typography>
-											</Box>
-										</Box>
-									</TableCell>
-									<TableCell>
-										{project?.type && (
-											<Chip
-												key={project.type.id}
-												label={project.type.name}
-												size="small"
-												color="primary"
-												variant="outlined"
-											/>
-										)}
-									</TableCell>
-									<TableCell>
-										<Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
-											{project.scopes?.map(scope => (
-												<Chip key={scope.scope.id} label={scope.scope.name} size="small" variant="outlined" />
-											))}
-										</Box>
-									</TableCell>
-									<TableCell>{project.year}</TableCell>
-									<TableCell>
-										<Chip
-											label={project.isCompleted ? "Completed" : "In Progress"}
-											color={project.isCompleted ? "primary" : "success"}
-											className="text-xs"
-										/>
-									</TableCell>
-									<TableCell>{format(new Date(project.updatedAt), "MMM d, yyyy")}</TableCell>
-									<TableCell align="right">
-										<Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
-											<Tooltip title="Edit">
-												<IconButton size="small" color="primary" onClick={() => handleOpenModal(project)}>
-													<Edit fontSize="small" />
-												</IconButton>
-											</Tooltip>
-											<Tooltip title="Delete">
-												<IconButton size="small" color="error" onClick={() => handleDeleteClick(project)}>
-													<Delete fontSize="small" />
-												</IconButton>
-											</Tooltip>
-										</Box>
-									</TableCell>
-								</TableRow>
-							);
-						})}
-					</TableBody>
-				</Table>
+				<DragDropContextClient onDragEnd={onDragEnd}>
+					<Table>
+						<TableHead>
+							<TableRow>
+								{dragEnabled && <TableCell width="60px">Order</TableCell>}
+								<TableCell>Project</TableCell>
+								<TableCell>Type</TableCell>
+								<TableCell>Scopes</TableCell>
+								<TableCell>Year</TableCell>
+								<TableCell>Status</TableCell>
+								<TableCell>Last Updated</TableCell>
+								<TableCell align="right">Actions</TableCell>
+							</TableRow>
+						</TableHead>
+						<Droppable
+							droppableId="projects-table"
+							isDropDisabled={!dragEnabled}
+							isCombineEnabled={false}
+							ignoreContainerClipping={false}
+							direction="vertical">
+							{provided => (
+								<TableBody ref={provided.innerRef} {...provided.droppableProps}>
+									{orderedProjects.map((project, index) => (
+										<Draggable
+											key={project.id}
+											draggableId={project?.id || String(index)}
+											index={index}
+											isDragDisabled={!dragEnabled}>
+											{(provided, snapshot) => (
+												<TableRow
+													ref={provided.innerRef}
+													{...provided.draggableProps}
+													sx={{
+														"&:hover": { backgroundColor: "action.hover" },
+														backgroundColor: snapshot.isDragging ? "action.selected" : "inherit",
+													}}>
+													{dragEnabled && (
+														<TableCell {...provided.dragHandleProps}>
+															<DragIndicator color="action" />
+														</TableCell>
+													)}
+													{/* Rest of your existing row cells */}
+													<TableCell>
+														<Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+															<Avatar variant="rounded" sx={{ width: 56, height: 56, position: "relative" }}>
+																<Image
+																	src={project.thumbnail}
+																	alt={project.thumbnailAlt}
+																	fill
+																	style={{ objectFit: "cover" }}
+																/>
+															</Avatar>
+															<Box>
+																<Typography variant="subtitle2">{project.title}</Typography>
+																<Typography variant="caption" color="text.secondary">
+																	{project.clientName}
+																</Typography>
+															</Box>
+														</Box>
+													</TableCell>
+													<TableCell>
+														{project?.type && (
+															<Chip
+																key={project.type.id}
+																label={project.type.name}
+																size="small"
+																color="primary"
+																variant="outlined"
+															/>
+														)}
+													</TableCell>
+													<TableCell>
+														<Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
+															{project.scopes?.map(scope => (
+																<Chip key={scope.scope.id} label={scope.scope.name} size="small" variant="outlined" />
+															))}
+														</Box>
+													</TableCell>
+													<TableCell>{project.year}</TableCell>
+													<TableCell>
+														<Chip
+															label={project.isCompleted ? "Completed" : "In Progress"}
+															color={project.isCompleted ? "primary" : "success"}
+															className="text-xs"
+														/>
+													</TableCell>
+													<TableCell>
+														{project.updatedAt && format(new Date(project.updatedAt), "MMM d, yyyy")}
+													</TableCell>
+													<TableCell align="right">
+														<Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
+															<Tooltip title="Edit">
+																<IconButton size="small" color="primary" onClick={() => handleOpenModal(project)}>
+																	<Edit fontSize="small" />
+																</IconButton>
+															</Tooltip>
+															<Tooltip title="Delete">
+																<IconButton size="small" color="error" onClick={() => handleDeleteClick(project)}>
+																	<Delete fontSize="small" />
+																</IconButton>
+															</Tooltip>
+														</Box>
+													</TableCell>
+												</TableRow>
+											)}
+										</Draggable>
+									))}
+									{provided.placeholder}
+								</TableBody>
+							)}
+						</Droppable>
+					</Table>
+				</DragDropContextClient>
 			</TableContainer>
 
 			{/* Add/Edit Modal */}
-
 			<Dialog open={projectModal.open} onClose={handleCloseModal} maxWidth="md" fullWidth>
 				<DialogTitle>{projectModal.project ? "Edit Project" : "Add Project"}</DialogTitle>
 				<DialogContent>
-					{/* @ts-expect-error - Need to be fixed later */}
 					<ProjectForm project={formData} setFormData={setFormData} formErrors={formErrors} />
 					{formErrors.submit && (
 						<Typography color="error" sx={{ mt: 2 }}>
@@ -379,6 +510,15 @@ export function ProjectPage() {
 					</Button>
 				</DialogActions>
 			</Dialog>
+			<Snackbar
+				open={snackbar.open}
+				autoHideDuration={6000}
+				onClose={handleSnackbarClose}
+				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
+				<Alert onClose={handleSnackbarClose} severity={snackbar.severity} sx={{ width: "100%" }}>
+					{snackbar.message}
+				</Alert>
+			</Snackbar>
 		</>
 	);
 }

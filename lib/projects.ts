@@ -1,4 +1,5 @@
 // lib/projects.ts
+import { Project } from "@/types/dashboard";
 import { unstable_cache } from "next/cache";
 import { prisma } from "../lib/prisma";
 
@@ -30,7 +31,7 @@ export const getProject = async (slug: string) => {
 					return null; // Handle notFound() at the component level
 				}
 
-				return project;
+				return project as unknown as Project;
 			} catch (error) {
 				console.error("Error fetching project:", error);
 				throw new Error("Failed to fetch project");

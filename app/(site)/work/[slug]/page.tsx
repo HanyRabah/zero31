@@ -7,7 +7,6 @@ import HeroImage from "../../../../components/projects/HeroImage";
 import ProjectDetails from "../../../../components/projects/ProjectDetails";
 import { getAllProjects, getProject } from "../../../../lib/projects";
 import type { ProjectSection as ProjectSectionProps } from "../../../../types/dashboard";
-import { Project } from "../../../../types/dashboard";
 
 type Params = Promise<{ slug: string }>;
 
@@ -42,7 +41,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
 	return (
 		<main className="flex-grow pt-[72px]">
 			<HeroImage image={project.heroImage} alt={project.heroImageAlt} />
-			<ProjectDetails project={project as Project} />
+			<ProjectDetails project={project} />
 			<ProjectSection sections={project.sections as ProjectSectionProps[]} />
 			<ContactForm />
 		</main>

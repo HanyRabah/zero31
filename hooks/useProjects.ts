@@ -94,7 +94,10 @@ export default function useProjects(type?: string) {
 		}
 	};
 
-	const deleteProject = async (projectId: string) => {
+	const deleteProject = async (projectId?: string) => {
+		if (!projectId) {
+			throw new Error("Project ID is required");
+		}
 		try {
 			const response = await fetch(`/api/projects/${projectId}`, {
 				method: "DELETE",
@@ -118,6 +121,29 @@ export default function useProjects(type?: string) {
 			throw error;
 		}
 	};
+	const reorderProjects = async (items: Project[]) => {
+		try {
+			const response = await fetch("/api/projects/reorder", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ items }),
+				cache: "no-store",
+			});
+
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.message || "Failed to reorder projects");
+			}
+
+			// Refresh data in SWR cache
+			await mutate();
+
+			return true;
+		} catch (error) {
+			console.error("Reorder projects error:", error);
+			throw error;
+		}
+	};
 
 	return {
 		data: data || [],
@@ -126,5 +152,6 @@ export default function useProjects(type?: string) {
 		addProject,
 		updateProject,
 		deleteProject,
+		reorderProjects,
 	};
 }

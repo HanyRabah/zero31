@@ -152,14 +152,14 @@ export function TypeList() {
 								</TableCell>
 								<TableCell align="right">
 									<Tooltip title="Edit">
-										<IconButton size="small" onClick={() => handleOpenModal(type)} color="primary">
+										<IconButton size="small" onClick={() => handleOpenModal(type as ProjectType)} color="primary">
 											<EditIcon fontSize="small" />
 										</IconButton>
 									</Tooltip>
 									<Tooltip title="Delete">
 										<IconButton
 											size="small"
-											onClick={() => handleDeleteClick(type)}
+											onClick={() => handleDeleteClick(type as ProjectType)}
 											color="error"
 											sx={{ ml: 1 }}
 											disabled={type.projects && type.projects.length > 0}>

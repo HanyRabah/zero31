@@ -75,6 +75,7 @@ function ScopeList() {
 		setScopeModal(prev => ({ ...prev, loading: true }));
 		try {
 			if (scopeModal.scope) {
+				//@ts-expect-error I don't know
 				await updateScope(scopeModal.scope.id, { name: formName });
 			} else {
 				await addScope({ name: formName });
@@ -93,6 +94,7 @@ function ScopeList() {
 
 	const handleDeleteConfirm = async () => {
 		if (deleteDialog.scope) {
+			// @ts-expect-error I don't know
 			await deleteScope(deleteDialog.scope.id);
 			setDeleteDialog({ open: false, scope: null });
 		}

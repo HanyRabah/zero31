@@ -105,7 +105,6 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 
 			if (!data.file) {
 				const newSections = [...sections];
-				// @ts-expect-error - alt is not optional
 				newSections[sectionIndex].images[imageIndex] = {
 					url: "",
 					alt: data.alt,
@@ -140,8 +139,6 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 				sectionId: newSections[sectionIndex].id,
 				section: newSections[sectionIndex],
 				id: responseData.id,
-				createdAt: responseData.createdAt,
-				updatedAt: responseData.updatedAt,
 			};
 			setSections(newSections);
 		} catch (error: any) {
@@ -193,21 +190,16 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 		switch (type) {
 			case "Description":
 				setSections([
-					// @ts-expect-error - id is not optional§
 					...sections,
-					// @ts-expect-error - id is not optional§
 					{ images: [{ url: "", alt: "image" }], backgroundColor: "bg-white", description: "", type },
 				]);
 				break;
 			case "Two Images":
 				setSections([
-					// @ts-expect-error - id is not optional§
 					...sections,
 					{
 						images: [
-							// @ts-expect-error - id is not optional
 							{ url: "", alt: "image 1" },
-							// @ts-expect-error - id is not optional
 							{ url: "", alt: "image 2" },
 						],
 						backgroundColor: "bg-white",
@@ -218,9 +210,7 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 				break;
 			case "One Image":
 				setSections([
-					// @ts-expect-error - id is not optional§
 					...sections,
-					// @ts-expect-error - id is not optional
 					{ images: [{ url: "", alt: "image" }], backgroundColor: "bg-white", description: "", type },
 				]);
 				break;
@@ -247,7 +237,6 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 
 	const addImage = (sectionIndex: number) => {
 		const newSections = [...sections];
-		// @ts-expect-error - id is not optional
 		newSections[sectionIndex].images.push({ url: "", alt: "" });
 		setSections(newSections);
 	};
@@ -338,6 +327,8 @@ export function ProjectSectionForm({ projectName, sections, setSections, formErr
 													}}
 													preview={image.url}
 													maxSize={5}
+													size="640 x 480"
+													ratio="3:2"
 												/>
 												{formErrors[`sections[${sectionIndex}].images[${imageIndex}].url`] && (
 													<Typography color="error" sx={{ mb: 2 }}>

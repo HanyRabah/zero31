@@ -28,10 +28,25 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 		// Verify project exists
 		const existingProject = await prisma.project.findUnique({
 			where: { id },
+			select: {
+				id: true,
+				sortOrder: true, // Also select sortOrder if it exists
+			},
 		});
 
 		if (!existingProject) {
 			return NextResponse.json({ error: "Project not found" }, { status: 404 });
+		}
+
+		// Check if the sortOrder column exists in the database
+		let hasSortOrder = true;
+		try {
+			// This will throw an error if sortOrder doesn't exist
+			if (existingProject.sortOrder === undefined) {
+				hasSortOrder = false;
+			}
+		} catch (e) {
+			hasSortOrder = false;
 		}
 
 		// First delete existing relationships
@@ -53,35 +68,45 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 
 		const { typeId, ...restProjectData } = projectData;
 
+		// Prepare the update data, preserving sortOrder if it exists
+		const updateData = {
+			...restProjectData,
+			// Keep the existing sortOrder if available
+			...(hasSortOrder && existingProject.sortOrder !== undefined
+				? {
+						sortOrder: projectData.sortOrder !== undefined ? projectData.sortOrder : existingProject.sortOrder,
+				  }
+				: {}),
+			type: typeId ? { connect: { id: typeId } } : undefined,
+			scopes: {
+				create:
+					scopes?.map((scopeId: string) => ({
+						scope: {
+							connect: { id: scopeId },
+						},
+					})) || [],
+			},
+			sections: {
+				create:
+					sections?.map((section: any) => ({
+						description: section.description || "",
+						backgroundColor: section.backgroundColor || "",
+						type: section.type || "",
+						images: {
+							create:
+								section.images?.map((image: any) => ({
+									url: image.url || "",
+									alt: image.alt || "",
+								})) || [],
+						},
+					})) || [],
+			},
+		};
+
 		// Then update the project with new data
 		const updatedProject = await prisma.project.update({
 			where: { id },
-			data: {
-				...restProjectData,
-				type: typeId ? { connect: { id: typeId } } : undefined,
-				scopes: {
-					create:
-						scopes?.map((scopeId: string) => ({
-							scope: {
-								connect: { id: scopeId },
-							},
-						})) || [],
-				},
-				sections: {
-					create:
-						sections?.map((section: any) => ({
-							description: section.description || "",
-							backgroundColor: section.backgroundColor || "",
-							images: {
-								create:
-									section.images?.map((image: any) => ({
-										url: image.url || "",
-										alt: image.alt || "",
-									})) || [],
-							},
-						})) || [],
-				},
-			},
+			data: updateData,
 			include: {
 				type: true,
 				scopes: {

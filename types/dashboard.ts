@@ -28,32 +28,35 @@ export interface ProjectType extends BaseModel {
 }
 
 // Project Scope interface
-export interface ProjectScope extends BaseModel {
+export interface ProjectScope {
+	id?: string;
 	name: string;
 	projects?: ProjectsOnScopes[];
 }
 
 // Image interface
-export interface Image extends BaseModel {
+export interface Image {
+	id?: string;
 	url: string;
 	alt?: string;
-	sectionId: string;
-	section: ProjectSection;
+	sectionId?: string;
+	section?: ProjectSection;
 }
 
 // Project Section interface
-export interface ProjectSection extends BaseModel {
+export interface ProjectSection {
+	id?: string;
 	description?: string;
-	type: string;
 	backgroundColor?: string;
-	projectId: string;
-	project: Project;
+	type?: string;
+	projectId?: string;
+	project?: Project;
 	images: Image[];
 }
 
 // Junction table interface
 export interface ProjectsOnScopes {
-	project: Project;
+	project?: Project;
 	projectId: string;
 	scope: ProjectScope;
 	scopeId: string;
@@ -61,22 +64,26 @@ export interface ProjectsOnScopes {
 }
 
 // Main Project interface
-export interface Project extends BaseModel {
-	title?: string;
+export interface Project {
+	id?: string;
 	slug: string;
+	title: string;
 	clientName: string;
+	description: string;
 	heroImage: string;
 	heroImageAlt: string;
 	thumbnail: string;
 	thumbnailAlt: string;
-	description: string;
+	typeId: string;
+	year?: string;
 	area?: string;
 	location?: string;
-	year?: string;
-	isCompleted?: boolean;
-	// Relations
+	isCompleted: boolean;
+	sortOrder?: number;
+	createdAt?: string;
+	updatedAt?: string;
 	type?: ProjectType;
-	typeId?: string;
+	images?: Image[];
 	scopes: ProjectsOnScopes[];
 	sections: ProjectSection[];
 }

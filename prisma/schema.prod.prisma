@@ -1,6 +1,6 @@
 // prisma/schema.prisma
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -55,6 +55,7 @@ model Project {
   area          String?
   location      String?
   year          String?
+  sortOrder     Int                @default(0)
   isCompleted   Boolean            @default(false) 
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt

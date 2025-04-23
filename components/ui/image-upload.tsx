@@ -13,6 +13,8 @@ interface ImageUploadProps {
 		alt: string | undefined;
 	};
 	preview?: string;
+	ratio?: string;
+	size?: string;
 }
 
 const ImageUpload = ({
@@ -23,6 +25,8 @@ const ImageUpload = ({
 	maxSize = 5,
 	value,
 	preview,
+	ratio = "3:1",
+	size = "1500x500",
 }: ImageUploadProps) => {
 	const [isDragging, setIsDragging] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -156,7 +160,14 @@ const ImageUpload = ({
 					</Box>
 				)}
 			</Box>
-
+			<Box className="flex flex-col items-start space-x-2">
+				<Typography variant="caption" className="font-medium text-gray-700">
+					{`Please upload images with a ${ratio} ratio.`}
+				</Typography>
+				<Typography variant="caption" className="font-medium text-gray-700">
+					{`Recommended size: ${size}`}
+				</Typography>
+			</Box>
 			{error && (
 				<Typography variant="caption" className="text-red-500">
 					{error}

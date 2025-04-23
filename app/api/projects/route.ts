@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 
@@ -8,6 +9,9 @@ export async function GET(request: Request) {
 	try {
 		const projects = await prisma.project.findMany({
 			where: type ? { type: { name: type } } : undefined,
+			orderBy: {
+				sortOrder: "asc", // Add this line to sort by sortOrder
+			},
 			include: {
 				type: true,
 				scopes: {
@@ -23,7 +27,6 @@ export async function GET(request: Request) {
 			},
 		});
 
-		// Add proper error handling and logging
 		console.log(`Found ${projects.length} projects`);
 		return NextResponse.json(projects, {
 			headers: {
@@ -34,6 +37,8 @@ export async function GET(request: Request) {
 		return NextResponse.json({ error: `Error fetching projects ${error}` }, { status: 500 });
 	}
 }
+
+// Modify the POST function in app/api/projects/route.ts
 
 export async function POST(request: Request) {
 	try {
@@ -48,10 +53,48 @@ export async function POST(request: Request) {
 		}
 		const { typeId, ...rest } = projectData;
 
-		// Create the project
+		// Check if the sortOrder column exists
+		let hasSortOrder = true;
+		try {
+			// Try to query a project with sortOrder
+			await prisma.project.findFirst({
+				select: {
+					id: true,
+					sortOrder: true,
+				},
+			});
+		} catch (e) {
+			// If error contains "does not exist in the current database", set hasSortOrder to false
+			if (e instanceof Error && e.message.includes("does not exist in the current database")) {
+				hasSortOrder = false;
+			} else {
+				// If it's another type of error, throw it
+				throw e;
+			}
+		}
+
+		// Find the highest sortOrder value if the column exists
+		let maxSortOrder = 0;
+		if (hasSortOrder) {
+			const highestOrderProject = await prisma.project.findFirst({
+				orderBy: {
+					sortOrder: "desc",
+				},
+				select: {
+					sortOrder: true,
+				},
+			});
+
+			if (highestOrderProject) {
+				maxSortOrder = highestOrderProject.sortOrder + 1;
+			}
+		}
+
+		// Create the project, including sortOrder if it exists
 		const project = await prisma.project.create({
 			data: {
 				...rest,
+				...(hasSortOrder ? { sortOrder: maxSortOrder } : {}), // Add sortOrder only if column exists
 				type: typeId ? { connect: { id: typeId } } : undefined,
 				// Connect scopes if they exist
 				scopes:
@@ -99,6 +142,9 @@ export async function POST(request: Request) {
 				},
 			},
 		});
+
+		// Revalidate cache tags
+		revalidateTag("projects-list");
 
 		return NextResponse.json(project, {
 			headers: {
