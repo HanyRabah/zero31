@@ -4,10 +4,10 @@ import ContactForm from "../../components/contact/ContactForm";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
 import Hero from "../../components/sections/Hero";
 import LocationInfo from "../../components/sections/Location";
-import HeroServices from "../../components/sections/NavServices";
-import ProjectsGrid from "../../components/sections/ProjectsGrid";
+import ProjectsNav from "../../components/sections/ProjectsNav";
+import ProjectsGrid from "../../components/projects/ProjectList/ProjectsList";
 import Quote from "../../components/sections/Quote";
-import Services from "../../components/sections/Services";
+import ProjectsFooterList from "../../components/sections/ProjectsFooterList";
 
 // Loading component
 const Loading = () => (
@@ -21,7 +21,7 @@ export default function Home() {
 		<ErrorBoundary>
 			<main className="flex-grow bg-novo-blue pt-[56px] md:pt-[72px]">
 				<Suspense fallback={<Loading />}>
-					<HeroServices />
+					<ProjectsNav />
 					<LocationInfo />
 				</Suspense>
 				{/* Hero Section */}
@@ -40,9 +40,9 @@ export default function Home() {
 					<Quote />
 				</Suspense>
 
-				{/* Services Section */}
+				{/* Projects Section */}
 				<Suspense fallback={<Loading />}>
-					<Services />
+					<ProjectsFooterList />
 				</Suspense>
 
 				{/* Contact Form */}

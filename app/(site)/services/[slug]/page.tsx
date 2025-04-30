@@ -1,15 +1,16 @@
 import ContactForm from "../../../../components/contact/ContactForm";
-import ProjectsGrid from "../../../../components/sections/ProjectsGrid";
-import Services from "../../../../components/sections/Services";
+import ProjectsFooterList from "../../../../components/sections/ProjectsFooterList";
 import ServiceHeader from "../../../../components/services/ServiceHeader";
 import ContentSection from "../../../../components/services/ServiceSection";
 import { services } from "../../../../config/services/services";
+import ProjectsByName from "../../../../components/projects/ProjectList/ProjectByCategory";
 
-type Params = Promise<{ service: string }>;
+type Params = Promise<{ slug: string }>;
 
-export default async function ServicePage({ params }: { params: Params }) {
-	const { service } = await params;
-	const serviceData = services[service];
+export default async function ProjectPage({ params }: { params: Params }) {
+	const { slug } = await params;
+
+	const serviceData = services[slug];
 	if (!serviceData) {
 		return null;
 	}
@@ -17,7 +18,7 @@ export default async function ServicePage({ params }: { params: Params }) {
 	return (
 		<main className="flex-grow bg-novo-blue pt-[72px]">
 			<ServiceHeader serviceName={serviceData.title} description={serviceData.description} />
-			<ProjectsGrid type={service} />
+			<ProjectsByName category={slug} />
 
 			{/* Service-specific content sections */}
 			{serviceData.sections.map((section, index) => (
@@ -25,7 +26,7 @@ export default async function ServicePage({ params }: { params: Params }) {
 			))}
 
 			{/* Other services links - excluding current service */}
-			<Services />
+			<ProjectsFooterList />
 			{/* Contact Form */}
 			<ContactForm />
 		</main>

@@ -2,24 +2,22 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-const services = [
-	// First row
+const projects = [
 	[
-		{ href: "/services/hospitality", label: "Hospitality" },
-		{ href: "/services/commercial", label: "Commercial" },
-		{ href: "/services/office-design", label: "Office Design" },
-		{ href: "/services/residential", label: "Residential" },
+		{ href: "/work/hospitality", label: "Hospitality" },
+		{ href: "/work/commercial", label: "Commercial" },
+		{ href: "/work/office-design", label: "Office Design" },
+		{ href: "/work/residential", label: "Residential" },
 	],
-	// Second row
 	[
-		{ href: "/services/architecture", label: "Architecture" },
-		{ href: "/services/interior-design", label: "Interior Design" },
-		{ href: "/services/landscape", label: "Landscape" },
-		{ href: "/services/ffae-service", label: "FF&E Service" },
+		{ href: "/work/architecture", label: "Architecture" },
+		{ href: "/work/interior-design", label: "Interior Design" },
+		{ href: "/work/landscape", label: "Landscape" },
+		{ href: "/work/FF&E-services", label: "FF&E Services" },
 	],
 ];
 
-const ServiceLink = ({ href, label }: { href: string; label: string }) => (
+const ProjectLink = ({ href, label }: { href: string; label: string }) => (
 	<Link
 		href={href}
 		className={cn(
@@ -36,21 +34,21 @@ const ServiceLink = ({ href, label }: { href: string; label: string }) => (
 	</Link>
 );
 
-const NavServices = () => {
+const ProjectsNav = () => {
 	return (
 		<section className="container mx-auto py-[22px]">
 			<div className="bg-novo-blue">
 				{/* First Row - Always visible */}
 				<div className="grid grid-cols-2 md:flex md:justify-center gap-4 md:gap-5 mb-4 md:mb-5">
-					{services[0].map((service, index) => (
-						<ServiceLink key={index} {...service} />
+					{projects[0].map((project, index) => (
+						<ProjectLink key={index} {...project} />
 					))}
 				</div>
 
 				{/* Second Row */}
 				<div className="grid grid-cols-2 md:flex md:justify-center gap-4 md:gap-5">
-					{services[1].map((service, index) => (
-						<ServiceLink key={index} {...service} />
+					{projects[1].map((project, index) => (
+						<ProjectLink key={index} {...project} />
 					))}
 				</div>
 			</div>
@@ -58,4 +56,4 @@ const NavServices = () => {
 	);
 };
 
-export default NavServices;
+export default ProjectsNav;

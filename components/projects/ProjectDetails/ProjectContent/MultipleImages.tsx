@@ -24,6 +24,7 @@ const MultipleImages = ({ images }: { images: ImageType[] }) => {
 							src={image.url}
 							alt={image.alt || ""}
 							fill
+							blurDataURL={image.url}
 							className="object-cover transition-transform duration-700 hover:scale-105"
 							sizes="(max-width: 768px) 100vw, 50vw"
 						/>

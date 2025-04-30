@@ -3,9 +3,9 @@ import type { ProjectSection } from "@/types/dashboard";
 import { lazy, Suspense } from "react";
 
 // Lazy load components
-const ImageWithDescription = lazy(() => import("./ImageWithDescription"));
-const MultipleImages = lazy(() => import("./MultipleImages"));
-const ParallaxImage = lazy(() => import("./ParallaxImage"));
+const ImageWithDescription = lazy(() => import("./ProjectContent/ImageWithDescription"));
+const MultipleImages = lazy(() => import("./ProjectContent/MultipleImages"));
+const ParallaxImage = lazy(() => import("./ProjectContent/ParallaxImage"));
 
 const ProjectSection = ({ sections }: { sections: ProjectSection[] }) => {
 	return (

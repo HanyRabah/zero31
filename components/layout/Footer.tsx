@@ -16,22 +16,22 @@ const Footer = () => {
 					{/* Services */}
 					<ul className="col-span-1 md:col-span-1 w-[135px] md:w-auto space-y-8 md:space-y-2 place-content-start mb-8">
 						<li>
-							<Link href="/services/architecture" className="hover:text-primary">
+							<Link href="#" className="hover:text-primary">
 								Architecture
 							</Link>
 						</li>
 						<li>
-							<Link href="/services/interior-design" className="hover:text-primary">
+							<Link href="#" className="hover:text-primary">
 								Interior Design
 							</Link>
 						</li>
 						<li>
-							<Link href="/services/lighting-design" className="hover:text-primary">
+							<Link href="#" className="hover:text-primary">
 								Lighting Design
 							</Link>
 						</li>
 						<li>
-							<Link href="/services/custom-furniture" className="hover:text-primary">
+							<Link href="#" className="hover:text-primary">
 								Custom Furniture
 							</Link>
 						</li>
@@ -40,17 +40,17 @@ const Footer = () => {
 					{/* Quick Links */}
 					<ul className="col-span-1 md:col-span-1  w-[135px] md:w-auto space-y-8 md:space-y-2 place-content-start  mb-8">
 						<li>
-							<Link href="/services/hospitality" className="hover:text-primary">
+							<Link href="#" className="hover:text-primary">
 								Hospitality
 							</Link>
 						</li>
 						<li>
-							<Link href="/services/residential" className="hover:text-primary">
+							<Link href="#" className="hover:text-primary">
 								Residential
 							</Link>
 						</li>
 						<li>
-							<Link href="/services/commercial" className="hover:text-primary">
+							<Link href="#" className="hover:text-primary">
 								Commercial
 							</Link>
 						</li>

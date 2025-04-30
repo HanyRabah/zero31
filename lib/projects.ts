@@ -2,6 +2,7 @@
 import { Project } from "@/types/dashboard";
 import { unstable_cache } from "next/cache";
 import { prisma } from "../lib/prisma";
+import { formatString } from "@/utils/StringUtils";
 
 // Use unstable_cache with revalidation tags and a short TTL
 export const getProject = async (slug: string) => {
@@ -102,6 +103,62 @@ export async function getProjectById(id: string) {
 		[`project-id-${id}`],
 		{
 			tags: [`project-${id}`, "projects-list"],
+			revalidate: 10, // Revalidate after 10 seconds
+		}
+	)();
+}
+
+export async function getProjectsByCategory(category: string) {
+	return unstable_cache(
+		async () => {
+			return await prisma.project.findMany({
+				where: { type: { name: formatString(category) } },
+				include: {
+					type: true,
+					scopes: {
+						include: {
+							scope: true,
+						},
+					},
+					sections: {
+						include: {
+							images: true,
+						},
+					},
+				},
+			});
+		},
+		[`project-category-${category}`],
+		{
+			tags: [`project-${category}`, "projects-list"],
+			revalidate: 10, // Revalidate after 10 seconds
+		}
+	)();
+}
+
+export async function getProjectByName(name: string) {
+	return unstable_cache(
+		async () => {
+			return await prisma.project.findFirst({
+				where: { type: { name: formatString(name) } },
+				include: {
+					type: true,
+					scopes: {
+						include: {
+							scope: true,
+						},
+					},
+					sections: {
+						include: {
+							images: true,
+						},
+					},
+				},
+			});
+		},
+		[`project-name-${name}`],
+		{
+			tags: [`project-${name}`, "projects-list"],
 			revalidate: 10, // Revalidate after 10 seconds
 		}
 	)();

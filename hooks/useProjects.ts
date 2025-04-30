@@ -1,6 +1,6 @@
 // hooks/useProjects.ts
+import { CombinedProject } from "@/types/main";
 import useSWR from "swr";
-import { Project } from "../types/dashboard";
 
 const fetcher = async (url: string) => {
 	const response = await fetch(url, {
@@ -15,9 +15,9 @@ const fetcher = async (url: string) => {
 	}
 	return response.json();
 };
-
+ 
 export default function useProjects(type?: string) {
-	const { data, error, mutate, isLoading } = useSWR<Project[]>(
+	const { data, error, mutate, isLoading } = useSWR<(CombinedProject)[]>(
 		type ? `/api/projects?type=${type}` : "/api/projects",
 		fetcher,
 		{
@@ -26,7 +26,7 @@ export default function useProjects(type?: string) {
 		}
 	);
 
-	const updateProject = async (projectId: string, data: Project) => {
+	const updateProject = async (projectId: string, data: CombinedProject) => {
 		try {
 			const response = await fetch(`/api/projects/${projectId}`, {
 				method: "PUT",
@@ -65,7 +65,7 @@ export default function useProjects(type?: string) {
 		}
 	};
 
-	const addProject = async (projectData: Project) => {
+	const addProject = async (projectData: CombinedProject) => {
 		try {
 			const response = await fetch("/api/projects", {
 				method: "POST",
@@ -121,7 +121,9 @@ export default function useProjects(type?: string) {
 			throw error;
 		}
 	};
-	const reorderProjects = async (items: Project[]) => {
+
+	
+	const reorderProjects = async (items: CombinedProject[]) => {
 		try {
 			const response = await fetch("/api/projects/reorder", {
 				method: "POST",
@@ -135,7 +137,6 @@ export default function useProjects(type?: string) {
 				throw new Error(error.message || "Failed to reorder projects");
 			}
 
-			// Refresh data in SWR cache
 			await mutate();
 
 			return true;
@@ -145,6 +146,24 @@ export default function useProjects(type?: string) {
 		}
 	};
 
+	const getProjectsByTypeName = async (typeName: string) => {
+		try {
+		  const response = await fetch(`/api/projects/type/${typeName}`, {
+			cache: "no-store",
+		  });
+	
+		  if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.error || "Failed to fetch projects by type name");
+		  }
+	
+		  return await response.json();
+		} catch (error: any) {
+		  console.error("Fetch projects by type name error:", error);
+		  throw error;
+		}
+	  };
+
 	return {
 		data: data || [],
 		loading: isLoading,
@@ -153,5 +172,6 @@ export default function useProjects(type?: string) {
 		updateProject,
 		deleteProject,
 		reorderProjects,
+		getProjectsByTypeName
 	};
 }

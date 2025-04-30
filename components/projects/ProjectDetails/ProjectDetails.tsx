@@ -1,7 +1,7 @@
 import { Project } from "@/types/dashboard";
 
 const ProjectDetails = ({ project }: { project: Project }) => {
-	const { title, clientName, location, year, scopes, type, area, description } = project;
+	const { title, location, year, scopes, type, area, description } = project;
 
 	const renderScopes = () => {
 		const scopesList = scopes
@@ -17,11 +17,6 @@ const ProjectDetails = ({ project }: { project: Project }) => {
 				<div className="flex flex-col justify-between md:flex-row md:gap-16">
 					<div className="flex flex-col gap-8  mb-20 md:mb-0">
 						<h1 className="text-lg font-bold text-black mb-[26px]">{title}</h1>
-						{/* {clientName && (
-							<p className="text-xs md:text-sm text-novo-grey">
-								<strong className="font-mono">Client Name:</strong> {clientName}
-							</p>
-						)} */}
 						{type && (
 							<p className="text-xs md:text-sm text-novo-grey">
 								<strong className="font-mono">Type:</strong> {type.name}

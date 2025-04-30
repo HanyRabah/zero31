@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 import ContactForm from "../../../components/contact/ContactForm";
-import ProjectsGrid from "../../../components/sections/ProjectsGrid";
+import ProjectsGrid from "../../../components/projects/ProjectList/ProjectsList";
 import Quote from "../../../components/sections/Quote";
 
 export const metadata: Metadata = {
-	title: "Our Services",
-	description: "Professional services offered by our company",
+	title: "Our Work",
+	description: "Professional work offered by our company",
 };
 
 export default function ProjectsPage() {

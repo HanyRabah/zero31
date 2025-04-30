@@ -1,9 +1,14 @@
-"use client";
-import useProjects from "@/hooks/useProjects";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import ProjectCard from "../projects/ProjectCard";
+// components/ProjectsByType.tsx
+'use client';
 
+import { useState, useEffect } from 'react'; 
+import useProjects from '@/hooks/useProjects';
+import { Project, ProjectSection, ProjectsOnScopes, ProjectType } from '@prisma/client';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import ProjectCard from '../ProjectCard';
+import { CombinedProject } from '@/types/main';
+ 
 const ProjectCardSkeleton = () => {
 	return (
 		<div className="animate-pulse">
@@ -37,11 +42,41 @@ const EmptyProjects = () => {
 	);
 };
 
-const ProjectsGrid = ({ type }: { type?: string }) => {
-	const { data: projects, loading } = useProjects(type);
+export default function ProjectByCategory({ category }: {category: ProjectType['name']}) {
+  const { getProjectsByTypeName } = useProjects();
+  const [projects, setProjects] = useState<(CombinedProject)[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-	return (
-		<section className="py-40 md:py-80 bg-white">
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const data = await getProjectsByTypeName(category);
+        setProjects(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+    return () => {
+      setLoading(false);
+      setProjects([]);
+      setError(null);
+    };
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+
+  return (
+    <section className="py-40 md:py-80 bg-white">
 			<div className="container mx-auto px-24">
 				{loading && (
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -62,7 +97,5 @@ const ProjectsGrid = ({ type }: { type?: string }) => {
 				</motion.div>
 			</div>
 		</section>
-	);
-};
-
-export default ProjectsGrid;
+  );
+} 

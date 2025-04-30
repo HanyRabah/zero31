@@ -27,7 +27,6 @@ export async function GET(request: Request) {
 			},
 		});
 
-		console.log(`Found ${projects.length} projects`);
 		return NextResponse.json(projects, {
 			headers: {
 				"Cache-Control": "no-store, must-revalidate, max-age=0",

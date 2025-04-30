@@ -18,11 +18,11 @@ import { Dispatch, SetStateAction } from "react";
 import ImageUpload from "../../../components/ui/image-upload";
 import useScopes from "../../../hooks/useScopes";
 import useTypes from "../../../hooks/useTypes";
-import { Project } from "../../../types/dashboard";
 import { ProjectSectionForm } from "./ProjectSectionForm";
+import { Project, ProjectsOnScopes } from "@prisma/client";
 
 interface ProjectFormProps {
-	project: Project;
+	project: Partial<Project>;
 	setFormData: Dispatch<SetStateAction<any>>;
 	formErrors: Record<string, string>;
 }
@@ -37,7 +37,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 		fieldName: "thumbnail" | "heroImage"
 	) => {
 		if (type === "alt") {
-			setFormData((prev: Project) => ({
+			setFormData((prev: Partial<Project>) => ({
 				...prev,
 				[`${fieldName}Alt`]: data.alt,
 			}));
@@ -45,7 +45,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 		}
 
 		if (!data.file) {
-			setFormData((prev: Project) => ({
+			setFormData((prev: Partial<Project>) => ({
 				...prev,
 				[fieldName]: "",
 			}));
@@ -68,7 +68,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 			}
 
 			const responseData = await response.json();
-			setFormData((prev: Project) => ({
+			setFormData((prev: Partial<Project>) => ({
 				...prev,
 				[fieldName]: responseData.url,
 			}));
@@ -91,7 +91,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 				throw new Error("Failed to delete image");
 			}
 
-			setFormData((prev: Project) => ({
+			setFormData((prev: Partial<Project>) => ({
 				...prev,
 				[fieldName]: "",
 			}));
@@ -99,19 +99,6 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 			console.error("Delete error:", error);
 		}
 	};
-	// const handleSectionChange = (sections: any[]) => {
-	// 	setFormData((prev: Project) => ({
-	// 		...prev,
-	// 		sections: sections.map(section => ({
-	// 			description: section.description || "",
-	// 			backgroundColor: section.backgroundColor || "",
-	// 			images: section.images.map((img: Image) => ({
-	// 				url: img.url,
-	// 				alt: img.alt || "",
-	// 			})),
-	// 		})),
-	// 	}));
-	// };
 
 	return (
 		<Grid container spacing={3} pt={3}>
@@ -133,17 +120,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					helperText={formErrors.title}
 				/>
 			</Grid>
-			{/* <Grid size={{ xs: 12, sm: 6 }}>
-				<TextField
-					fullWidth
-					label="Slug"
-					value={project.slug}
-					onChange={e => setFormData((prev: Project) => ({ ...prev, slug: e.target.value }))}
-					required
-					error={!!formErrors.slug}
-					helperText={formErrors.slug}
-				/>
-			</Grid> */}
+
 			<Grid size={{ xs: 12, sm: 6 }}>
 				<TextField
 					fullWidth
@@ -190,13 +167,13 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					<InputLabel>Project Scopes</InputLabel>
 					<Select
 						multiple
+						// @ts-expect-error scopes is an array of strings
 						value={project.scopes || []}
 						onChange={e => setFormData((prev: Project) => ({ ...prev, scopes: e.target.value }))}
 						input={<OutlinedInput label="Project Scopes" />}
 						renderValue={selected => (
 							<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-								{selected.map(id => {
-									// @ts-expect-error - scopes is an array of strings
+								{selected.map((id: string) => {
 									const scope = scopes?.find(s => s.id === id);
 									return scope ? <Chip key={scope.id} label={scope.name} /> : null;
 								})}
@@ -211,6 +188,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					{formErrors.scopes && <FormHelperText>{formErrors.scopes}</FormHelperText>}
 				</FormControl>
 			</Grid>
+
 			<Grid size={{ xs: 12, sm: 6 }}>
 				<TextField
 					fullWidth
@@ -219,6 +197,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					onChange={e => setFormData((prev: Project) => ({ ...prev, area: e.target.value }))}
 				/>
 			</Grid>
+
 			<Grid size={{ xs: 12, sm: 6 }}>
 				<TextField
 					fullWidth
@@ -227,6 +206,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					onChange={e => setFormData((prev: Project) => ({ ...prev, location: e.target.value }))}
 				/>
 			</Grid>
+
 			<Grid size={{ xs: 12, sm: 6 }}>
 				<TextField
 					fullWidth
@@ -235,6 +215,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 					onChange={e => setFormData((prev: Project) => ({ ...prev, year: e.target.value }))}
 				/>
 			</Grid>
+
 			<Grid size={{ xs: 12, sm: 6 }}>
 				<FormControl component="fieldset">
 					<FormGroup aria-label="position" row>
@@ -267,7 +248,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 				<ImageUpload
 					label="Thumbnail Image"
 					onChange={(data, type) => handleImageUpload(data, type, "thumbnail")}
-					deleteImage={() => handleDeleteImage(project.thumbnail, "thumbnail")}
+					deleteImage={() => project.thumbnail && handleDeleteImage(project.thumbnail, "thumbnail")}
 					value={{
 						file: project.thumbnail,
 						alt: project.thumbnailAlt || "",
@@ -285,7 +266,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 				<ImageUpload
 					label="Hero Image"
 					onChange={(data, type) => handleImageUpload(data, type, "heroImage")}
-					deleteImage={() => handleDeleteImage(project.heroImage, "heroImage")}
+					deleteImage={() => project.heroImage && handleDeleteImage(project.heroImage, "heroImage")}
 					value={{
 						file: project.heroImage,
 						alt: project.heroImageAlt || "",
@@ -303,6 +284,7 @@ export function ProjectForm({ project, setFormData, formErrors }: ProjectFormPro
 				<ProjectSectionForm
 					projectName={project.title || ""}
 					formErrors={formErrors}
+					// @ts-expect-error sections is not defined in Project
 					sections={project.sections || []}
 					setSections={newSections =>
 						setFormData((prev: Project) => ({

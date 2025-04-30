@@ -1,10 +1,12 @@
-import { Project } from "@/types/dashboard";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { formatCategory } from "@/utils/StringUtils";
+import { CombinedProject } from "@/types/main";
 
-const ProjectCard = ({ project, isHorizontal }: { project: Project; isHorizontal: boolean }) => {
-	return (
+ 
+const ProjectCard = ({ project, isHorizontal }: { project: CombinedProject; isHorizontal: boolean }) => {
+ 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 20 }}
 			whileInView={{ opacity: 1, y: 0 }}
@@ -12,12 +14,12 @@ const ProjectCard = ({ project, isHorizontal }: { project: Project; isHorizontal
 			transition={{ duration: 0.6 }}
 			whileHover="hover" // Add this to control all hover states
 		>
-			<Link href={`/work/${project.slug}`} className="group relative block">
+			<Link href={`/work/${formatCategory(project.type?.name)}/${project.slug}`} className="group relative block">
 				{/* Image Container */}
 				<div className="relative aspect-square overflow-hidden mb-16 flex items-center justify-center">
 					<div className={`relative ${isHorizontal ? "w-3/4 aspect-square h-full" : "w-full aspect-video"}`}>
 						<Image
-							src={project.thumbnail}
+							src={project.thumbnail || ""}
 							alt={project.thumbnailAlt || "Thumbnail Image"}
 							fill
 							className="object-cover"

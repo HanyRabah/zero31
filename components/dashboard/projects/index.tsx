@@ -31,9 +31,10 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { forwardRef, useEffect, useState } from "react";
 import useProjects from "../../../hooks/useProjects";
-import { Project, ProjectSection, ProjectsOnScopes } from "../../../types/dashboard";
 import { DragDropContextClient } from "./DragDropContextClient";
 import { ProjectForm } from "./ProjectForm";
+import { Project, ProjectSection, ProjectsOnScopes, ProjectType } from "@prisma/client";
+import { CombinedProject } from "@/types/main";
 
 const Droppable = dynamic(() => import("react-beautiful-dnd").then(mod => mod.Droppable), { ssr: false });
 
@@ -58,17 +59,16 @@ export function ProjectPage() {
 		project: null,
 		loading: false,
 	});
-	const [orderedProjects, setOrderedProjects] = useState<Project[]>([]);
+	const [orderedProjects, setOrderedProjects] = useState<CombinedProject[]>([]);
+	console.log("🚀 ~ ProjectPage ~ orderedProjects:", orderedProjects)
 	const [dragEnabled, setDragEnabled] = useState(true);
-	const [errorMessage, setErrorMessage] = useState("");
-	const [showErrorSnackbar, setShowErrorSnackbar] = useState(false);
 	const [snackbar, setSnackbar] = useState({
 		open: false,
 		message: "",
 		severity: "success" as AlertColor,
 	});
 
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<CombinedProject>({
 		title: "",
 		slug: "",
 		clientName: "",
@@ -81,14 +81,15 @@ export function ProjectPage() {
 		area: "",
 		location: "",
 		typeId: "",
-		scopes: [] as ProjectsOnScopes[],
+		scopes: [] ,
 		isCompleted: false,
-		sections: [] as ProjectSection[],
+		sections: [],
+		type: {} 
 	});
 
 	const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-	const handleOpenModal = (project?: Project) => {
+	const handleOpenModal = (project?: CombinedProject) => {
 		if (project) {
 			setFormData({
 				title: project.title || "",
@@ -106,6 +107,7 @@ export function ProjectPage() {
 				year: project.year || "",
 				area: project.area || "",
 				location: project.location || "",
+				type: project.type,
 				sections: project.sections.map(section => ({
 					description: section.description || "",
 					backgroundColor: section.backgroundColor || "",
@@ -143,6 +145,7 @@ export function ProjectPage() {
 			area: "",
 			location: "",
 			sections: [],
+			type: {},
 		});
 		setFormErrors({});
 	};
@@ -157,9 +160,9 @@ export function ProjectPage() {
 		if (!formData.thumbnail) errors.thumbnail = "Thumbnail is required";
 		if (!formData.thumbnailAlt) errors.thumbnailAlt = "Thumbnail alt is required";
 		if (!formData.typeId) errors.typeId = "Project type is required";
-		if (formData.scopes.length === 0) errors.scopes = "At least one scope is required";
+		if (formData?.scopes?.length === 0) errors.scopes = "At least one scope is required";
 
-		formData.sections.forEach((section, index) => {
+		formData?.sections?.forEach((section, index) => {
 			if (section.images.length === 0) errors[`sections[${index}].images`] = "At least one image is required";
 			section.images.forEach((img, imgIndex) => {
 				if (!img?.url) errors[`sections[${index}].images[${imgIndex}].url`] = "Image is required";
@@ -183,23 +186,24 @@ export function ProjectPage() {
 		if (!validateForm()) return;
 		setProjectModal(prev => ({ ...prev, loading: true }));
 		try {
-			const submitData: Project = {
+			const submitData: CombinedProject = {
 				...formData,
-				title: formData.title.trim(),
-				slug: createSlugfromTitle(formData.title.trim()),
-				clientName: formData.clientName.trim(),
-				description: formData.description.trim(),
+				title: formData.title?.trim() || "",
+				slug: createSlugfromTitle(formData.title?.trim() || ""),
+				clientName: formData.clientName?.trim() || "",
+				description: formData.description?.trim() || "",
 				heroImage: formData.heroImage,
 				heroImageAlt: formData.heroImageAlt || "",
 				thumbnail: formData.thumbnail,
 				thumbnailAlt: formData.thumbnailAlt || "",
 				typeId: formData.typeId,
-				sections: formData.sections.map(section => ({
+				sections: formData.sections?.map(section => ({
+					...section,
 					description: section.description?.trim() || "",
 					backgroundColor: section.backgroundColor || "",
 					images: section.images
-						.filter(img => img.url)
-						.map(img => ({
+						.filter((img: any) => img.url)
+						.map((img: any) => ({
 							url: img.url,
 							alt: img.alt || "",
 						})),
@@ -237,10 +241,10 @@ export function ProjectPage() {
 		setProjectToDelete(null);
 		setDeleteDialogOpen(false);
 	};
-	const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+	const [projectToDelete, setProjectToDelete] = useState<CombinedProject | null>(null);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-	const handleDeleteClick = (project: Project) => {
+	const handleDeleteClick = (project: CombinedProject) => {
 		setProjectToDelete(project);
 		setDeleteDialogOpen(true);
 	};
@@ -289,7 +293,7 @@ export function ProjectPage() {
 	};
 
 	// Helper function to reorder list items
-	const reorderList = (list: Project[], startIndex: number, endIndex: number) => {
+	const reorderList = (list: CombinedProject[], startIndex: number, endIndex: number) => {
 		const result = Array.from(list);
 		const [removed] = result.splice(startIndex, 1);
 		result.splice(endIndex, 0, removed);
@@ -404,12 +408,12 @@ export function ProjectPage() {
 													<TableCell>
 														<Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 															<Avatar variant="rounded" sx={{ width: 56, height: 56, position: "relative" }}>
-																<Image
+																{project.thumbnail && <Image
 																	src={project.thumbnail}
-																	alt={project.thumbnailAlt}
+																	alt={project.thumbnailAlt || ""}
 																	fill
 																	style={{ objectFit: "cover" }}
-																/>
+																/>}
 															</Avatar>
 															<Box>
 																<Typography variant="subtitle2">{project.title}</Typography>
@@ -433,7 +437,8 @@ export function ProjectPage() {
 													<TableCell>
 														<Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
 															{project.scopes?.map(scope => (
-																<Chip key={scope.scope.id} label={scope.scope.name} size="small" variant="outlined" />
+																// @ts-expect-error should add scope to projectsOnScopes
+																<Chip key={scope.scopeId} label={scope.scope.name} size="small" variant="outlined" />
 															))}
 														</Box>
 													</TableCell>
